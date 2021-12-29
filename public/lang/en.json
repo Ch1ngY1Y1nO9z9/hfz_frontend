@@ -1,0 +1,20 @@
+{
+    "app.NewsTitle" : "FightZ News" ,
+    "app.ProfileTitle" : "Wrestlers Profile" ,
+    "app.PreviousTitle" : "Previous shows" ,
+    "app.EventTitle" : "Event" ,
+    "app.RollTitle" : "Roll" ,
+    "app.Profiles.Gen0": "Gen0",
+    "app.Profiles.Gen1": "Gen1",
+    "app.Profiles.Gen2": "Gen2",
+    "app.Profiles.Gen3": "Gen3",
+    "app.Profiles.Gen4": "Gen4",
+    "app.Profiles.Gen5": "Gen5",
+    "app.Profiles.Gamers": "Gamers",
+    "app.Profiles.HoloX": "HoloX",
+    "app.Profiles.HoloID": "HoloID",
+    "app.Profiles.HoloMyth": "HoloMyth",
+    "app.Profiles.INNK": "INNK",
+    "app.Profiles.ProjectHope": "Project:Hope",
+    "app.Profiles.HoloCouncil": "HoloCouncil"
+}

@@ -1,16 +1,12 @@
 import React from 'react'
+import PagesTitle from '../../components/PagesTitle'
 
 export default function Previous() {
     return (
-        <section className=" body-font min-h-screen">
-            <div className="container px-5 py-24 mx-auto">
-                <div className="flex flex-col text-center w-full mb-10 md:mb-20 text-gray-600">
-                    <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
-                        Previous Shows
-                    </h1>
-                    <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Watch all stream archived episode in here.</p>
-                </div>
+        <section className="min-h-screen">
+            <PagesTitle page={{ title: 'PREVIOUS SHOWS', description: 'Watch all stream archived episode in here.' }} />
 
+            <div className="container px-5 mx-auto">
                 <div className="flex flex-wrap -mx-4 text-left text-white">
                     <div className="w-full sm:w-1/2 bg-cover bg-center"
                         style={{backgroundImage: "url('{{$stream->background_image}}')"}}>

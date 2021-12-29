@@ -1,18 +1,11 @@
 import React from 'react'
+import PagesTitle from '../../components/PagesTitle'
 
 export default function Event() {
     return (
-        <section className=" body-font bg-white min-h-screen">
-            <div className="container px-5 py-24 mx-auto">
-                <div className="flex flex-col text-center w-full text-gray-600">
-                    <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
-                        Event
-                    </h1>
-                    <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-                        All currently events are here, check the update every week.
-                    </p>
-                </div>
-            </div>
+        <section className="min-h-screen">
+
+            <PagesTitle page={{title:'Event', description: 'All currently events are here, check the update every week.'}} />
 
             <div className="container px-5 pb-12 mx-auto">
                 <div className="flex flex-col text-center w-full mb-10">

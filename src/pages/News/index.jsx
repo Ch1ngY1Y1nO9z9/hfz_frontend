@@ -1,41 +1,38 @@
 import React from 'react'
 import ProfileLinks from '../../components/ContentLinks'
+import PagesTitle from '../../components/PagesTitle'
+// 接收狀態
+import { connect } from 'react-redux'
 
-export default function News() {
+export default connect(
+    state => ({light: state.light}))(News)
+
+
+function News(props) {
     return (
-        <section className="text-gray-600 body-font px-8 py-24 min-h-screen">
-            <div className="container mx-auto flex flex-wrap portfolio">
-                <div className="flex flex-col text-center w-full mb-10 text-gray-600">
-                    <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
-                        FIGHTZ NEWS
-                    </h1>
-                    <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-                        All the HolofightZ news, fan arts or some original content will be here.
-                    </p>
-                </div>
-                <div className="w-full mb-4">
-                    <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
-                </div>
+        <section className="min-h-screen">
+            <PagesTitle page={{ title: 'FIGHTZ NEWS', description: 'All the HolofightZ news, fan arts or some original content will be here.' }} />
 
-                <div className="container p-5 mx-auto flex md:items-center lg:items-start md:flex-row flex-wrap flex-col">
-                    <nav className="flex-grow flex flex-wrap md:pr-20 text-center order-first">
+            <div className="container p-5 mx-auto flex md:items-center lg:items-start md:flex-row flex-wrap flex-col">
+                <nav className="flex-grow flex flex-wrap md:pr-20 text-center order-first">
 
-                        <ProfileLinks to="/News/all">All</ProfileLinks>
+                    <ProfileLinks to="/News/all" light={props.light.toString()}>All</ProfileLinks>
 
-                        <ProfileLinks to="/News/news">News</ProfileLinks>
+                    <ProfileLinks to="/News/news" light={props.light.toString()}>News</ProfileLinks>
 
-                        <ProfileLinks to="/News/fan_arts">Fan Arts</ProfileLinks>
+                    <ProfileLinks to="/News/fan_arts" light={props.light.toString()}>Fan Arts</ProfileLinks>
 
-                        <ProfileLinks to="/News/OC_video">OC Video</ProfileLinks>
+                    <ProfileLinks to="/News/OC_video" light={props.light.toString()}>OC Video</ProfileLinks>
 
-                    </nav>
-                </div>
+                </nav>
             </div>
+
             <div className="container mx-auto pb-12">
                 <hr />
             </div>
+
             <div className="container mx-auto flex flex-wrap pb-12 portfolio">
-                <NewsCards/>
+                <NewsCards />
             </div>
         </section>
     )
