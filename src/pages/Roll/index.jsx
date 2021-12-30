@@ -3,20 +3,19 @@ import PagesTitle from '../../components/PagesTitle'
 
 export default function index() {
     return (
-        <section className="min-h-screen">
-            
+        <>
             <PagesTitle page={{ title: 'ROLL TO WIN', description: 'Roll to get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!' }} />
 
             <div className="container px-5 mx-auto flex flex-wrap text-gray-900">
                 <div className="flex flex-col text-center w-full mb-10 text-gray-600">
                     <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
-                        
+
                     </h1>
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-xl">
-                        
+
                     </p>
                 </div>
-                <div className="w-full mx-auto overflow-auto" style={{backgroundImage: "url('https://i.imgur.com/VOuh5o0.jpg')", backgroundSize: 'contain',backgroundPosition: 'center', backgroundRepeat:'no-repeat'}}>
+                <div className="w-full mx-auto overflow-auto" style={{ backgroundImage: "url('https://i.imgur.com/VOuh5o0.jpg')", backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
                     <div className="h-96"></div>
                 </div>
                 <div className="flex flex-col text-center w-full text-gray-600">
@@ -86,6 +85,6 @@ export default function index() {
                     </div>
                 </div>
             </div>
-        </section>
+        </>
     )
 }

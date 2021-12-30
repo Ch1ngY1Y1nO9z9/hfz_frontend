@@ -4,8 +4,8 @@ import Footer from './pages/Footer'
 import { NavLinks } from './components/NavLinks'
 import Loading from './components/Loading'
 
-// 頁面按鈕
-import { NavbarButtons, SocialButtons } from './buttons'
+// 頁面按鈕資料
+import { NavbarButtons, SocialButtons } from './staticData'
 
 // 引入action管理狀態
 import { ChangeColor } from './redux/actions/theme' //日夜模式切換
@@ -47,10 +47,10 @@ function App(props) {
 
 
     return (
-        
+
         <IntlProvider locale='en' messages={props.lang.locale}>
             <div className={`leading-normal tracking-normal background-img body-font ${props.light ? 'bg-white' : 'bg-black'}`}>
-                <nav id="header" className="w-full z-30 top-0 text-black">
+                <nav id="header" className="w-full z-30 top-0 text-black bg-white/50 fixed">
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
                             <Link to="/index">
@@ -79,7 +79,7 @@ function App(props) {
                                 })}
                                 {SocialButtons.map((button) => {
                                     return (
-                                        <li  key={button.id} className="mr-3">
+                                        <li key={button.id} className="mr-3">
                                             <a target="_blank" rel="noreferrer noopener" href={button.link}
                                                 className={`inline-block no-underline text-[#787878] py-2 px-4 hover:text-${button.color}`}
                                                 style={{ textShadow: '#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px' }}>
@@ -106,18 +106,20 @@ function App(props) {
                     </div>
                     <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
                 </nav>
-                <Suspense fallback={<Loading />}>
-                    <Routes>
-                        <Route path="/index" element={<Index />} />
-                        <Route path="/News" element={<News pageName='News' />} />
-                        <Route path="/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
-                        <Route path="/Previous" element={<Previous pageName='Previous' />} />
-                        <Route path="/Event" element={<Event pageName='Event' />} />
-                        <Route path="/Roll" element={<Roll pageName='Roll' />} />
-                        <Route path="*" element={<Navigate to="/index" />} />
-                    </Routes>
-                </Suspense>
-
+                <section className="min-h-screen pt-12">
+                    <Suspense fallback={<Loading />}>
+                        <Routes>
+                            <Route path="/index" element={<Index />} />
+                            <Route path="/News/*" element={<News pageName='News' />} />
+                            <Route path="/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
+                            <Route path="/WrestlersProfile/*" element={<Wrestlers pageName='Profiles' />} />
+                            <Route path="/Previous" element={<Previous pageName='Previous' />} />
+                            <Route path="/Event" element={<Event pageName='Event' />} />
+                            <Route path="/Roll" element={<Roll pageName='Roll' />} />
+                            <Route path="*" element={<Navigate to="/index" />} />
+                        </Routes>
+                    </Suspense>
+                </section>
                 <Footer />
             </div >
         </IntlProvider>

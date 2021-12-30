@@ -1,6 +1,6 @@
 // 各頁面按鈕
 export const NavbarButtons = [
-    {link:'/News',Message:'FightZ News',langId:'NewsTitle',id:'1'},
+    {link:'/News/All',Message:'FightZ News',langId:'NewsTitle',id:'1'},
     {link:'/Wrestlers/All',Message:'Wrestlers Profile',langId:'ProfileTitle',id:'2'},
     {link:'/Previous',Message:'Previous shows',langId:'PreviousTitle',id:'3'},
     {link:'/Event',Message:'Event',langId:'EventTitle',id:'4'},
@@ -27,4 +27,11 @@ export const Generations = [
     {link: 'INNK', name:'INoNaKa Music', langId:'INNK', id: '11'},
     {link: 'ProjectHope', name:'Project:HOPE', langId:'ProjectHope', id: '12'},
     {link: 'HoloCouncil', name:'Holo Council', langId:'HoloCouncil', id: '13'}
+]
+
+export const NewsType = [
+    {link:'/News/All/1',name:'All',langId:'News.All',id:'1'},
+    {link:'/News/news/1',name:'News',langId:'News.News',id:'2'},
+    {link:'/News/fan_arts/1',name:'Fan Arts',langId:'News.FanArts',id:'3'},
+    {link:'/News/Promote/1',name:'Promote',langId:'News.Promote',id:'4'}
 ]

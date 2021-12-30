@@ -1,18 +1,30 @@
 import React from 'react'
+
+// 引入redux接收狀態
+import { connect } from 'react-redux'
+
+// 引入React Intl切換語系
+import { FormattedMessage } from 'react-intl'
+
+// 引入頁面標題架構
 import PagesTitle from '../../components/PagesTitle'
 
-export default function Event() {
+function Event(props) {
     return (
-        <section className="min-h-screen">
 
-            <PagesTitle page={{title:'Event', description: 'All currently events are here, check the update every week.'}} />
+        <>
+            <PagesTitle page={{ title: 'Event', description: 'All currently events are here, check the update every week.', pageName: props.pageName }} />
 
             <div className="container px-5 pb-12 mx-auto">
                 <div className="flex flex-col text-center w-full mb-10">
-                    <h2 className="text-4xl font-medium title-font text-gray-900 font-bold">KING OF THE RING</h2>
+                    <h2 className="text-4xl font-medium title-font text-gray-600 font-bold">
+                        <FormattedMessage id={`app.${props.pageName}.EventName`} defaultMessage='KING OF THE RING' />
+                    </h2>
                 </div>
                 <div className="flex flex-col text-center w-full">
-                    <h2 className="text-2xl font-medium title-font text-gray-900 font-bold">WINNER GROUP</h2>
+                    <h2 className="text-2xl font-medium title-font text-gray-600 font-bold">
+                        <FormattedMessage id={`app.${props.pageName}.Winner`} defaultMessage='WINNER GROUP' />
+                    </h2>
                 </div>
                 <div className="flex flex-col">
                     <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
@@ -22,11 +34,26 @@ export default function Event() {
                                     <thead className="text-normal bg-gray-700">
                                         <tr>
                                             <th scope="col"></th>
-                                            <th scope="col">WINNERS ROUND 1</th>
-                                            <th scope="col">QUARTER-FINALS</th>
-                                            <th scope="col">SEMI-FINALS</th>
-                                            <th scope="col">WINNERS FINALS</th>
-                                            <th scope="col">GRANDS FINALS</th>
+                                            <th scope="col">
+                                                <FormattedMessage id={`app.${props.pageName}.Round1`} defaultMessage='WINNERS ROUND 1' />
+                                                
+                                            </th>
+                                            <th scope="col">
+                                                <FormattedMessage id={`app.${props.pageName}.Quarter`} defaultMessage='QUARTER-FINALS' />
+                                                
+                                            </th>
+                                            <th scope="col">
+                                                <FormattedMessage id={`app.${props.pageName}.Semi`} defaultMessage='SEMI-FINALS' />
+                                                
+                                            </th>
+                                            <th scope="col">
+                                                <FormattedMessage id={`app.${props.pageName}.WFinal`} defaultMessage='WINNERS FINALS' />
+                                                
+                                            </th>
+                                            <th scope="col">
+                                                <FormattedMessage id={`app.${props.pageName}.GFinal`} defaultMessage='GRANDS FINALS' />
+                                                
+                                            </th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
                                         </tr>
@@ -394,7 +421,9 @@ export default function Event() {
                     </div>
                 </div>
                 <div className="flex flex-col text-center w-full mt-10">
-                    <h2 className="text-2xl font-medium title-font text-gray-900 font-bold">LOSER BRACKET</h2>
+                    <h2 className="text-2xl font-medium title-font text-gray-900 font-bold">
+                        <FormattedMessage id={`app.${props.pageName}.Loser`} defaultMessage='LOSER BRACKET' />
+                    </h2>
                 </div>
                 <div className="flex flex-col">
                     <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
@@ -644,6 +673,8 @@ export default function Event() {
                     </div>
                 </div>
             </div>
-        </section>
+        </>
     )
 }
+
+export default connect(state => ({ light: state.light, lang: state.lang }))(Event)

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { FooterLinks } from '../../components/NavLinks'
 
 // 引入頁面資訊
-import { NavbarButtons, SocialButtons } from '../../buttons'
+import { NavbarButtons, SocialButtons } from '../../staticData'
 
 // 引入React Intl切換語系
 import { FormattedMessage } from 'react-intl'
@@ -12,7 +12,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer className="text-gray-600 body-font">
-                <div className="footer-bg @if(Session::has('darkMode')) bg-gray-900 @else bg-gray-100 @endif">
+                <div className="footer-bg">
                     <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
                         <p className="text-gray-500 text-sm text-center sm:text-left">© 2020 HolofightZ —
                             <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/HoloFightZ" className="text-gray-600 ml-1 py-2 px-4 inline-block no-underline">@holofightz</a>

@@ -1,15 +1,14 @@
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes, useParams, Link } from 'react-router-dom'
 
 // 引入頁面標題架構
 import PagesTitle from '../../components/PagesTitle'
-import Loading from '../../components/Loading'
 
 // 引入按鈕樣式
 import ButtonsLink from '../../components/ContentLinks'
 
-// 引入按鈕固定資料
-import { Generations } from '../../buttons'
+// 引入固定資料
+import { Generations } from '../../staticData'
 
 // 引入redux接收狀態
 import { connect } from 'react-redux'
@@ -17,37 +16,26 @@ import { connect } from 'react-redux'
 // 引入React Intl切換語系
 import { FormattedMessage } from 'react-intl'
 
-export default connect(
-    state => ({ light: state.light, lang: state.lang })
-)(Wrestlers)
+// Fetch取得資料
+// import {getData} from '../../fetch'
 
 function Wrestlers(props) {
-    // 先用promise取得按鈕存進state, 透過Link實現請求檔案子組件
-    // 儲存分類
-
-    const [profiles, setProfiles] = useState([])
-
-    const [componentTitle, setComponentTitle] = useState('Members')
+    const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
-        getAllProfiles() //Fetch取得資料
-    }, []
-    )
+        getData('Wrestlers')//Fetch取得資料
+    }, [])
 
-    async function getAllProfiles() {
+    async function getData(page) {
         try {
-            const getData = await fetch(`http://127.0.0.1:8000/api/wrestlers/genAllProfiles`, { method: "post" })
+            const getData = await fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
             const result = await getData.json()
-
-            setProfiles(result)
+    
+            setData(result)
         } catch (error) {
             console.log(error)
         }
-
     }
-
-
-
 
     return (
         <section className="min-h-screen">
@@ -82,8 +70,8 @@ function Wrestlers(props) {
                 <div className="flex flex-wrap portfolio">
                     <div className="w-full flex flex-wrap">
                         <Routes>
-                            <Route path="/rank" element={<PowerRanking profiles={profiles} animate={true} />} />
-                            <Route path="/:id" element={<Members profiles={profiles} animate={true} />} />
+                            <Route path="/rank" element={<PowerRanking data={data} animate={true} />} />
+                            <Route path="/:id" element={<Members data={data} animate={true} />} />
                         </Routes>
                     </div>
                 </div>
@@ -95,7 +83,7 @@ function Wrestlers(props) {
 function Members(props) {
     const paramas = useParams();
 
-    const members = props.profiles.filter((profile) => {
+    const members = props.data.filter((profile) => {
         if (paramas.id === 'All') {
             return profile.generations_id
         }
@@ -141,7 +129,7 @@ function Members(props) {
 
 function PowerRanking(props) {
     // 深拷貝 避免影響原排序
-    const profile_ary = [...props.profiles]
+    const profile_ary = [...props.data]
 
     profile_ary.sort(function (next, current) {
         return next.rank > current.rank ? 1 : -1;
@@ -174,7 +162,7 @@ function PowerRanking(props) {
                                         <FormattedMessage id={`app.Characters.${current.name_short}`} defaultMessage={current.name_short} />
                                     </h2>
                                     <p className="leading-relaxed">
-                                        <i className={`text-2xl fas ${colorSetting.arrow} text-${colorSetting.color}-600`}></i>
+                                        <i className={`text-xl fas ${colorSetting.arrow} text-${colorSetting.color}-600`}></i>
                                         <FormattedMessage id='app.Profiles.LastWeek' defaultMessage='Last week' />
                                         : {current.last_week_rank}
                                     </p>
@@ -187,3 +175,5 @@ function PowerRanking(props) {
         </div>
     )
 }
+
+export default connect(state => ({ light: state.light, lang: state.lang }))(Wrestlers)
