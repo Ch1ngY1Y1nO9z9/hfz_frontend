@@ -17,7 +17,7 @@ export const Generations = [
     {link: 'Gen0', name:'Gen 0', langId:'Gen0', id: '1'},
     {link: 'Gen1', name:'Gen 1', langId:'Gen1', id: '2'},
     {link: 'Gen2', name:'Gen 2', langId:'Gen2', id: '3'},
-    {link: 'Gamers', name:'GAMERS', langId:'Gamers', id: '4'},
+    {link: 'GAMERS', name:'GAMERS', langId:'Gamers', id: '4'},
     {link: 'Gen3', name:'Gen 3', langId:'Gen3', id: '5'},
     {link: 'Gen4', name:'Gen 4', langId:'Gen4', id: '6'},
     {link: 'Gen5', name:'Gen 5', langId:'Gen5', id: '7'},
@@ -31,7 +31,7 @@ export const Generations = [
 
 export const NewsType = [
     {link:'/News/All/1',name:'All',langId:'News.All',id:'1'},
-    {link:'/News/news/1',name:'News',langId:'News.News',id:'2'},
+    // {link:'/News/news/1',name:'News',langId:'News.News',id:'2'},
     {link:'/News/fan_arts/1',name:'Fan Arts',langId:'News.FanArts',id:'3'},
     {link:'/News/Promote/1',name:'Promote',langId:'News.Promote',id:'4'}
 ]

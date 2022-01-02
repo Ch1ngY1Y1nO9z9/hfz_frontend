@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { Route, Routes, useParams, Link } from 'react-router-dom'
+
+import Loading from '../../components/Loading'
 
 // 引入頁面標題架構
 import PagesTitle from '../../components/PagesTitle'
@@ -30,7 +32,7 @@ function Wrestlers(props) {
         try {
             const getData = await fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
             const result = await getData.json()
-    
+
             setData(result)
         } catch (error) {
             console.log(error)
@@ -38,7 +40,7 @@ function Wrestlers(props) {
     }
 
     return (
-        <section className="min-h-screen">
+        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
 
             <PagesTitle page={{ title: 'WRESTLERS PROFILE', description: 'All HoloFightZ wrestler personal file, spamming text are in here.', pageName: props.pageName }} />
 
@@ -69,10 +71,12 @@ function Wrestlers(props) {
 
                 <div className="flex flex-wrap portfolio">
                     <div className="w-full flex flex-wrap">
-                        <Routes>
-                            <Route path="/rank" element={<PowerRanking data={data} animate={true} />} />
-                            <Route path="/:id" element={<Members data={data} animate={true} />} />
-                        </Routes>
+                        <Suspense fallback={<Loading />}>
+                            <Routes>
+                                <Route path="/rank" element={<PowerRanking data={data} animate={true} />} />
+                                <Route path="/:id" element={<Members data={data} animate={true} />} />
+                            </Routes>
+                        </Suspense>
                     </div>
                 </div>
             </div>
@@ -85,12 +89,12 @@ function Members(props) {
 
     const members = props.data.filter((profile) => {
         if (paramas.id === 'All') {
-            return profile.generations_id
+            return profile
         }
-        else {
-            return profile.generations_id === paramas.id
-        }
-
+            if(profile.gens !== null){
+                const gen = profile.gens.generations.replace(/\s+/g, '')
+                return gen === paramas.id
+            }
     })
 
     return (
@@ -99,11 +103,11 @@ function Members(props) {
                 <div key={member.id} className="p-4 w-full lg:w-1/2">
                     <div
                         className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                        <a href={`/WrestlersProfile/${member.name_short}`} className="flex-shrink-0 w-48 h-48 sm:mb-0 mb-4">
+                        <a href={`/Wrestlers/Profile/${member.name_short}`} className="flex-shrink-0 w-48 h-48 sm:mb-0 mb-4">
                             <img width="100%" className="rounded-lg object-cover object-center" alt="team" src={`${member.avatar}`} />
                         </a>
                         <div className="flex-grow sm:pl-8">
-                            <h2 className="title-font font-medium text-lg text-gray-900">
+                            <h2 className="title-font text-lg font-bold">
                                 <FormattedMessage id={`app.Characters.${member.name_short}`} defaultMessage={member.name_en} />
 
                             </h2>

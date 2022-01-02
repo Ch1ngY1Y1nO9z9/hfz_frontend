@@ -26,15 +26,15 @@ export default function Previous(props) {
     }
 
     return (
-        <>
+        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <PagesTitle page={{ title: 'PREVIOUS SHOWS', description: 'Watch all stream archived episode in here.', pageName: props.pageName }} />
             <div className="container px-5 mx-auto">
                 <div className="flex flex-wrap -mx-4 text-left text-white">
                     {
                         data.map(prev => {
                             return (
-                                <div className="w-full sm:w-1/2 bg-cover bg-center"
-                                    style={{ backgroundImage: `url(${prev.background_image})` }}>
+                                <div key={prev.id} className="w-full sm:w-1/2 bg-cover bg-center"
+                                    style={{ backgroundImage: `url(${prev.background_image.slice(0,1) === 'h' ? prev.background_image : 'https://holofightz.surai.xyz'+prev.background_image })` }}>
                                     <div className="rounded-lg h-[350px] overflow-hidden px-5 bg-black/50">
                                         <h2 className="title-font text-4xl font-medium mt-6 mb-1">Ep {prev.stream_number}</h2>
                                         <h3 className="title-font text-1xl font-medium mb-3">{prev.date}</h3>
@@ -69,7 +69,7 @@ export default function Previous(props) {
                     }
                 </div>
             </div>
-        </>
+        </section>
 
     )
 }

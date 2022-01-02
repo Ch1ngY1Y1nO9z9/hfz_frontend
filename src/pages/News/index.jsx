@@ -19,7 +19,7 @@ import { FormattedMessage } from 'react-intl'
 function News(props) {
 
     const [data, setData] = useState([]) //取得頁面資料
-    const [type, setType] = useState('All')
+    const [type] = useState('All')
 
     useEffect(() => {
         const getData = async (page) => {
@@ -36,9 +36,8 @@ function News(props) {
         getData('News')//Fetch取得資料
     }, [])
 
-
     return (
-        <>
+        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <PagesTitle page={{ title: 'FIGHTZ NEWS', description: 'All the HolofightZ news, fan arts or some original content will be here.', pageName: props.pageName  }} />
 
             <div className="container p-5 mx-auto flex md:items-center lg:items-start md:flex-row flex-wrap flex-col">
@@ -61,10 +60,10 @@ function News(props) {
 
 
             <Routes>
-                <Route path="/:type" element={<NewsCards data={data} animate={true} />} />
-                <Route path="/:type/:page" element={<NewsCards data={data} animate={true} />} />
+                <Route path="/:type" element={<NewsCards data={data} animate={true} light={props.light} />}  />
+                <Route path="/:type/:page" element={<NewsCards data={data} animate={true} light={props.light} />} />
             </Routes>
-        </>
+        </section>
     )
 }
 
@@ -72,8 +71,6 @@ function News(props) {
 function NewsCards(props) {
 
     const { data } = props
-
-    const Navigation = useNavigate();
 
     const paramas = useParams(); //取得當前要看的分類
 
@@ -87,14 +84,24 @@ function NewsCards(props) {
     // 修改資料陣列
     const newType = data.filter((news) => {
         if (paramas.type === 'All') {
-            return news
+            return news.type !== 'news'
         }
         else {
+            
             return news.type === paramas.type
         }
     })
 
-    const currentPosts = newType.reverse().slice(indexOfFirstPost, indexOfLastPost)
+    let currentPosts;
+
+    // 顯示在畫面上的資料
+    if(paramas.page === '1'){
+        currentPosts = newType.reverse().slice(0, 6)
+        
+    }else{
+        currentPosts = newType.reverse().slice(indexOfFirstPost, indexOfLastPost)
+    }
+
 
     // 切換畫面
     const paginate = (number) => setCurrentPage(number)
@@ -105,28 +112,28 @@ function NewsCards(props) {
                 currentPosts.map((news) => {
                     return (
                         <div key={news.id} className="w-full p-6">
-                            <div className="rounded-t rounded-b-none overflow-hidden shadow block md:flex w-full">
+                            <div className={`rounded-t rounded-b-none overflow-hidden block md:flex w-full ${props.light ? "shadow" : "shadow shadow-slate-500"}`}>
                                 {
                                     news.img !== null ? <div className="md:flex-auto w-25 px-6 bg-cover bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: `url(${news.img})` }}></div>
                                         : news.type === 'news' ?
                                             <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url(/images/news_default.png)' }}></div>
                                             : <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url("/images/OCvideo_default.png")' }}></div>
                                 }
-                                <div className="md:flex-1 font-bold text-xl text-gray-800 px-6 py-6">
+                                <div className="md:flex-1 font-bold text-xl px-6 py-6">
                                     {news.date} <br />
                                     {news.title}
-                                    <p className="text-gray-800 text-base mb-5">
+                                    <p className="text-base mb-5">
                                         {news.description}
                                     </p>
                                 </div>
 
                                 <div className="flex items-end justify-end my-4 px-6">
-                                    <a href="/FightZNews/{news.id}"
+                                    <Link to={`/FightZNews/${news.id}`}
                                         className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                                         <i className="fas fa-arrow-right mr-2"></i>
                                         
                                         {news.img === null ? <FormattedMessage id={`app.News.ReadMore`} defaultMessage='Read More' /> : <FormattedMessage id={`app.News.FullSize`} defaultMessage='Full size Watch' />}
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

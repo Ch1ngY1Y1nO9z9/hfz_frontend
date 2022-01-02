@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, Route, Routes, Navigate } from 'react-router-dom'
 import Footer from './pages/Footer'
 import { NavLinks } from './components/NavLinks'
@@ -19,7 +19,9 @@ import { FormattedMessage, IntlProvider } from 'react-intl'
 // 內容頁(lazy load)
 const Index = lazy(() => import('./pages/Index'))
 const News = lazy(() => import('./pages/News'))
+const Content = lazy(() => import('./pages/News/Content'))
 const Wrestlers = lazy(() => import('./pages/Wrestlers'))
+const Profiles = lazy(() => import('./pages/Wrestlers/Profiles'))
 const Previous = lazy(() => import('./pages/Previous'))
 const Event = lazy(() => import('./pages/Event'))
 const Roll = lazy(() => import('./pages/Roll'))
@@ -45,12 +47,39 @@ function App(props) {
         props.setLang({ lang, locale })
     }
 
+    // 取得背景圖片
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        getData('Index')//Fetch取得資料
+    }, [])
+
+    async function getData(page) {
+        try {
+            const getData = await fetch(`http://127.0.0.1:8000/api/App/getBackground`, { method: "post" })
+            const result = await getData.json()
+
+            // 設定圖片從後端來
+            result.img = 'https://holofightz.surai.xyz' + result.img
+            setData(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // 手機板選單切換
+    const [toggleMenu, setMenu] = useState('hidden')
+
+    function changeVisible() {
+        toggleMenu === 'hidden' ? setMenu('block') : setMenu('hidden')
+    }
+
 
     return (
 
         <IntlProvider locale='en' messages={props.lang.locale}>
-            <div className={`leading-normal tracking-normal background-img body-font ${props.light ? 'bg-white' : 'bg-black'}`}>
-                <nav id="header" className="w-full z-30 top-0 text-black bg-white/50 fixed">
+            <div className={`leading-normal tracking-normal body-font ${props.light ? 'text-black bg-white' : 'text-white bg-black'}`} >
+                <nav id="header" className={`w-full z-30 top-0 fixed ${props.light ? 'bg-white/90' : 'bg-black/50'}`}>
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
                             <Link to="/index">
@@ -58,7 +87,7 @@ function App(props) {
                             </Link>
                         </div>
                         <div className="block lg:hidden pr-4">
-                            <button id="nav-toggle"
+                            <button onClick={() => { changeVisible() }} id="nav-toggle"
                                 className="flex items-center p-1 text-white hover:text-blue-300 hover:font-bold focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                                 <svg className="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <title>Menu</title>
@@ -66,13 +95,12 @@ function App(props) {
                                 </svg>
                             </button>
                         </div>
-                        <div
-                            className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-opacity-50 bg-black lg:bg-transparent p-4 lg:p-0 z-20"
+                        <div className={`w-full flex-grow lg:flex lg:items-center lg:w-auto mt-2 lg:mt-0 bg-opacity-80 lg:bg-transparent p-4 lg:p-0 z-20 h-screen lg:h-auto ${toggleMenu}`}
                             id="nav-content">
                             <ul className="list-reset lg:flex justify-end flex-1 items-center">
                                 {NavbarButtons.map((button) => {
                                     return (
-                                        <NavLinks key={button.id} to={button.link}>
+                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={button.link}>
                                             <FormattedMessage id={`app.${button.langId}`} defaultMessage={button.Message} />
                                         </NavLinks>
                                     )
@@ -95,7 +123,7 @@ function App(props) {
                                     </div>
                                 </li>
                                 <li className="mr-3">
-                                    <select onChange={(e) => { changeLang(e.target.value) }} className="form-select appearance-none px-3 py-1.5 text-base font-normal border border-solid border-gray-300 rounded transition ease-in-out m-0  focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="change language">
+                                    <select onChange={(e) => { changeLang(e.target.value) }} className="form-select appearance-none px-3 py-1.5 text-base font-normal border border-solid border-gray-300 rounded transition ease-in-out m-0  focus:bg-white focus:border-blue-600 focus:outline-none text-black" aria-label="change language">
                                         <option value="en">English</option>
                                         <option value="jp">日本語</option>
                                         <option value="cn">中文</option>
@@ -106,20 +134,21 @@ function App(props) {
                     </div>
                     <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
                 </nav>
-                <section className="min-h-screen pt-12">
+                <div className="bg-fixed bg-center" style={{ backgroundImage: `url(${data.img})` }}>
                     <Suspense fallback={<Loading />}>
                         <Routes>
-                            <Route path="/index" element={<Index />} />
+                            <Route path="/index" element={<Index pageName='Index' />} />
                             <Route path="/News/*" element={<News pageName='News' />} />
+                            <Route path="/FightZNews/:id" element={<Content pageName='News' />} />
                             <Route path="/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
-                            <Route path="/WrestlersProfile/*" element={<Wrestlers pageName='Profiles' />} />
-                            <Route path="/Previous" element={<Previous pageName='Previous' />} />
+                            <Route path="/Wrestlers/Profile/:name" element={<Profiles pageName='Detail' />} />
+                            <Route path="/Previous/*" element={<Previous pageName='Previous' />} />
                             <Route path="/Event" element={<Event pageName='Event' />} />
                             <Route path="/Roll" element={<Roll pageName='Roll' />} />
                             <Route path="*" element={<Navigate to="/index" />} />
                         </Routes>
                     </Suspense>
-                </section>
+                </div>
                 <Footer />
             </div >
         </IntlProvider>

@@ -1,9 +1,23 @@
 {
-    "app.NewsTitle" : "HFZ新聞" ,
-    "app.ProfileTitle" : "HFZ角色介紹" ,
-    "app.PreviousTitle" : "直播紀錄" ,
-    "app.EventTitle" : "特殊活動" ,
-    "app.RollTitle" : "抽卡機" ,
+    "app.NewsTitle" : "HFZ新聞",
+    "app.ProfileTitle" : "HFZ角色介紹",
+    "app.PreviousTitle" : "直播紀錄",
+    "app.EventTitle" : "特殊活動",
+    "app.RollTitle" : "抽卡機",
+
+    "app.Index.Welcome" : "歡迎來到HFZ官網",
+    "app.Index.Subtitle" : "專業虛擬youtuber摔角",
+    "app.Index.Live" : "觀看直播",
+    "app.Index.About" : "關於HFZ",
+    "app.Index.About.Title" : "直播時間",
+    "app.Index.About.Description" : "目前沒有固定的直播時間, 通常會是在週末的晚上11點左右開播, 或者是週一的中午開播(台主時區以CST為準, 比台灣慢13個小時)",
+    "app.Index.News" : "HFZ新聞",
+    "app.Index.Rank" : "戰力排行首位",
+    "app.Index.Star" : "熱門話題人物",
+    "app.Index.Previous" : "最近直播",
+    "app.Index.Watch" : "觀看記錄檔",
+    "app.Index.Uploading" : "上傳中...",
+    
 
     "app.News.Title": "HFZ新聞",
     "app.News.Description": "查看所有最新消息、粉絲繪圖還有宣傳影片!",

@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 export default function PagesTitle(props) {
     return (
         <div className="container px-5 py-24 mx-auto">
-            <div className="flex flex-col text-center w-full text-gray-600">
+            <div className="flex flex-col text-center w-full">
                 <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
                     <FormattedMessage id={`app.${props.page.pageName}.Title`} defaultMessage={props.page.title} />
                     

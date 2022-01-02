@@ -12,17 +12,17 @@ import PagesTitle from '../../components/PagesTitle'
 function Event(props) {
     return (
 
-        <>
+        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <PagesTitle page={{ title: 'Event', description: 'All currently events are here, check the update every week.', pageName: props.pageName }} />
 
             <div className="container px-5 pb-12 mx-auto">
                 <div className="flex flex-col text-center w-full mb-10">
-                    <h2 className="text-4xl font-medium title-font text-gray-600 font-bold">
+                    <h2 className="text-4xl font-medium title-font font-bold">
                         <FormattedMessage id={`app.${props.pageName}.EventName`} defaultMessage='KING OF THE RING' />
                     </h2>
                 </div>
                 <div className="flex flex-col text-center w-full">
-                    <h2 className="text-2xl font-medium title-font text-gray-600 font-bold">
+                    <h2 className="text-2xl font-medium title-font font-bold">
                         <FormattedMessage id={`app.${props.pageName}.Winner`} defaultMessage='WINNER GROUP' />
                     </h2>
                 </div>
@@ -421,7 +421,7 @@ function Event(props) {
                     </div>
                 </div>
                 <div className="flex flex-col text-center w-full mt-10">
-                    <h2 className="text-2xl font-medium title-font text-gray-900 font-bold">
+                    <h2 className="text-2xl font-medium title-font font-bold">
                         <FormattedMessage id={`app.${props.pageName}.Loser`} defaultMessage='LOSER BRACKET' />
                     </h2>
                 </div>
@@ -673,7 +673,7 @@ function Event(props) {
                     </div>
                 </div>
             </div>
-        </>
+        </section>
     )
 }
 

@@ -1,9 +1,14 @@
 import React from 'react'
 import PagesTitle from '../../components/PagesTitle'
 
-export default function index() {
+// 引入redux接收狀態
+import { connect } from 'react-redux'
+// 引入React Intl切換語系
+import { FormattedMessage } from 'react-intl'
+
+function Roll(props) {
     return (
-        <>
+        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <PagesTitle page={{ title: 'ROLL TO WIN', description: 'Roll to get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!' }} />
 
             <div className="container px-5 mx-auto flex flex-wrap text-gray-900">
@@ -85,6 +90,8 @@ export default function index() {
                     </div>
                 </div>
             </div>
-        </>
+        </section>
     )
 }
+
+export default connect(state => ({ light: state.light, lang: state.lang }))(Roll)
