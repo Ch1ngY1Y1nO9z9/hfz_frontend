@@ -130,11 +130,11 @@ function CharactersDetail(props) {
                         <span className="text-gray-600 ml-1">@ {data.aka}</span>
                     </span>
                     <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                        <a rel="noreferrer" target="_blank" href={`${data.twitter_link}`} className="text-gray-500 hover_twitter">
+                        <a rel="noreferrer" target="_blank" href={`${data.twitter_link}`} className=" text-[#1da1f2]">
                             <i className="fab fa-twitter"></i>
                         </a>
                         <a rel="noreferrer" target="_blank" href={`${data.youtube_link}`}
-                            className="ml-2 text-gray-500 hover_youtube">
+                            className="ml-2 text-[#ff0000]">
                             <i className="fab fa-youtube"></i>
                         </a>
                     </span>
@@ -187,9 +187,9 @@ function MatchRecords(props) {
     }, [])
 
     return (
-        <div className="container px-5 pb-12 mx-auto">
+        <div className="container px-5 pb-12 mx-auto text-black">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-900">Match Records</h1>
+                <h1 className="text-5xl font-medium title-font font-bold">Match Records</h1>
             </div>
             <div className="-my-8 divide-y-2 bg-gray-200 divide-gray-100 h-[635px] overflow-x-auto">
                 {
@@ -198,7 +198,7 @@ function MatchRecords(props) {
                         return (
                             <div key={matches.id} className="p-4 block md:flex flex-wrap md:flex-nowrap">
                                 <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0  block md:flex flex-col">
-                                    <span className="font-semibold title-font text-gray-900">Stream {matches.stream_id}</span>
+                                    <span className="font-semibold title-font">Stream {matches.stream_id}</span>
                                 </div>
                                 <div className="md:flex-grow">
                                     <h2 className="text-2xl font-medium title-font mb-2 text-gray-700"> {matches.type} - {matches.rule}</h2>
@@ -241,14 +241,14 @@ function WinLoseRate(props) {
     }, [])
 
     return (
-        <div className="container px-5 py-6 mx-auto">
+        <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-900">Win Lose Ratio</h1>
+                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">Win Lose Ratio</h1>
             </div>
             <div className="flex flex-col">
                 {
                     isLoading ? <Loading /> : <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
-                        <div className="rounded overflow-hidden shadow bg-white mx-2 w-full">
+                        <div className="rounded overflow-hidden shadow bg-white text-black mx-2 w-full">
                             <div className="overflow-y-auto w-full">
                                 <table className="w-full text-center h-[250px]">
                                     <thead className="bg-gray-400 text-white text-normal">
@@ -263,7 +263,7 @@ function WinLoseRate(props) {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className="font-light py-1 px-2 font-bold">
+                                            <td className="font-bold">
                                                 all
                                             </td>
                                             <td>{data.total}</td>
@@ -275,7 +275,7 @@ function WinLoseRate(props) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="font-light py-1 px-2 font-bold">
+                                            <td className="font-bold">
                                                 1 v 1
                                             </td>
                                             <td>{data.single_total}</td>
@@ -287,7 +287,7 @@ function WinLoseRate(props) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="font-light py-1 px-2 font-bold">
+                                            <td className="font-bold">
                                                 2 v 2
                                             </td>
                                             <td>{data.tag_total}</td>
@@ -299,7 +299,7 @@ function WinLoseRate(props) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="font-light py-1 px-2 font-bold">
+                                            <td className="font-bold">
                                                 Multi
                                             </td>
                                             <td>{data.multi_total}</td>
@@ -322,58 +322,41 @@ function WinLoseRate(props) {
 }
 
 function MatchClips(props) {
+
+    const { data } = props
+
+
     return (
         <div className="container px-5 pb-24 mx-auto hidden sm:block">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-900">Match Clips</h1>
+                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">Match Clips</h1>
             </div>
             <div className="flex flex-wrap -m-4">
 
-
-                <div className="p-4 lg:w-1/2 w-full">
-                    <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                        <div className="flex items-center mb-3">
-                            <div
-                                className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                                <i className="fas fa-hand-sparkles"></i>
+                {
+                    data.map((clip) => {
+                        return <div className="p-4 lg:w-1/2 w-full">
+                            <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                                <div className="flex items-center mb-3">
+                                    <div
+                                        className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                                        {
+                                            clip.type === 'finisher'
+                                                ? <i className="fas fa-hand-sparkles"></i>
+                                                : clip.type === 'signature'
+                                                    ? <i className="fas fa-hand-middle-finger"></i>
+                                                    : <i className="fas fa-fist-raised"></i>
+                                        }
+                                    </div>
+                                    <h2 className="text-lg title-font font-bold text-gray-600">{clip.clip_title}</h2>
+                                </div>
+                                <div className="flex-grow">
+                                    <iframe width="100%" height="375" src={`https://www.youtube.com/embed/${clip.embed_code}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
                             </div>
-                            <h2 className="text-lg title-font font-medium text-gray-900">clip_title</h2>
                         </div>
-                        {/* <div className="flex-grow">
-                            <iframe width="100%" height="375" src="https://www.youtube.com/embed/???" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div> */}
-                    </div>
-                </div>
-
-                <div className="p-4 lg:w-1/2 w-full">
-                    <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                        <div className="flex items-center mb-3">
-                            <div
-                                className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                                <i className="fas fa-hand-middle-finger"></i>
-                            </div>
-                            <h2 className="text-lg title-font font-mediumtext-gray-900">clip_title</h2>
-                        </div>
-                        {/* <div className="flex-grow">
-                            <iframe width="100%" height="375" src="https://www.youtube.com/embed/???" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div> */}
-                    </div>
-                </div>
-
-                <div className="p-4 lg:w-1/2 w-full">
-                    <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-                        <div className="flex items-center mb-3">
-                            <div
-                                className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                                <i className="fas fa-fist-raised"></i>
-                            </div>
-                            <h2 className="text-lg title-font font-medium text-gray-900">clip_title</h2>
-                        </div>
-                        {/* <div className="flex-grow">
-                            <iframe width="100%" height="375" src="https://www.youtube.com/embed/???" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div> */}
-                    </div>
-                </div>
+                    })
+                }
             </div>
         </div>
     )

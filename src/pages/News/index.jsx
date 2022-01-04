@@ -114,7 +114,7 @@ function NewsCards(props) {
                         <div key={news.id} className="w-full p-6">
                             <div className={`rounded-t rounded-b-none overflow-hidden block md:flex w-full ${props.light ? "shadow" : "shadow shadow-slate-500"}`}>
                                 {
-                                    news.img !== null ? <div className="md:flex-auto w-25 px-6 bg-cover bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: `url(${news.img})` }}></div>
+                                    news.img !== null ? <div className="md:flex-auto w-25 px-6 bg-cover bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: `url(${news.thumbnail})` }}></div>
                                         : news.type === 'news' ?
                                             <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url(/images/news_default.png)' }}></div>
                                             : <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url("/images/OCvideo_default.png")' }}></div>

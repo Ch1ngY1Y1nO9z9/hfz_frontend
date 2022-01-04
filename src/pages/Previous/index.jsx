@@ -55,7 +55,7 @@ export default function Previous(props) {
                                         </ul>
 
                                         <div className="flex pt-3">
-                                            <Link to={`/Box/${prev.stream_number}`} className="inline-block ml-auto mt-3 bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
+                                            <Link to={`/Previous/${prev.stream_number}`} className="inline-block ml-auto mt-3 bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
                                                 <FormattedMessage id={`app.${props.pageName}.Archive.BOX`} defaultMessage='BOX' />
                                             </Link>
                                             <a target="_blank" href={`${prev.link}`} rel="noreferrer noopener" className="inline-block ml-3 mt-3 bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">

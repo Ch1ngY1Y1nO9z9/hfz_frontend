@@ -91,10 +91,10 @@ function Members(props) {
         if (paramas.id === 'All') {
             return profile
         }
-            if(profile.gens !== null){
-                const gen = profile.gens.generations.replace(/\s+/g, '')
-                return gen === paramas.id
-            }
+        if (profile.gens !== null) {
+            const gen = profile.gens.generations.replace(/\s+/g, '')
+            return gen === paramas.id
+        }
     })
 
     return (
@@ -116,10 +116,10 @@ function Members(props) {
                                 {member.spamming}
                             </p>
                             <span className="inline-flex">
-                                <a rel="noreferrer" target="_blank" href={`${member.twitter_link}`} className="text-gray-500 hover:text-[#1da1f2]">
+                                <a rel="noreferrer" target="_blank" href={`${member.twitter_link}`} className="text-[#1da1f2]">
                                     <i className="fab fa-twitter"></i>
                                 </a>
-                                <a rel="noreferrer" target="_blank" href={`${member.youtube_link}`} className="ml-2 text-gray-500 hover:text-[#ff0000]">
+                                <a rel="noreferrer" target="_blank" href={`${member.youtube_link}`} className="ml-2 text-[#ff0000]">
                                     <i className="fab fa-youtube"></i>
                                 </a>
                             </span>
@@ -149,24 +149,24 @@ function PowerRanking(props) {
         <div className="container px-5 py-12 mx-auto flex flex-wrap text-gray-800">
             {
                 rank.map((current) => {
-                    current.rank > current.last_week_rank ? colorSetting = { color: 'green', arrow: 'fa-arrow-up' }
-                        : current.rank < current.last_week_rank ? colorSetting = { color: 'red', arrow: 'fa-arrow-down' }
-                            : colorSetting = { color: 'gray', arrow: 'fa-circle' };
+                    current.rank < current.last_week_rank ? colorSetting = { color: 'text-green-600', arrow: 'fa-arrow-up', bg: "bg-green-200", hover: "hover:bg-green-300" }
+                        : current.rank > current.last_week_rank ? colorSetting = { color: 'text-red-600', arrow: 'fa-arrow-down', bg: "bg-red-200", hover: "hover:bg-red-300" }
+                            : colorSetting = { color: 'text-gray-600', arrow: 'fa-circle', bg: "bg-gray-200", hover: "hover:bg-gray-300" };
 
                     return (
-                        <Link key={current.id} className="flex relative sm:items-center w-2/3 mx-auto border-b-2" to="/WrestlersProfile/{current.name_short}">
-                            <div className={`h-full w-6 absolute inset-0 flex items-center justify-center bg-${colorSetting.color}-400`}></div>
-                            <div className="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center relative z-10 title-font font-medium text-xl">{current.rank}</div>
-                            <div className={`flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row py-10 bg-${colorSetting.color}-200 hover:bg-${colorSetting.color}-300`}>
+                        <Link key={current.id} className="flex relative sm:items-center w-2/3 mx-auto border-b-2 hover:font-bold" to={`/WrestlersProfile/${current.name_short}`}>
+                            <div className={`h-full w-6 absolute inset-0 flex items-center justify-center ${colorSetting.bg}`}></div>
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full mt-10 sm:mt-0 inline-flex items-center justify-center relative z-10 title-font text-xl">{current.rank}</div>
+                            <div className={`flex-grow md:pl-8 pl-6 flex sm:items-center items-start flex-col sm:flex-row py-10 ${colorSetting.bg} ${colorSetting.hover}`}>
                                 <div className="flex-shrink-0 w-24 h-24 rounded-full inline-flex items-center justify-center overflow-hidden">
                                     <img width="100%" src={current.avatar} alt={current.name_short} />
                                 </div>
                                 <div className="flex-grow sm:pl-6 mt-6 sm:mt-0">
-                                    <h2 className="font-medium title-font mb-1 text-xl text-center sm:text-left">
+                                    <h2 className=" title-font mb-1 text-xl text-center sm:text-left">
                                         <FormattedMessage id={`app.Characters.${current.name_short}`} defaultMessage={current.name_short} />
                                     </h2>
                                     <p className="leading-relaxed">
-                                        <i className={`text-xl fas ${colorSetting.arrow} text-${colorSetting.color}-600`}></i>
+                                        <i className={`text-xl fas ${colorSetting.arrow} ${colorSetting.color}`}></i>
                                         <FormattedMessage id='app.Profiles.LastWeek' defaultMessage='Last week' />
                                         : {current.last_week_rank}
                                     </p>

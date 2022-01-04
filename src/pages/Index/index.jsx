@@ -25,7 +25,7 @@ import SwiperCore, {
 function Index(props) {
     return (
         <Fragment >
-            <Banner pageName={props.pageName} />
+            <Banner pageName={props.pageName} live={props.live} />
             <About pageName={props.pageName} light={props.light} />
             <News pageName={props.pageName} light={props.light} />
             <Ranking pageName={props.pageName} light={props.light} />
@@ -35,28 +35,33 @@ function Index(props) {
 }
 
 function Banner(props) {
+    const textShadow = "#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px"
+    const { pageName } = props
+    const { live } = props
+
+
     return (
-        <section className="pt-24">
+        <section className={`pt-24 ${live ? 'text-black' : 'text-white'}`}>
             <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
 
                 <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
                     <p className="uppercase tracking-loose w-full"
-                        style={{ textShadow: "#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px" }}>
-                        <FormattedMessage id={`app.${props.pageName}.Welcome`} defaultMessage='welcome to HFZ' />
+                        style={{ textShadow: textShadow }}>
+                        <FormattedMessage id={`app.${pageName}.Welcome`} defaultMessage='welcome to HFZ' />
 
                     </p>
                     <h1 className="my-4 text-5xl font-bold leading-tight text-center md:text-left w-full"
-                        style={{ textShadow: "#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px" }}>
+                        style={{ textShadow: textShadow }}>
                         HOLOFIGHTZ
                     </h1>
                     <p className="leading-normal text-2xl mb-8 md:text-left w-full"
-                        style={{ textShadow: "#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px" }}>
-                        <FormattedMessage id={`app.${props.pageName}.Subtitle`} defaultMessage='Professional Virtual YouTuber Wrestling' />
+                        style={{ textShadow: textShadow }}>
+                        <FormattedMessage id={`app.${pageName}.Subtitle`} defaultMessage='Professional Virtual YouTuber Wrestling' />
 
                     </p>
                     <a target="_blank" rel="noreferrer noopener" href="https://www.twitch.tv/holofightz"
-                        className="mx-auto lg:mx-0 hover:underline hover:bg-indigo-600 bg-indigo-500 text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                        <FormattedMessage id={`app.${props.pageName}.Live`} defaultMessage='WATCH LIVE' />
+                        className={`mx-auto lg:mx-0 hover:underline text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out ${live ? 'hover:bg-red-600 bg-red-500 animate-pulse' : 'hover:bg-indigo-600 bg-indigo-500'}`}>
+                        <FormattedMessage id={live ? `app.${pageName}.Streaming` : `app.${pageName}.Live`} defaultMessage={live ? `STREAMING` : 'Watch Live'} />
 
                     </a>
                 </div>
@@ -72,11 +77,13 @@ function Banner(props) {
 }
 
 function About(props) {
+    const { pageName } = props
+
     return (
         <section className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <div className="container max-w-5xl mx-auto m-8">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
-                    <FormattedMessage id={`app.${props.pageName}.About`} defaultMessage='ABOUT HOLOFIGHTZ' />
+                    <FormattedMessage id={`app.${pageName}.About`} defaultMessage='ABOUT HOLOFIGHTZ' />
                 </h1>
                 <div className="w-full mb-4">
                     <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -84,10 +91,10 @@ function About(props) {
                 <div className="flex flex-wrap">
                     <div className="w-full sm:w-1/2 p-6">
                         <h3 className="text-3xl font-bold leading-none mb-3 gray_800">
-                            <FormattedMessage id={`app.${props.pageName}.About.Title`} defaultMessage='Stream time' />
+                            <FormattedMessage id={`app.${pageName}.About.Title`} defaultMessage='Stream time' />
                         </h3>
                         <p className="text-gray-600">
-                            <FormattedMessage id={`app.${props.pageName}.About.Description`} defaultMessage='Streams still random, but will most likely happen on the weekend, starting at 10am CST, or possibly later in the night, around 1am CST' />
+                            <FormattedMessage id={`app.${pageName}.About.Description`} defaultMessage='Streams still random, but will most likely happen on the weekend, starting at 10am CST, or possibly later in the night, around 1am CST' />
                         </p>
                     </div>
 
@@ -190,10 +197,10 @@ function Ranking(props) {
                     {
                         data.map((profile) => {
                             return (
-                                <div  key={profile.id} className="p-2 md:p-4 md:w-1/2 w-full">
+                                <div key={profile.id} className="p-2 md:p-4 md:w-1/2 w-full">
                                     <div className="h-full p-8 rounded cards-bg bg-gray-100">
                                         <h1 className="w-full my-2 text-4xl md:text-5xl font-bold leading-tight" >
-                                            {profile.toindex === 0 ? 'RANK LEADER': 'RISING STAR'}
+                                            {profile.toindex === 0 ? 'RANK LEADER' : 'RISING STAR'}
                                             <div className="h-1 gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
                                         </h1>
                                         <Link to={`/WrestlersProfile/${profile.name_short}`}>

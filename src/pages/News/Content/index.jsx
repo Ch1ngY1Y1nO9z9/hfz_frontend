@@ -46,7 +46,7 @@ function Content(props) {
             <div className="container mx-auto flex px-5 items-center justify-center flex-col">
 
                 <div className="text-center lg:w-2/3 w-full">
-                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{data.title}<br /></h1>
+                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-bold text-gray-600">{data.title}<br /></h1>
                     {
                         data.type === 'fan_arts' ? <div>
                             <img width="100%" src={data.img} alt="fan_arts" />
@@ -59,7 +59,7 @@ function Content(props) {
                     }
                     <br />
                     <p className="py-6">
-                        {data.content}
+                        {data.type !== 'Promote' ? data.content : ''}
                     </p>
 
 

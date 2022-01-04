@@ -23,6 +23,7 @@ const Content = lazy(() => import('./pages/News/Content'))
 const Wrestlers = lazy(() => import('./pages/Wrestlers'))
 const Profiles = lazy(() => import('./pages/Wrestlers/Profiles'))
 const Previous = lazy(() => import('./pages/Previous'))
+const Matches = lazy(()=> import('./pages/Previous/Content'))
 const Event = lazy(() => import('./pages/Event'))
 const Roll = lazy(() => import('./pages/Roll'))
 
@@ -51,13 +52,17 @@ function App(props) {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        getData('Index')//Fetch取得資料
+        getData('Index');//Fetch取得資料
+        getTwitchApi();
     }, [])
 
     async function getData(page) {
         try {
+            // 取得API資料
             const getData = await fetch(`http://127.0.0.1:8000/api/App/getBackground`, { method: "post" })
             const result = await getData.json()
+            // 取得是否直播中
+
 
             // 設定圖片從後端來
             result.img = 'https://holofightz.surai.xyz' + result.img
@@ -74,11 +79,32 @@ function App(props) {
         toggleMenu === 'hidden' ? setMenu('block') : setMenu('hidden')
     }
 
+    const [live, setLiveStatus] = useState(false) //判斷是否直播中 預設否
+    const [channelData, setChannelData] = useState([]) //儲存頻道資訊
+
+    async function getTwitchApi() {
+        try {
+            const getChannelData = await fetch( 'https://api.twitch.tv/helix/streams?user_login=holofightz',{ headers: { 'client-id': 'knyyan9rux0iv4zr5pzu52lrtrk8fh', 'Authorization': 'Bearer cj1m4zpetgekvr73obiw2jdahvinfe'}})
+            const result = await getChannelData.json()
+
+            setChannelData(result)
+            checkData(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function checkData(result) {
+        result.data.length !== 0 ? setLiveStatus(true) : setLiveStatus(false)
+    }
+
+
+
 
     return (
 
         <IntlProvider locale='en' messages={props.lang.locale}>
-            <div className={`leading-normal tracking-normal body-font ${props.light ? 'text-black bg-white' : 'text-white bg-black'}`} >
+            <div className={`leading-normal tracking-normal body-font ease-in-out duration-1000 ${props.light ? 'text-black bg-white' : 'text-white bg-black'}`} >
                 <nav id="header" className={`w-full z-30 top-0 fixed ${props.light ? 'bg-white/90' : 'bg-black/50'}`}>
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
@@ -134,15 +160,16 @@ function App(props) {
                     </div>
                     <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
                 </nav>
-                <div className="bg-fixed bg-center" style={{ backgroundImage: `url(${data.img})` }}>
+                <div className="bg-fixed bg-center bg-cover" style={live ? {backgroundImage: 'url("/images/onstream.webp")'} :{ backgroundImage: `url(${data.img})` }}>
                     <Suspense fallback={<Loading />}>
                         <Routes>
-                            <Route path="/index" element={<Index pageName='Index' />} />
+                            <Route path="/index" element={<Index pageName='Index' live={live} />} />
                             <Route path="/News/*" element={<News pageName='News' />} />
                             <Route path="/FightZNews/:id" element={<Content pageName='News' />} />
                             <Route path="/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
                             <Route path="/Wrestlers/Profile/:name" element={<Profiles pageName='Detail' />} />
                             <Route path="/Previous/*" element={<Previous pageName='Previous' />} />
+                            <Route path="/Previous/:id/*" element={<Matches pageName='Previous' />} />
                             <Route path="/Event" element={<Event pageName='Event' />} />
                             <Route path="/Roll" element={<Roll pageName='Roll' />} />
                             <Route path="*" element={<Navigate to="/index" />} />
