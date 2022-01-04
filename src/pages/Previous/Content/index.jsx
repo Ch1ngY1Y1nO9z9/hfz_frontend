@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState, Suspense, useRef } from 'react'
 import { Link, Route, Routes, useParams, useNavigate } from 'react-router-dom'
 
 import Loading from '../../../components/Loading'
@@ -26,6 +26,7 @@ function Content(props) {
 
                 setData(result)
                 setisLoading(false)
+
             } catch (error) {
                 console.log(error)
             }
@@ -59,11 +60,11 @@ function Content(props) {
                 <div className="flex flex-col text-center w-full pt-24 mb-10">
                     <h2 className="sm:text-4xl text-3xl font-medium title-font mb-4 ">
                         <FormattedMessage id={`app.Previous.Result.SongList.Title`} defaultMessage={`Song List`} />
-                        
+
                     </h2>
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
                         <FormattedMessage id={`app.Previous.Result.SongList.Description`} defaultMessage={`All the songs played in the match.`} />
-                        
+
                     </p>
                 </div>
 
@@ -177,6 +178,10 @@ function Matches(props) {
 function SongList(props) {
     const [isLoading, setisLoading] = useState(true)
     const [data, setData] = useState({}) //取得歌曲清單
+    const [formOpen, setFormOpen] = useState(false)
+    // const [ganeList, setGameList] = useState()
+    const gameInput = useRef(undefined);
+    const linkInput = useRef(undefined);
     const params = useParams()
 
     useEffect(() => {
@@ -188,6 +193,7 @@ function SongList(props) {
 
                 setData(result)
                 setisLoading(false)
+                makeMatchesAry()
             } catch (error) {
                 console.log(error)
             }
@@ -196,25 +202,120 @@ function SongList(props) {
         getData('Previous')
     }, [params.game])
 
+    function openForm(e) {
+        if (e.target.innerText === 'add') e.target.innerText = "close"
+        else e.target.innerText = 'add'
+        setFormOpen(!formOpen)
+    }
+
+    function makeMatchesAry(){
+        const {matchesLength} = props
+        const matchAry = []
+        
+        for(let i=1; i <= matchesLength ; i++){
+            matchAry.push(i)
+        }
+
+        // setGameList(matchAry)
+    }
+
+    async function sentNewSong() {
+        const { id: stream_id } = params
+        const { value: link } = linkInput.current
+        const { value: game_id } = gameInput.current
+
+        if (game_id === 'Game') {
+            return alert('please choose a match')
+        }
+
+        if (link.length === 0) {
+            return alert('please enter youtube video id')
+        }
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/addSong/${stream_id}/${game_id}/${link}`,{method: 'post'})
+            const result = await response.json()
+
+            linkInput.current.value = ''
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     return (
-        <div className="w-full flex flex-wrap -m-2 text-center">
-            {
-                isLoading ? <Loading /> : data.length === 0 ? <h3 className='sm:text-5xl text-4xl font-medium title-font mb-4'><FormattedMessage id={`app.Previous.Result.SongList.None`} defaultMessage={`No result! Maybe we'll add it later :)`} /></h3> : data.map((song) => {
+        <div className="w-full ">
+            <div className="w-full text-right">
+                <div onClick={(e) => { openForm(e) }} className="text-blue-500">add</div>
+            </div>
+            <div className={`w-full text-center py-10 ${formOpen ? 'block' : 'hidden'}`}>
+                <div className="flex flex-col text-center w-full my-10">
+                    <h2 className="sm:text-5xl text-4xl font-medium title-font mb-4">
+                        <FormattedMessage id={`app.Previous.Result.Title`} defaultMessage={`Add song to the list`} />
+                    </h2>
+                    <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+                        <FormattedMessage id={`app.Previous.Result.SongList.Description`} defaultMessage={`If you know the song, you can add it to the list, but YOUTUBE VIDEO ONLY`} />
 
-                    return (
-                        <div key={song.id} className="p-2 lg:w-1/3 md:w-1/2 w-full">
-                            <div className="w-full border-gray-200 border p-4 rounded-lg">
-                                <p className="text-xl md:text-2xl pb-3"><FormattedMessage id={`app.Previous.Result.SongList.PlayedAt`} defaultMessage={`played at game `} />{song.played_at}</p>
-                                <div className="flex items-center">
-                                    <iframe width="100%" height="315" src={`https://www.youtube.com/embed/${song.link}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                                </div>
+                    </p>
+                </div>
 
-                            </div>
+                <form className="w-full max-w-lg mx-auto">
+                    <div className="inline-block relative w-64 my-10">
+                        <select ref={gameInput} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option selected hidden>Game</option>
+                            <option>1</option>
+                            {
+                                // gameList.map((game)=>{
+                                //     return <option value={game} >{game}</option>
+                                // })
+                            }
+
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                         </div>
+                    </div>
+                    <div className="md:flex md:items-center mb-6">
+                        <div className="md:w-1/3">
+                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                Youtube embed link:
+                            </label>
+                        </div>
+                        <div className="md:w-2/3">
+                            <input ref={linkInput} className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder="embed id" defaultValue={''} />
+                        </div>
+                    </div>
+                    <div className="mx-auto py-3">
+                        <button onClick={() => sentNewSong()} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                            Add
+                        </button>
+                    </div>
+                </form>
+                <span className='text-red-500 font-bold'>
+                    Q: how to get youtube video id? <br />
+                    A: click "Share", youtube will give you an embed code, like "https://youtu.be/e5eBW386Pmk", "e5eBW386Pmk" is the video id, just copy and paste in the input then click "Add" button.
+                </span>
+            </div>
+            <div className="w-full flex flex-wrap -m-2 text-center">
+                {
+                    isLoading ? <Loading /> : data.length === 0 ? <h3 className='sm:text-5xl text-4xl font-medium title-font mb-4'><FormattedMessage id={`app.Previous.Result.SongList.None`} defaultMessage={`No result! Maybe we'll add it later :)`} /></h3> : data.map((song) => {
 
-                    )
-                })
-            }
+                        return (
+                            <div key={song.id} className="p-2 lg:w-1/3 md:w-1/2 w-full">
+                                <div className="w-full border-gray-200 border p-4 rounded-lg">
+                                    <p className="text-xl md:text-2xl pb-3"><FormattedMessage id={`app.Previous.Result.SongList.PlayedAt`} defaultMessage={`played at game `} />{song.played_at}</p>
+                                    <div className="flex items-center">
+                                        <iframe width="100%" height="315" src={`https://www.youtube.com/embed/${song.link}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        )
+                    })
+                }
+            </div>
         </div>
     )
 }
