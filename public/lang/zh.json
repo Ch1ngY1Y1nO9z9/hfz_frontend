@@ -234,8 +234,8 @@
     "app.Characters.birthday.Calli.april4th": "4月 4日",
     "app.Characters.Kiara": "小鳥遊琪亞拉",
     "app.Characters.birthday.Kiara.july6th": "7月 6日",
-    "app.Characters.Ame": "阿米莉亞華生",
-    "app.Characters.birthday.Ame.january6th": "1月 6日",
+    "app.Characters.Watson": "阿米莉亞華生",
+    "app.Characters.birthday.Watson.january6th": "1月 6日",
     "app.Characters.Sana": "Sana",
     "app.Characters.birthday.Sana.june10th": "6月 10日",
     "app.Characters.Fauna": "Fauna",
@@ -457,5 +457,10 @@
     "app.Previous.Archive.28": "HFZ第28場直播事件:",
     "app.Previous.Archive.Context1.28": "0勝俱樂部的Risu與阿夸對決, 到底能不能讓Risu開歌回?",
     "app.Previous.Archive.Context2.28": "你好 黑暗 我的老朋友 我又來和你交談(*The Sound Of Silence)",
-    "app.Previous.Archive.Context3.28": "擂台之王常闇永遠再度劍指心心的放水女王腰帶"
+    "app.Previous.Archive.Context3.28": "擂台之王常闇永遠再度劍指心心的放水女王腰帶",
+
+    "app.Previous.Archive.29": "HFZ第29場直播事件:",
+    "app.Previous.Archive.Context1.29": "新人出場: 鷹領和Sana",
+    "app.Previous.Archive.Context2.29": "天音彼方出戰單打冠軍賽對決波爾卡",
+    "app.Previous.Archive.Context3.29": "混沌6人鐵籠賽再開, 勝出者將對決放水女王"
 }

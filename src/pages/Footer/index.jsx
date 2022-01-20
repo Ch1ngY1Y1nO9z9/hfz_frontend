@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 // 引入按鈕樣板
 import { FooterLinks } from '../../components/NavLinks'
 
@@ -22,7 +24,7 @@ function Footer(props) {
                         <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/HoloFightZ" className="text-gray-600 ml-1 py-2 px-4 inline-block no-underline">@holofightz</a>
                     </p>
                     <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start flex-wrap text-gray-500">
-
+                        <Link className='md\:w-2 inline-block no-underline hover:text-underline py-2 px-4' to={`/${lang}/FAQ`}>FAQ</Link>
                         {NavbarButtons.map((button) => {
                             return (
                                 <FooterLinks key={button.id} to={`/${lang}${button.link}`}>

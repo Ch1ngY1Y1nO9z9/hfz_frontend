@@ -23,18 +23,18 @@ function Profiles(props) {
 
     useEffect(() => {
 
-        async function getData(page) {
-            try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/get${page}/${params.name}`, { method: "post" })
-                const result = await getData.json()
-
-                setData(result)
-                setisLoading(0)
-                backToTop()
-            } catch (error) {
-                // alert('>:)');
-                // navigate(`/${lang}/Wrestlers/All`)
-            }
+        function getData(page) {
+            fetch(`http://127.0.0.1:8000/api/${page}/get${page}/${params.name}`, { method: "post" })
+                .then((result) => result.json())
+                .then((result) => {
+                    setData(result)
+                    setisLoading(0)
+                    backToTop()
+                })
+                .catch((error) => {
+                    alert("WATAMAGE: :)")
+                    navigate(`/${lang}/Wrestlers/All`)
+                })
         }
 
         getData('Detail')
@@ -46,15 +46,8 @@ function Profiles(props) {
     }
 
     function updateHandler(name) {
-        if (name.toLowerCase() !== 'battler' && name.toLowerCase() !== 'john cena') {
-            if (name) navigate(`/${lang}/Wrestlers/Profile/${name}`)
-
-            setPageUpdate(!updatePage)
-        }
-
-        if (name.toLowerCase() === 'battler') alert('MAGIC IS NOT REAL!!')
-
-        if (name.toLowerCase() === 'john cena') alert("YOU CAN'T SEE HIM :) ")
+        if (name) navigate(`/${lang}/Wrestlers/Profile/${name}`)
+        setPageUpdate(!updatePage)
     }
 
     // 取得前頁網址來判斷是否要單純回上頁或重新導向到ALL或指定期生畫面
@@ -85,19 +78,29 @@ function Profiles(props) {
                 </div>
             </div>
             {
-                isLoading ? <Loading /> : <div>
-                    <CharactersDetail data={{ data, ...props, updateHandler }} />
-                    <Fanbase data={{ name: data.detail.fan_name, ...props }} />
-                    {
-                        !data.isVisible
-                            ? ''
-                            : <div>
-                                <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} />
-                                <WinLoseRate data={{ name: params.name, pageName }} />
-                                <MatchClips data={{ name: params.name, clips: data.clips, pageName }} />
+                isLoading
+                    ? <Loading />
+                    : !data.detail
+                        ? params.name === 'JohnCena'
+                            ? <div className='flex justify-center'>
+                                <iframe width="720" height="480" src="https://www.youtube.com/embed/JYhZTg6-SpY?&autoplay=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             </div>
-                    }
-                </div>
+                            : params.name === 'Battler' ? <div className='flex justify-center'>
+                                <iframe width="720" height="480" src="https://www.youtube.com/embed/pQDHcDeTCKg?&autoplay=1" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                            </div> : navigate(`/${lang}/Wrestlers/All`)
+                        : <div>
+                            <CharactersDetail data={{ data, ...props, updateHandler }} />
+                            <Fanbase data={{ name: data.detail.fan_name, ...props }} />
+                            {
+                                !data.isVisible
+                                    ? ''
+                                    : <div>
+                                        <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} />
+                                        <WinLoseRate data={{ name: params.name, pageName }} />
+                                        <MatchClips data={{ name: params.name, clips: data.clips, pageName }} />
+                                    </div>
+                            }
+                        </div>
 
             }
         </section>
@@ -110,7 +113,7 @@ function CharactersDetail(props) {
     const [outfit, setOutfit] = useState(data.picture)
     const [outfitName, setOutfitName] = useState('Default')
 
-    function changOutfit(e,Name) {
+    function changOutfit(e, Name) {
         const outfitpath = e.target.getAttribute('src');
         setOutfit(outfitpath);
         setOutfitName(Name)
@@ -120,11 +123,11 @@ function CharactersDetail(props) {
         <div className="container mx-auto flex px-5 pb-12 md:flex-row flex-col items-center">
             <div className="py-5 px-10 mb-10 md:mb-0 lg:flex hidden flex-col h-[600px]">
                 {
-                    data.outfits.lenght === 0
+                    data.outfits.length === 0
                         ? ''
                         : data.outfits.map((outfit) => {
                             return (
-                                <div key={outfit.id} onClick={(e)=>{ changOutfit(e, outfit.outfit_name) }} className="relative mb-5 group outfit">
+                                <div key={outfit.id} onClick={(e) => { changOutfit(e, outfit.outfit_name) }} className="relative mb-5 group outfit">
                                     <div className="border-4 border-gray-500 rounded-full overflow-hidden w-[150px] h-[150px] border-sky-500">
                                         <img className="w-full" src={outfit.image_link} alt={outfit.name_short} />
                                     </div>
@@ -294,7 +297,7 @@ function Fanbase(props) {
     const { name, light, pageName } = props.data
 
     const [isLoading, setisLoading] = useState(1)
-    const [data, setData] = useState({}) //取得粉絲基本資料
+    const [data, setData] = useState(null) //取得粉絲基本資料
 
     useEffect(() => {
 
@@ -307,6 +310,7 @@ function Fanbase(props) {
                 setisLoading(0)
             } catch (error) {
                 console.log(error)
+                setisLoading(1)
             }
         }
         setisLoading(1)
@@ -319,28 +323,30 @@ function Fanbase(props) {
                 {
                     isLoading
                         ? <Loading />
-                        : !data ? '' : <div className="flex px-5 pb-12 md:flex-row flex-col items-center"> <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                            <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={data.img} />
-                        </div>
-                            <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left">
-
-                                <h1 className="text-3xl title-font font-medium mb-1 font-bold mt-1">
-                                    <FormattedMessage id={`app.${pageName}.fans`} defaultMessage='Fanbase' />: <FormattedMessage id={`app.${pageName}.fanbase.${data.fan_name.replace(/\s+/g, '')}`} defaultMessage={data.fan_name} />
-                                </h1>
-                                <p>
-                                    <br /><FormattedMessage id={`app.${pageName}.weight`} defaultMessage='WEIGHT' />: <span className="font-bold">{data.weight} <FormattedMessage id={`app.${pageName}.lb`} defaultMessage='lb' /></span>
-                                </p>
-                                <p>
-                                    <br /><FormattedMessage id={`app.${pageName}.height`} defaultMessage='HEIGHT' />: <span className="font-bold">{data.height}"</span>
-                                </p>
-                                <p>
-                                    <br /><FormattedMessage id={`app.${pageName}.sig`} defaultMessage='Signature' />: <span className="font-bold"> {data.signature} </span>
-                                </p>
-                                <p>
-                                    <FormattedMessage id={`app.${pageName}.finisher`} defaultMessage='Finisher' />: <span className="font-bold"> {data.finisher} </span>
-                                </p>
+                        : !data
+                            ? ''
+                            : <div className="flex px-5 pb-12 md:flex-row flex-col items-center"> <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                                <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={data.img} />
                             </div>
-                        </div>
+                                <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left">
+
+                                    <h1 className="text-3xl title-font font-medium mb-1 font-bold mt-1">
+                                        <FormattedMessage id={`app.${pageName}.fans`} defaultMessage='Fanbase' />: <FormattedMessage id={`app.${pageName}.fanbase.${data.fan_name.replace(/\s+/g, '')}`} defaultMessage={data.fan_name} />
+                                    </h1>
+                                    <p>
+                                        <br /><FormattedMessage id={`app.${pageName}.weight`} defaultMessage='WEIGHT' />: <span className="font-bold">{data.weight} <FormattedMessage id={`app.${pageName}.lb`} defaultMessage='lb' /></span>
+                                    </p>
+                                    <p>
+                                        <br /><FormattedMessage id={`app.${pageName}.height`} defaultMessage='HEIGHT' />: <span className="font-bold">{data.height}"</span>
+                                    </p>
+                                    <p>
+                                        <br /><FormattedMessage id={`app.${pageName}.sig`} defaultMessage='Signature' />: <span className="font-bold"> {data.signature} </span>
+                                    </p>
+                                    <p>
+                                        <FormattedMessage id={`app.${pageName}.finisher`} defaultMessage='Finisher' />: <span className="font-bold"> {data.finisher} </span>
+                                    </p>
+                                </div>
+                            </div>
                 }
             </div>
         </div>

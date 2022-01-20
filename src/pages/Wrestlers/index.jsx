@@ -30,37 +30,40 @@ function Wrestlers(props) {
     const [isLive, setIsLive] = useState(0) //紀錄是否直播
 
     useEffect(() => {
-        if (!data.length){
+        if (!data.length) {
             getData('Wrestlers')//Fetch取得資料
-        } 
-    }, [])
+        }
+    }, [isLive])
 
     function getData(page) {
         fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
-        .then((response)=> response.json() )
-        .then((result)=> {
-            fetch(`https://schedule.hololive.tv/api/list/7`, { method: "get" })
-            .then((response)=> response.json() )
-            .then((liveList)=> {
-                liveList.dateGroupList.forEach((list)=>{
-                    if(list.videoList){
-                        var Live = list.videoList.filter((schedule)=>{
-                            return schedule.isLive
-                        })
+            .then((response) => response.json())
+            .then((result) => {
+                fetch(`https://schedule.hololive.tv/api/list/7`, { method: "get" })
+                    .then((response) => response.json())
+                    .then((liveList) => {
+                        liveList.dateGroupList.forEach((list) => {
+                            if (list.videoList) {
+                                var Live = list.videoList.filter((schedule) => {
+                                    return schedule.isLive
+                                })
 
-                        Live.forEach((stream,index)=>{
-                            const wrestler_id = MembersList.indexOf(stream.name)
-                            result.forEach((wrestler)=>{
-                                if(wrestler.id === wrestler_id){
-                                    wrestler.liveDetail = Live[index]
-                                }
-                            })
+                                Live.forEach((stream, index) => {
+                                    const wrestler_id = MembersList.indexOf(stream.name)
+                                    result.forEach((wrestler) => {
+                                        if (wrestler.id === wrestler_id) {
+                                            wrestler.liveDetail = Live[index]
+                                        }
+                                    })
+                                })
+                            }
                         })
-                    }
-                })
+                    })
+                    .then(() => {
+                        setData(result)
+                    })
+                setIsLive(1)
             })
-            setData(result)
-        } )
     }
 
     return (
@@ -109,14 +112,12 @@ function Wrestlers(props) {
 
 function Members(props) {
 
-    
+
     const { lang: { lang }, light, data } = props.data
     const navigate = useNavigate();
     const paramas = useParams();
     const [isLoading, setisLoading] = useState(1)
     const [members, setMembers] = useState([])
-
-    console.log(data)
 
     useEffect(() => {
         const result = data.filter((profile) => {
@@ -139,7 +140,7 @@ function Members(props) {
     function checkData(query) {
         const generationAry = ['All', 'Gen0', 'Gen1', 'Gen2', 'Gen3', 'Gen4', 'Gen5', 'GAMERS', 'HoloX', 'HoloID', 'HoloMyth', 'INNK', 'ProjectHope', 'HoloCouncil']
 
-        if (generationAry.indexOf(query) === -1){
+        if (generationAry.indexOf(query) === -1) {
             alert('>:)')
             navigate(`/${lang}/Wrestlers/All`)
         }
@@ -150,10 +151,10 @@ function Members(props) {
             ? <Loading />
             : members.map((member) => {
                 return (
-                    <div key={member.id} className={`rounded-lg bg-cover bg-center group w-full lg:w-1/2 ${!member.liveDetail ? '' : 'text-white'} ${member.isVisible === 0 && light ? 'hidden' : 'block'} ${light ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`}  style={ !member.liveDetail ? {} : {backgroundImage: `url(${member.liveDetail.thumbnail})`}}>
+                    <div key={member.id} className={`rounded-lg bg-cover bg-center group w-full lg:w-1/2 ${!member.liveDetail ? '' : 'text-white'} ${member.isVisible === 0 && light ? 'hidden' : 'block'} ${light ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`} style={!member.liveDetail ? {} : { backgroundImage: `url(${member.liveDetail.thumbnail})` }}>
                         <div className={`h-full flex sm:flex-row flex-col p-4 items-center sm:justify-start justify-center text-center sm:text-left rounded-lg ${!member.liveDetail ? '' : 'bg-black/70'}`}>
                             <Link to={`/${lang}/Wrestlers/Profile/${member.name_short}`} className="flex-shrink-0 w-48 h-48 sm:mb-0 mb-4 overflow-hidden">
-                                <img width="100%" className={`rounded-lg object-cover object-center transition ease-in-out duration-300 group-hover:-translate-y-1 group-hover:scale-110`} alt="team" src={`${ !member.liveDetail ? member.avatar : member.liveDetail.talent.iconImageUrl}`} />
+                                <img width="100%" className={`rounded-lg object-cover object-center transition ease-in-out duration-300 group-hover:-translate-y-1 group-hover:scale-110`} alt="team" src={`${!member.liveDetail ? member.avatar : member.liveDetail.talent.iconImageUrl}`} />
                             </Link>
                             <div className="flex-grow sm:pl-8">
                                 <Link to={`/${lang}/Wrestlers/Profile/${member.name_short}`}>
