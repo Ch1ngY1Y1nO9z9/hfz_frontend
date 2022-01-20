@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
-import { Link, Route, Routes, Navigate } from 'react-router-dom'
+import { Link, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Footer from './pages/Footer'
 import { NavLinks } from './components/NavLinks'
 import Loading from './components/Loading'
@@ -34,28 +34,32 @@ export default connect(
 )(App)
 
 function App(props) {
+    const { light, lang } = props
+
+    // 預設內容
+    const [data, setData] = useState([])
+    const [defaultLang, setDefaultLang] = useState('en')
+
+    useEffect(() => { 
+        getData('Index');//Fetch取得資料
+        getTwitchApi();
+        changeLangSetting(checkLanguagePack())
+    }, [])
 
     // 切換背景顏色
     function changeMode() {
         // 呼叫action處理修改顏色, setTheme是從connect函式中第二傳參中自定義的名稱, 其本體是後面的"ChangeColor"轉換名稱後傳進UI組件
-        props.setTheme(!props.light);
+        props.setTheme(!light);
     }
 
     // 取得新語系資料
-    async function changeLang(lang) {
+    async function changeLangSetting(lang) {
         const profile = await fetch(`/lang/${lang}.json`)
         const locale = await profile.json()
         props.setLang({ lang, locale })
     }
 
     // 取得背景圖片
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        getData('Index');//Fetch取得資料
-        getTwitchApi();
-    }, [])
-
     async function getData(page) {
         try {
             // 取得API資料
@@ -79,9 +83,11 @@ function App(props) {
         toggleMenu === 'hidden' ? setMenu('block') : setMenu('hidden')
     }
 
+    // 直播判斷
     const [live, setLiveStatus] = useState(false) //判斷是否直播中 預設否
     const [channelData, setChannelData] = useState([]) //儲存頻道資訊
 
+    // TwitchAPI串接
     async function getTwitchApi() {
         try {
             const getChannelData = await fetch( 'https://api.twitch.tv/helix/streams?user_login=holofightz',{ headers: { 'client-id': 'knyyan9rux0iv4zr5pzu52lrtrk8fh', 'Authorization': 'Bearer cj1m4zpetgekvr73obiw2jdahvinfe'}})
@@ -98,17 +104,28 @@ function App(props) {
         result.data.length !== 0 ? setLiveStatus(true) : setLiveStatus(false)
     }
 
+    // 取得當前網址路徑 確認網址是否能到正確的預設語言包
+    const location = useLocation();
+    const navigate = useNavigate()
 
-
+    function checkLanguagePack(){
+        let langPack = location.pathname.split('/',2)[1];
+        if(langPack !== 'en' && langPack !== 'zh' && langPack !== 'jp'){
+            langPack = 'en'
+            navigate(`/${langPack}/index`)
+        }
+        
+        setDefaultLang(langPack)
+        return langPack
+    }
 
     return (
-
-        <IntlProvider locale='en' messages={props.lang.locale}>
-            <div className={`leading-normal tracking-normal body-font ease-in-out duration-1000 ${props.light ? 'text-black bg-white' : 'text-white bg-black'}`} >
-                <nav id="header" className={`w-full z-30 top-0 fixed ${props.light ? 'bg-white/90' : 'bg-black/50'}`}>
+        <IntlProvider locale={defaultLang} messages={lang.locale} onError={()=>{}}>
+            <div className={`leading-normal tracking-normal body-font ease-in-out duration-1000 ${light ? 'text-black bg-white' : 'text-white bg-black'}`} >
+                <nav id="header" className={`w-full z-30 top-0 fixed ${light ? 'bg-white/90' : 'bg-black/50'}`}>
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
-                            <Link to="/index">
+                            <Link to={`/${lang.lang}/index`}>
                                 <img width="250" src="/images/LOGO.png" alt="LOGO" />
                             </Link>
                         </div>
@@ -126,7 +143,7 @@ function App(props) {
                             <ul className="list-reset lg:flex justify-end flex-1 items-center">
                                 {NavbarButtons.map((button) => {
                                     return (
-                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={button.link}>
+                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={`${defaultLang+button.link}`}>
                                             <FormattedMessage id={`app.${button.langId}`} defaultMessage={button.Message} />
                                         </NavLinks>
                                     )
@@ -144,15 +161,15 @@ function App(props) {
                                 })}
 
                                 <li className="mr-3">
-                                    <div onClick={() => changeMode()} className={`lights py-2 px-4 cursor-pointer ${props.light ? 'text-black' : 'text-white'}`}>
+                                    <div onClick={() => changeMode()} className={`lights py-2 px-4 cursor-pointer ${light ? 'text-black' : 'text-white'}`}>
                                         <i className="far fa-lightbulb"></i>
                                     </div>
                                 </li>
                                 <li className="mr-3">
-                                    <select onChange={(e) => { changeLang(e.target.value) }} className="form-select appearance-none px-3 py-1.5 text-base font-normal border border-solid border-gray-300 rounded transition ease-in-out m-0  focus:bg-white focus:border-blue-600 focus:outline-none text-black" aria-label="change language">
+                                    <select onChange={(e) => { changeLangSetting(e.target.value) }} className="form-select appearance-none px-3 py-1.5 text-base font-normal border border-solid border-gray-300 rounded transition ease-in-out m-0  focus:bg-white focus:border-blue-600 focus:outline-none text-black" aria-label="change language" value={lang.lang}>
                                         <option value="en">English</option>
                                         <option value="jp">日本語</option>
-                                        <option value="cn">中文</option>
+                                        <option value="zh">中文</option>
                                     </select>
                                 </li>
                             </ul>
@@ -163,16 +180,16 @@ function App(props) {
                 <div className="bg-fixed bg-center bg-cover" style={live ? {backgroundImage: 'url("/images/onstream.webp")'} :{ backgroundImage: `url(${data.img})` }}>
                     <Suspense fallback={<Loading />}>
                         <Routes>
-                            <Route path="/index" element={<Index pageName='Index' live={live} />} />
-                            <Route path="/News/*" element={<News pageName='News' />} />
-                            <Route path="/FightZNews/:id" element={<Content pageName='News' />} />
-                            <Route path="/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
-                            <Route path="/Wrestlers/Profile/:name" element={<Profiles pageName='Detail' />} />
-                            <Route path="/Previous/*" element={<Previous pageName='Previous' />} />
-                            <Route path="/Previous/:id/*" element={<Matches pageName='Previous' />} />
-                            <Route path="/Event" element={<Event pageName='Event' />} />
-                            <Route path="/Roll" element={<Roll pageName='Roll' />} />
-                            <Route path="*" element={<Navigate to="/index" />} />
+                            <Route path="/:lang/index" element={<Index pageName='Index' live={live} />} />
+                            <Route path="/:lang/News/*" element={<News pageName='News' />} />
+                            <Route path="/:lang/FightZNews/:id" element={<Content pageName='News' />} />
+                            <Route path="/:lang/Wrestlers/*" element={<Wrestlers pageName='Profiles' />} />
+                            <Route path="/:lang/Wrestlers/Profile/:name" element={<Profiles pageName='Detail' />} />
+                            <Route path="/:lang/Previous/*" element={<Previous pageName='Previous' />} />
+                            <Route path="/:lang/Previous/:id/*" element={<Matches pageName='Previous' />} />
+                            <Route path="/:lang/Event" element={<Event pageName='Event' />} />
+                            <Route path="/:lang/Roll" element={<Roll pageName='Roll' />} />
+                            <Route path="/*" element={<Navigate to={`/${defaultLang}/index`} />} />
                         </Routes>
                     </Suspense>
                 </div>

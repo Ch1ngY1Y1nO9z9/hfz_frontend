@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link, Route, Routes, useParams, useNavigate } from 'react-router-dom'
 
 import Loading from '../../../components/Loading'
@@ -11,8 +11,12 @@ import { FormattedMessage } from 'react-intl'
 
 
 function Profiles(props) {
-    const [isLoading, setisLoading] = useState(true)
+
+    const { lang: { lang }, light, pageName } = props
+
+    const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState({}) //取得人物基本資料
+    const [updatePage, setPageUpdate] = useState(false);
 
     const params = useParams()
     const navigate = useNavigate();
@@ -25,29 +29,74 @@ function Profiles(props) {
                 const result = await getData.json()
 
                 setData(result)
-                setisLoading(false)
+                setisLoading(0)
+                backToTop()
             } catch (error) {
-                console.log(error)
+                // alert('>:)');
+                // navigate(`/${lang}/Wrestlers/All`)
             }
         }
 
         getData('Detail')
-    }, [])
+
+    }, [updatePage, params.name])
+
+    function backToTop() {
+        document.documentElement.scrollTop = 0;
+    }
+
+    function updateHandler(name) {
+        if (name.toLowerCase() !== 'battler' && name.toLowerCase() !== 'john cena') {
+            if (name) navigate(`/${lang}/Wrestlers/Profile/${name}`)
+
+            setPageUpdate(!updatePage)
+        }
+
+        if (name.toLowerCase() === 'battler') alert('MAGIC IS NOT REAL!!')
+
+        if (name.toLowerCase() === 'john cena') alert("YOU CAN'T SEE HIM :) ")
+    }
+
+    // 取得前頁網址來判斷是否要單純回上頁或重新導向到ALL或指定期生畫面
+    function checkRoute() {
+        const prev_link = document.referrer
+
+        if (prev_link === '') {
+            navigate(`/${lang}/Wrestlers/All`)
+        } else {
+            const current_link = window.location.pathname
+            if (prev_link.indexOf('All') === -1) {
+                navigate(`/${lang}/Wrestlers/`)
+            } else {
+                navigate(-1)
+            }
+        }
+
+    }
+
 
     return (
-        <section className={`min-h-screen pt-12 ${props.light ? 'bg-white' : 'bg-black'}`}>
+        <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
 
             <div className="container mx-auto flex px-5 pt-12 md:flex-row flex-col items-center">
-                <div onClick={() => { navigate(-1) }} className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    <i className="fas fa-arrow-left"></i> Back to Wrestlers Profile
+                <div onClick={() => { checkRoute() }} className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out cursor-pointer">
+                    <i className="fas fa-arrow-left"></i>
+                    <FormattedMessage id={`app.${pageName}.Back`} defaultMessage='Back to Wrestlers Profile' />
                 </div>
             </div>
             {
                 isLoading ? <Loading /> : <div>
-                    <CharactersDetail data={data} />
-                    <MatchRecords data={params.name} />
-                    <WinLoseRate data={data.id} />
-                    <MatchClips data={data.clips} />
+                    <CharactersDetail data={{ data, ...props, updateHandler }} />
+                    <Fanbase data={{ name: data.detail.fan_name, ...props }} />
+                    {
+                        !data.isVisible
+                            ? ''
+                            : <div>
+                                <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} />
+                                <WinLoseRate data={{ name: params.name, pageName }} />
+                                <MatchClips data={{ name: params.name, clips: data.clips, pageName }} />
+                            </div>
+                    }
                 </div>
 
             }
@@ -56,47 +105,83 @@ function Profiles(props) {
 }
 
 function CharactersDetail(props) {
-    const { data, data: { detail } } = props
+    const { data, data: { detail }, updateHandler, pageName, lang: { lang } } = props.data
+
+    const [outfit, setOutfit] = useState(data.picture)
+    const [outfitName, setOutfitName] = useState('Default')
+
+    function changOutfit(e,Name) {
+        const outfitpath = e.target.getAttribute('src');
+        setOutfit(outfitpath);
+        setOutfitName(Name)
+    }
 
     return (
         <div className="container mx-auto flex px-5 pb-12 md:flex-row flex-col items-center">
-            <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={data.picture} />
+            <div className="py-5 px-10 mb-10 md:mb-0 lg:flex hidden flex-col h-[600px]">
+                {
+                    data.outfits.lenght === 0
+                        ? ''
+                        : data.outfits.map((outfit) => {
+                            return (
+                                <div key={outfit.id} onClick={(e)=>{ changOutfit(e, outfit.outfit_name) }} className="relative mb-5 group outfit">
+                                    <div className="border-4 border-gray-500 rounded-full overflow-hidden w-[150px] h-[150px] border-sky-500">
+                                        <img className="w-full" src={outfit.image_link} alt={outfit.name_short} />
+                                    </div>
+                                    <span className="absolute bottom-0 right-0 text-black text-xl">
+                                        <i className="fas fa-search"></i>
+                                    </span>
+                                </div>
+
+                            )
+                        })
+                }
+            </div>
+            <div className='mb-10 md:mb-0'>
+                <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={outfit} />
+                <h3 className='text-lg title-font tracking-widest text-center'>{data.name_short} - {outfitName}</h3>
             </div>
             <div
                 className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
                 <h2 className="text-sm title-font text-gray-500 tracking-widest ml-1">
-                    {data.gens.generations}
+                    {
+                        data.gens
+                            ? <Link to={`/${lang}/Wrestlers/${data.gens.generations.replace(/\s+/g, '')}`} className="font-bold hover:underline hover:text-blue-500">
+                                <FormattedMessage id={`app.Profiles.${data.gens.generations.replace(/\s+/g, '')}`} defaultMessage={data.gens.generations} />
+                            </Link>
+                            : 'Cover'
+                    }
+
                 </h2>
 
 
-                <h1 className="text-3xl title-font font-medium mb-1 font-bold mt-1">
+                <h1 className="flex text-3xl title-font font-medium mb-1 font-bold mt-1">
 
                     {data.isHolochampion
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fas fa-crown text-yellow-500" title="HOLO CHAMPION"></i>
-                            CURRENT HOLO CHAMPION
+                            <FormattedMessage id={`app.${pageName}.CHAMPION`} defaultMessage='CURRENT HOLO CHAMPION' />
                         </div> : ''
                     }
 
-                    {data.isHolochampion
+                    {data.isTagTeamChampion
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fas fa-tags text-yellow-500" title="TAG TEAM CHAMPION"></i>
-                            CURRENT TAG TEAM CHAMPION
+                            <FormattedMessage id={`app.${pageName}.TAGCHAMPION`} defaultMessage='CURRENT TAG TEAM CHAMPION' />
                         </div> : ''
                     }
 
-                    {data.isHolochampion
+                    {data.isQoj
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fab fa-accessible-icon text-yellow-500" title="QUEEN OF JOBBER"></i>
-                            CURRENT QUEEN OF JOBBER
+                            <FormattedMessage id={`app.${pageName}.Qoj`} defaultMessage='CURRENT QUEEN OF JOBBER' />
                         </div> : ''
                     }
 
-                    {data.isHolochampion
+                    {data.haveBriefcase
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fas fa-briefcase text-blue-500" title="briefcase owner"></i>
-                            BRIEFCASE OWNER
+                            <FormattedMessage id={`app.${pageName}.BRIEFCASE`} defaultMessage='BRIEFCASE OWNER' />
                         </div> : ''
                     }
 
@@ -123,39 +208,81 @@ function CharactersDetail(props) {
                             : ''
                     }
 
-                    {data.name_jp} <br className="md:hidden block" /> / {data.name_en}
+                    <FormattedMessage id={`app.Characters.${data.name_short}`} defaultMessage={data.name_en} />
+
                 </h1>
                 <div className="flex mb-4">
                     <span className="flex items-center">
                         <span className="text-gray-600 ml-1">@ {data.aka}</span>
                     </span>
                     <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                        <a rel="noreferrer" target="_blank" href={`${data.twitter_link}`} className=" text-[#1da1f2]">
-                            <i className="fab fa-twitter"></i>
-                        </a>
-                        <a rel="noreferrer" target="_blank" href={`${data.youtube_link}`}
-                            className="ml-2 text-[#ff0000]">
-                            <i className="fab fa-youtube"></i>
-                        </a>
+                        {
+                            !data.twitter_link
+                                ? ''
+                                : <a rel="noreferrer" target="_blank" href={`${data.twitter_link}`} className=" text-[#1da1f2]">
+                                    <i className="fab fa-twitter"></i>
+                                </a>
+                        }
+                        {
+                            !data.twitter_link
+                                ? ''
+                                : <a rel="noreferrer" target="_blank" href={`${data.youtube_link}`}
+                                    className="ml-2 text-[#ff0000]">
+                                    <i className="fab fa-youtube"></i>
+                                </a>
+                        }
                     </span>
                 </div>
 
-                <p>Debut: <span className="font-bold">{detail.debut}</span></p>
-                <p><br />Birthday: <span className="font-bold">{detail.birth_day}</span></p>
-                <p><br />Weight: <span className="font-bold">{detail.weight} lb</span></p>
-                <p><br />Fan base name: <span className="font-bold"> {detail.fan_name} </span></p>
-                <p><br />Signature: <span className="font-bold"> {detail.signature} </span></p>
-                <p>Finisher: <span className="font-bold"> {detail.finisher} </span></p>
+                <p>
+                    <FormattedMessage id={`app.${pageName}.debut`} defaultMessage='Debut' />:
+                    <span className="font-bold">
+                        <Link to={`/${lang}/Previous/${detail.debut.split(' ')[1]}`}>
+                            {` ${detail.debut}`}
+                        </Link>
+                    </span>
+                </p>
+                <p>
+                    <br /><FormattedMessage id={`app.${pageName}.birthday`} defaultMessage='Birthday' />: <span className="font-bold">
+                        <FormattedMessage id={`app.Characters.birthday.${data.name_short}.${detail.birth_day.replace(/\s+/g, '').toLowerCase()}`} defaultMessage={detail.birth_day} />
+                    </span>
+                </p>
+                <p>
+                    <br /><FormattedMessage id={`app.${pageName}.weight`} defaultMessage='Weight' />: <span className="font-bold">{detail.weight} <FormattedMessage id={`app.${pageName}.lb`} defaultMessage='lb' /></span>
+                </p>
+                <p>
+                    <br /><FormattedMessage id={`app.${pageName}.fans`} defaultMessage='Fan base name' />: <span className="font-bold">
+                        {detail.fan_name}
+                    </span>
+                </p>
+                <p>
+                    <br /><FormattedMessage id={`app.${pageName}.sig`} defaultMessage='Signature' />: <span className="font-bold">
+                        {detail.signature}
+                    </span>
+                </p>
+                <p>
+                    <FormattedMessage id={`app.${pageName}.finisher`} defaultMessage='Finisher' />: <span className="font-bold">
+                        {detail.finisher}
+                    </span>
+                </p>
 
                 <p>
-                    <br />tag team name:
+                    <br />
+                    <FormattedMessage id={`app.${pageName}.teamName`} defaultMessage='tag team name' />:
                     <span className="font-bold"> {detail.team_name === null ? '-' : detail.team_name} </span>
                 </p>
                 <p>
-                    <br />teamate:
-                    <a href="/WrestlersProfile/???">
-                        <span className="font-bold"> {detail.tag_with === null ? '-' : detail.tag_with} </span>
-                    </a>
+                    <br /><FormattedMessage id={`app.${pageName}.tagwith`} defaultMessage='team mate' />:{
+                        !detail.tag_with
+                            ? <span className="font-bold">-</span>
+                            : detail.tag_with.split(',').map((mate, index, ary) => {
+                                return (
+                                    <span key={index} onClick={() => { updateHandler(mate) }} className="font-bold hover:text-blue-500 hover:underline cursor-pointer">
+                                        <FormattedMessage id={`app.Characters.${mate}`} defaultMessage={` ${mate}`} /> {ary.length !== 1 && ary.length - 1 !== index ? ',' : ''}
+                                    </span>
+                                )
+                            })
+                    }
 
                 </p>
             </div>
@@ -163,54 +290,154 @@ function CharactersDetail(props) {
     )
 }
 
-function MatchRecords(props) {
-    const [isLoading, setisLoading] = useState(true)
-    const [data, setData] = useState({}) //取得人物基本資料
+function Fanbase(props) {
+    const { name, light, pageName } = props.data
 
-    const params = useParams()
+    const [isLoading, setisLoading] = useState(1)
+    const [data, setData] = useState({}) //取得粉絲基本資料
 
     useEffect(() => {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getMatches/${params.name}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getFanbase/${name}`, { method: "post" })
                 const result = await getData.json()
 
-                setData(result)
-                setisLoading(false)
+                setData(result.data)
+                setisLoading(0)
             } catch (error) {
                 console.log(error)
             }
         }
-
+        setisLoading(1)
         getData('Detail')
-    }, [])
+    }, [name])
 
     return (
-        <div className="container px-5 pb-12 mx-auto text-black">
-            <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold">Match Records</h1>
-            </div>
-            <div className="-my-8 divide-y-2 bg-gray-200 divide-gray-100 h-[635px] overflow-x-auto">
+        <div className={`flex flex-col text-center w-full mb-10 lg:mb-20 ${light ? 'hidden' : 'block'}`}>
+            <div className="container mx-auto">
                 {
-                    isLoading ? <Loading /> : data.map((matches) => {
+                    isLoading
+                        ? <Loading />
+                        : !data ? '' : <div className="flex px-5 pb-12 md:flex-row flex-col items-center"> <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                            <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={data.img} />
+                        </div>
+                            <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left">
 
-                        return (
-                            <div key={matches.id} className="p-4 block md:flex flex-wrap md:flex-nowrap">
-                                <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0  block md:flex flex-col">
-                                    <span className="font-semibold title-font">Stream {matches.stream_id}</span>
-                                </div>
-                                <div className="md:flex-grow">
-                                    <h2 className="text-2xl font-medium title-font mb-2 text-gray-700"> {matches.type} - {matches.rule}</h2>
-                                    <p className="leading-relaxed">Participants:</p>
-                                    <p className="leading-relaxed font-bold">{matches.participants}</p>
-                                    <p className="leading-relaxed"><br />Winners:</p>
-                                    <p className={`leading-relaxed font-bold ${matches.result === 'Draw' ? 'text-yellow-700' : 'text-red-600'}`}>{matches.result}</p>
-                                </div>
+                                <h1 className="text-3xl title-font font-medium mb-1 font-bold mt-1">
+                                    <FormattedMessage id={`app.${pageName}.fans`} defaultMessage='Fanbase' />: <FormattedMessage id={`app.${pageName}.fanbase.${data.fan_name.replace(/\s+/g, '')}`} defaultMessage={data.fan_name} />
+                                </h1>
+                                <p>
+                                    <br /><FormattedMessage id={`app.${pageName}.weight`} defaultMessage='WEIGHT' />: <span className="font-bold">{data.weight} <FormattedMessage id={`app.${pageName}.lb`} defaultMessage='lb' /></span>
+                                </p>
+                                <p>
+                                    <br /><FormattedMessage id={`app.${pageName}.height`} defaultMessage='HEIGHT' />: <span className="font-bold">{data.height}"</span>
+                                </p>
+                                <p>
+                                    <br /><FormattedMessage id={`app.${pageName}.sig`} defaultMessage='Signature' />: <span className="font-bold"> {data.signature} </span>
+                                </p>
+                                <p>
+                                    <FormattedMessage id={`app.${pageName}.finisher`} defaultMessage='Finisher' />: <span className="font-bold"> {data.finisher} </span>
+                                </p>
                             </div>
-                        )
+                        </div>
+                }
+            </div>
+        </div>
 
-                    })
+
+    )
+}
+
+function MatchRecords(props) {
+    const { name, pageName, updateHandler, lang } = props.data
+
+    const [isLoading, setisLoading] = useState(1)
+    const [data, setData] = useState({}) //取得人物基本資料
+
+    useEffect(() => {
+
+        async function getData(page) {
+            try {
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getMatches/${name}`, { method: "post" })
+                const result = await getData.json()
+
+                setData(result)
+                setisLoading(0)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        setisLoading(1)
+        getData('Detail')
+    }, [name])
+
+    return (
+        <div id="Fanbase" className="container px-5 pb-12 mx-auto">
+            <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
+                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                    <FormattedMessage id={`app.${pageName}.MatchRecords`} defaultMessage='Match Records' />
+
+                </h1>
+            </div>
+            <div className="-my-8 divide-y-2 bg-gray-200 divide-gray-100 max-h-[635px] overflow-x-auto">
+                {
+                    isLoading
+                        ? <Loading />
+                        : data.map((matches) => {
+                            return (
+                                <div key={matches.id} className="p-4 block md:flex flex-wrap md:flex-nowrap text-black">
+                                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0  block md:flex flex-col">
+                                        <span className="font-semibold title-font">
+                                            <Link to={`/${lang}/Previous/${matches.stream_id}`} className='hover:text-blue-500 hover:underline'>
+                                                <FormattedMessage id={`app.${pageName}.Stream`} defaultMessage='Stream' /> {matches.stream_id}
+                                            </Link>
+
+                                        </span>
+                                    </div>
+                                    <div className="md:flex-grow">
+                                        <h2 className="text-2xl font-medium title-font mb-2 text-gray-700">
+                                            <FormattedMessage id={`app.${pageName}.${matches.type}`} defaultMessage={matches.type} /> - {matches.rule}
+                                        </h2>
+                                        <p className="leading-relaxed">
+                                            <FormattedMessage id={`app.${pageName}.Participants`} defaultMessage='Participants' />:
+                                        </p>
+                                        <p className="leading-relaxed font-bold">
+                                            {JSON.parse(matches.participants).map((team, $key) => {
+                                                const links = team.split(',').map((wrestler, index) => {
+                                                    return <span key={index}> {index !== 0 ? ' , ' : ''} {$key !== 0 && index === 0 ? ' / ' : ''}
+                                                        <Link to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
+                                                            <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={`${wrestler}`} />
+                                                        </Link>
+                                                    </span>
+                                                })
+
+                                                return links
+                                            })}
+                                        </p>
+                                        <p className="leading-relaxed">
+                                            <br />
+                                            <FormattedMessage id={`app.${pageName}.Winners`} defaultMessage='Winners' />:
+                                        </p>
+                                        <p className={`leading-relaxed font-bold ${matches.result === 'Draw' ? 'text-yellow-700' : matches.result === 'crashed' ? '' : 'text-red-600'}`}>
+                                            {
+                                                matches.result === 'Draw'
+                                                    ? <FormattedMessage id={`app.${pageName}.Draw`} defaultMessage='Draw' />
+                                                    : matches.result === 'crashed'
+                                                        ? <FormattedMessage id={`app.${pageName}.Crashed`} defaultMessage='Crashed' />
+                                                        : matches.result.split(',').map((mate, index, ary) => {
+                                                            return (
+                                                                <span key={index} onClick={() => { updateHandler(mate) }} className="font-bold hover:text-blue-500 hover:underline cursor-pointer">
+                                                                    <FormattedMessage id={`app.Characters.${mate}`} defaultMessage={mate} /> {ary.length !== 1 && ary.length - 1 !== index ? ',' : ''}
+                                                                </span>
+                                                            )
+                                                        })
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+                        })
                 }
             </div>
         </div >
@@ -218,20 +445,20 @@ function MatchRecords(props) {
 }
 
 function WinLoseRate(props) {
-    const [isLoading, setisLoading] = useState(true)
-    const [data, setData] = useState({}) //取得人物基本資料
+    const { name, pageName } = props.data
 
-    const params = useParams()
+    const [isLoading, setisLoading] = useState(1)
+    const [data, setData] = useState({}) //取得人物基本資料
 
     useEffect(() => {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getWinLoseRate/${params.name}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getWinLoseRate/${name}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
-                setisLoading(false)
+                setisLoading(0)
             } catch (error) {
                 console.log(error)
             }
@@ -243,78 +470,94 @@ function WinLoseRate(props) {
     return (
         <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">Win Lose Ratio</h1>
+                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                    <FormattedMessage id={`app.${pageName}.WinLoseRatio`} defaultMessage='Win Lose Ratio' />
+                </h1>
             </div>
             <div className="flex flex-col">
                 {
-                    isLoading ? <Loading /> : <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
-                        <div className="rounded overflow-hidden shadow bg-white text-black mx-2 w-full">
-                            <div className="overflow-y-auto w-full">
-                                <table className="w-full text-center h-[250px]">
-                                    <thead className="bg-gray-400 text-white text-normal">
-                                        <tr>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Total</th>
-                                            <th scope="col">Win</th>
-                                            <th scope="col">Lose</th>
-                                            <th scope="col">Draw</th>
-                                            <th scope="col">Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="font-bold">
-                                                all
-                                            </td>
-                                            <td>{data.total}</td>
-                                            <td>{data.total_win}</td>
-                                            <td>{data.total_lose}</td>
-                                            <td>{data.total_draw}</td>
-                                            <td>
-                                                <span className="text-green-500 font-bold">{data.total_win_rate}%</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-bold">
-                                                1 v 1
-                                            </td>
-                                            <td>{data.single_total}</td>
-                                            <td>{data.single_win}</td>
-                                            <td>{data.single_lose}</td>
-                                            <td>{data.single_draw}</td>
-                                            <td>
-                                                <span className="text-green-500 font-bold">{data.single_win_rate}%</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-bold">
-                                                2 v 2
-                                            </td>
-                                            <td>{data.tag_total}</td>
-                                            <td>{data.tag_win}</td>
-                                            <td>{data.tag_lose}</td>
-                                            <td>{data.tag_draw}</td>
-                                            <td>
-                                                <span className="text-green-500 font-bold">{data.tag_win_rate}%</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-bold">
-                                                Multi
-                                            </td>
-                                            <td>{data.multi_total}</td>
-                                            <td>{data.multi_win}</td>
-                                            <td>{data.multi_lose}</td>
-                                            <td>{data.multi_draw}</td>
-                                            <td>
-                                                <span className="text-green-500 font-bold">{data.multi_win_rate}%</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    isLoading
+                        ? <Loading />
+                        : <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                            <div className="rounded overflow-hidden shadow bg-white text-black mx-2 w-full">
+                                <div className="overflow-y-auto w-full">
+                                    <table className="w-full text-center h-[250px]">
+                                        <thead className="bg-gray-400 text-white text-normal">
+                                            <tr>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Type`} defaultMessage='Type' />
+                                                </th>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Total`} defaultMessage='Total' />
+                                                </th>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Win`} defaultMessage='Win' />
+                                                </th>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Lose`} defaultMessage='Lose' />
+                                                </th>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Draw`} defaultMessage='Draw' />
+                                                </th>
+                                                <th scope="col">
+                                                    <FormattedMessage id={`app.${pageName}.Rate`} defaultMessage='Rate' />
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td className="font-bold">
+                                                    <FormattedMessage id={`app.${pageName}.all`} defaultMessage='all' />
+                                                </td>
+                                                <td>{data.total}</td>
+                                                <td>{data.total_win}</td>
+                                                <td>{data.total_lose}</td>
+                                                <td>{data.total_draw}</td>
+                                                <td>
+                                                    <span className="text-green-500 font-bold">{data.total_win_rate}%</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-bold">
+                                                    <FormattedMessage id={`app.${pageName}.1v1`} defaultMessage='1 v 1' />
+                                                </td>
+                                                <td>{data.single_total}</td>
+                                                <td>{data.single_win}</td>
+                                                <td>{data.single_lose}</td>
+                                                <td>{data.single_draw}</td>
+                                                <td>
+                                                    <span className="text-green-500 font-bold">{data.single_win_rate}%</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-bold">
+                                                    <FormattedMessage id={`app.${pageName}.2v2`} defaultMessage='2 v 2' />
+                                                </td>
+                                                <td>{data.tag_total}</td>
+                                                <td>{data.tag_win}</td>
+                                                <td>{data.tag_lose}</td>
+                                                <td>{data.tag_draw}</td>
+                                                <td>
+                                                    <span className="text-green-500 font-bold">{data.tag_win_rate}%</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-bold">
+                                                    <FormattedMessage id={`app.${pageName}.MULTi`} defaultMessage='MULTi' />
+                                                </td>
+                                                <td>{data.multi_total}</td>
+                                                <td>{data.multi_win}</td>
+                                                <td>{data.multi_lose}</td>
+                                                <td>{data.multi_draw}</td>
+                                                <td>
+                                                    <span className="text-green-500 font-bold">{data.multi_win_rate}%</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 }
             </div>
         </div>
@@ -323,19 +566,21 @@ function WinLoseRate(props) {
 
 function MatchClips(props) {
 
-    const { data } = props
+    const { clips, pageName } = props.data
 
 
     return (
         <div className="container px-5 pb-24 mx-auto hidden sm:block">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">Match Clips</h1>
+                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                    <FormattedMessage id={`app.${pageName}.Clips`} defaultMessage='Clips' />
+                </h1>
             </div>
             <div className="flex flex-wrap -m-4">
 
                 {
-                    data.map((clip) => {
-                        return <div className="p-4 lg:w-1/2 w-full">
+                    clips.map((clip) => {
+                        return <div key={clip.id} className="p-4 lg:w-1/2 w-full">
                             <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
                                 <div className="flex items-center mb-3">
                                     <div
@@ -351,7 +596,7 @@ function MatchClips(props) {
                                     <h2 className="text-lg title-font font-bold text-gray-600">{clip.clip_title}</h2>
                                 </div>
                                 <div className="flex-grow">
-                                    <iframe width="100%" height="375" src={`https://www.youtube.com/embed/${clip.embed_code}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <iframe width="100%" height="375" src={`https://www.youtube-nocookie.com/embed/${clip.embed_code}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                                 </div>
                             </div>
                         </div>

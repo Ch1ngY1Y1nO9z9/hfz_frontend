@@ -23,21 +23,21 @@ import SwiperCore, {
 
 
 function Index(props) {
+
     return (
-        <Fragment >
-            <Banner pageName={props.pageName} live={props.live} />
-            <About pageName={props.pageName} light={props.light} />
-            <News pageName={props.pageName} light={props.light} />
-            <Ranking pageName={props.pageName} light={props.light} />
-            <PREVIOUS pageName={props.pageName} light={props.light} />
+        <Fragment>
+            <Banner data={props} />
+            <About data={props} />
+            <News  data={props} />
+            <Ranking  data={props} />
+            <PREVIOUS  data={props} />
         </Fragment >
     )
 }
 
 function Banner(props) {
     const textShadow = "#c8c8c8 1px 1px 0px, #b4b4b4 0px 2px 0px, #a0a0a0 0px 3px 0px, rgba(140, 140, 140, 0.498039) 0px 4px 0px, #787878 0px 0px 0px, rgba(0, 0, 0, 0.498039) 0px 5px 10px"
-    const { pageName } = props
-    const { live } = props
+    const { pageName, live } = props.data
 
 
     return (
@@ -77,10 +77,10 @@ function Banner(props) {
 }
 
 function About(props) {
-    const { pageName } = props
+    const { pageName, light } = props.data
 
     return (
-        <section className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
+        <section className={`py-8 ${light ? 'bg-white' : 'bg-black'}`}>
             <div className="container max-w-5xl mx-auto m-8">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
                     <FormattedMessage id={`app.${pageName}.About`} defaultMessage='ABOUT HOLOFIGHTZ' />
@@ -108,6 +108,7 @@ function About(props) {
 }
 
 function News(props) {
+    const { pageName, light, lang:{lang} } = props.data
     const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
@@ -121,18 +122,17 @@ function News(props) {
                 console.log(error)
             }
         }
-
-        getData('Index')//Fetch取得資料
-    }, [])
+        if(!data.length) getData('Index')//Fetch取得資料
+    }, [data])
 
     const Today = new Date();
     const date = Today.getFullYear() + '/' + (Today.getMonth() + 1) + '/' + Today.getDate()
 
     return (
-        <section className={`py-8 ${props.light ? 'bg-gray-100' : 'bg-gray-900'}`}>
+        <section className={`py-8 ${light ? 'bg-gray-100' : 'bg-gray-900'}`}>
             <div className="container mx-auto flex flex-wrap pt-4 pb-12">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
-                    <FormattedMessage id={`app.${props.pageName}.News`} defaultMessage='FightZ News' />
+                    <FormattedMessage id={`app.${pageName}.News`} defaultMessage='FightZ News' />
                 </h1>
                 <div className="w-full mb-4">
                     <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -146,8 +146,12 @@ function News(props) {
                                     <div className="h-full bg-gray-200 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                                         <h2 className="tracking-widest text-xl title-font font-medium mb-1 text-blue-400">
                                         </h2>
-                                        <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">{news.title}</h1>
-                                        <p className="leading-relaxed mb-3 text-gray-800">{news.description}</p>
+                                        <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
+                                            {news.title}
+                                        </h1>
+                                        <p className="leading-relaxed mb-3 text-gray-800">
+                                            {news.description}
+                                        </p>
                                         <div className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4">
                                             {
                                                 date === news.date ? <span className="text-white bg-red-600 px-2 inline-flex items-center leading-none text-sm">
@@ -157,7 +161,8 @@ function News(props) {
                                             <span className="mr-3 inline-flex items-center leading-none text-sm pr-3 py-1 border-r-2 border-gray-200 text-black">
                                                 Date: {news.date}
                                             </span>
-                                            <Link to={`/FightZNews/${news.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">Learn More
+                                            <Link to={`/${lang}/FightZNews/${news.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">
+                                            <FormattedMessage id={`app.${pageName}.LearnMore`} defaultMessage='Learn More' />
                                                 <i className="fas fa-arrow-right ml-2"></i>
                                             </Link>
                                         </div>
@@ -173,6 +178,7 @@ function News(props) {
 }
 
 function Ranking(props) {
+    const { pageName, light, lang:{lang} } = props.data
     const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
@@ -187,11 +193,11 @@ function Ranking(props) {
             }
         }
 
-        getData('Index')//Fetch取得資料
-    }, [])
+        if(!data.length) getData('Index')//Fetch取得資料
+    }, [data])
 
     return (
-        <section className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
+        <section className={`py-8 ${light ? 'bg-white' : 'bg-black'}`}>
             <div className="container mx-auto flex flex-wrap pt-4 pb-12">
                 <div className="flex flex-wrap w-full gray_800 text-gray-800">
                     {
@@ -200,13 +206,16 @@ function Ranking(props) {
                                 <div key={profile.id} className="p-2 md:p-4 md:w-1/2 w-full">
                                     <div className="h-full p-8 rounded cards-bg bg-gray-100">
                                         <h1 className="w-full my-2 text-4xl md:text-5xl font-bold leading-tight" >
-                                            {profile.toindex === 0 ? 'RANK LEADER' : 'RISING STAR'}
+                                            {profile.toindex === 0
+                                            ? <FormattedMessage id={`app.${pageName}.Rank`} defaultMessage='RANK LEADER' />
+                                            : <FormattedMessage id={`app.${pageName}.Star`} defaultMessage='RISING STAR' />}
                                             <div className="h-1 gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
                                         </h1>
-                                        <Link to={`/WrestlersProfile/${profile.name_short}`}>
+                                        <Link to={`/${lang}/Wrestlers/Profile/${profile.name_short}`}>
                                             <img src={profile.avatar} alt={profile.name_short} />
                                             <span className="flex-grow flex flex-col ">
-                                                <h4 className="md:text-3xl text-2xl font-bold leading-tight">{profile.file_list_name} @{profile.aka}</h4>
+                                                <h4 className="md:text-3xl text-2xl font-bold leading-tight">
+                                                <FormattedMessage id={`app.Characters.${profile.name_short}`} defaultMessage={`${profile.file_list_name}`} /> @{profile.aka}</h4>
                                             </span>
                                         </Link>
                                     </div>
@@ -221,7 +230,7 @@ function Ranking(props) {
 }
 
 function PREVIOUS(props) {
-
+    const { pageName, light } = props.data
     const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
@@ -253,16 +262,17 @@ function PREVIOUS(props) {
             }
         }
 
-        getData('Index')//Fetch取得資料
-    }, [])
+        if(!data.length) getData('Index')//Fetch取得資料
+    }, [data])
 
 
 
     return (
-        <section className={`py-8 ${props.light ? 'bg-gray-100' : 'bg-gray-900'}`}>
+        <section className={`py-8 ${light ? 'bg-gray-100' : 'bg-gray-900'}`}>
             <div className="container mx-auto px-2 pt-4 pb-12 text-white">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
-                    PREVIOUS SHOWS
+                    <FormattedMessage id={`app.${pageName}.Previous`} defaultMessage={`PREVIOUS SHOWS`} />
+                    
                 </h1>
                 <div className="w-full mb-4">
                     <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -280,11 +290,19 @@ function PREVIOUS(props) {
                                                     <div className="md:border border-gray-100 md:p-10">
                                                         <h3 className="text-2xl md:text-5xl leading-tight" style={{ fontFamily: 'Niconne, cursive' }}>{prev.date}</h3>
                                                         <h2 className="font-bold leading-tight md:text-6xl text-3xl">EP {prev.stream_number}</h2>
-                                                        <h4 className="md:text-3xl text-1xl font-bold leading-tight">Watch episode {prev.stream_number} of HoloFightz:</h4>
+                                                        <h4 className="md:text-3xl text-1xl font-bold leading-tight">
+                                                            <FormattedMessage id={`app.Previous.Archive.${prev.stream_number}`} defaultMessage={`Watch episode ${prev.stream_number} of HoloFightz:`} />
+                                                        </h4>
                                                         <ul className="text-1xl mt-3 font-light">
-                                                            <li>{prev.context1}</li>
-                                                            <li>{prev.context2}</li>
-                                                            <li>{prev.context3}</li>
+                                                            <li>
+                                                                <FormattedMessage id={`app.Previous.Archive.Context1.${prev.stream_number}`} defaultMessage={prev.context1} />
+                                                            </li>
+                                                            <li>
+                                                                <FormattedMessage id={`app.Previous.Archive.Context2.${prev.stream_number}`} defaultMessage={prev.context2} />
+                                                            </li>
+                                                            <li>
+                                                                <FormattedMessage id={`app.Previous.Archive.Context3.${prev.stream_number}`} defaultMessage={prev.context3} />
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div className="my-10 md:mx-10 md:-mt-2">

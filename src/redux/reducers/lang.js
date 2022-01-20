@@ -1,12 +1,10 @@
-// 取得初始化資料
-import locale from '../defaultLang.json'
-
-const initData = {lang:'en', locale}
+// import { useNavigate } from 'react-router-dom'
+const initData = {lang:'en'}
 
 
 export default function lang(prev=initData, action) {
     const {type, data} = action
-
+    
     switch (type) {
         case "ChangeLang" :
             return data

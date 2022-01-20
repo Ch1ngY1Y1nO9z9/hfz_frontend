@@ -12,6 +12,8 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
 function Footer(props) {
+    const {lang} = props.lang
+
     return (
         <footer className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <div className="footer-bg">
@@ -23,7 +25,7 @@ function Footer(props) {
 
                         {NavbarButtons.map((button) => {
                             return (
-                                <FooterLinks key={button.id} to={button.link}>
+                                <FooterLinks key={button.id} to={`/${lang}${button.link}`}>
                                     <FormattedMessage id={`app.${button.langId}`} defaultMessage={button.Message} />
                                 </FooterLinks>
                             )
@@ -46,4 +48,4 @@ function Footer(props) {
 }
 
 
-export default connect(state => ({ light: state.light }))(Footer)
+export default connect(state => ({ light: state.light, lang: state.lang }))(Footer)

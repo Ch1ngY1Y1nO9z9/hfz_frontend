@@ -1,1 +1,1 @@
-export const ChangeLang = (data) => ({type: 'ChangeLang', data})
+export const ChangeLang = (data) =>({type: 'ChangeLang', data})
