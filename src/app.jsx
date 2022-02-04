@@ -16,6 +16,7 @@ import { connect } from 'react-redux'
 // 引入React Intl切換語系
 import { FormattedMessage, IntlProvider } from 'react-intl'
 
+
 // 內容頁(lazy load)
 const Index = lazy(() => import('./pages/Index'))
 const News = lazy(() => import('./pages/News'))
@@ -25,8 +26,12 @@ const Profiles = lazy(() => import('./pages/Wrestlers/Profiles'))
 const Previous = lazy(() => import('./pages/Previous'))
 const Matches = lazy(()=> import('./pages/Previous/Content'))
 const Event = lazy(() => import('./pages/Event'))
-const Roll = lazy(() => import('./pages/Roll'))
+const RROL = lazy(() => import('./pages/RRAT'))
+const Roll = lazy(() => import('./pages/RRAT/Roll'))
+const Collection = lazy(() => import('./pages/RRAT/Collection'))
 const FAQ = lazy(() => import('./pages/FAQ'))
+
+
 
 // 傳入App的樣板, 並呼叫action做初始化
 export default connect(
@@ -64,7 +69,7 @@ function App(props) {
     async function getData(page) {
         try {
             // 取得API資料
-            const getData = await fetch(`http://127.0.0.1:8000/api/App/getBackground`, { method: "post" })
+            const getData = await fetch(`http://127.0.0.1:8000/api/App/getBackground`, { method: "post" } )
             const result = await getData.json()
             // 取得是否直播中
 
@@ -189,7 +194,9 @@ function App(props) {
                             <Route path="/:lang/Previous/*" element={<Previous pageName='Previous' />} />
                             <Route path="/:lang/Previous/:id/*" element={<Matches pageName='Previous' />} />
                             <Route path="/:lang/Event" element={<Event pageName='Event' />} />
-                            <Route path="/:lang/Roll" element={<Roll pageName='Roll' />} />
+                            <Route path="/:lang/RROL/:page" element={<RROL pageName='RROL' />} />
+                            <Route path="/:lang/RROL/main/roll" element={<Roll pageName='Roll' />} />
+                            <Route path="/:lang/RROL/main/collectionBook" element={<Collection pageName='Collection' />} />
                             <Route path="/:lang/FAQ" element={<FAQ pageName='FAQ' />} />
                             <Route path="/*" element={<Navigate to={`/${defaultLang}/index`} />} />
                         </Routes>

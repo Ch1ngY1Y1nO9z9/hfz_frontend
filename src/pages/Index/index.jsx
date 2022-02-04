@@ -162,7 +162,7 @@ function News(props) {
                                                 Date: {news.date}
                                             </span>
                                             <Link to={`/${lang}/FightZNews/${news.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">
-                                            <FormattedMessage id={`app.${pageName}.LearnMore`} defaultMessage='Learn More' />
+                                            <FormattedMessage id={`app.${pageName}.ReadMore`} defaultMessage='Read More' />
                                                 <i className="fas fa-arrow-right ml-2"></i>
                                             </Link>
                                         </div>

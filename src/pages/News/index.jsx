@@ -146,7 +146,7 @@ function NewsCards(props) {
                                         className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                                         <i className="fas fa-arrow-right mr-2"></i>
 
-                                        {news.img === null ? <FormattedMessage id={`app.News.ReadMore`} defaultMessage='Read More' /> : <FormattedMessage id={`app.News.FullSize`} defaultMessage='Full size Watch' />}
+                                        {news.img === null ? <FormattedMessage id={`app.News.ReadMore`} defaultMessage='Read More' /> : <FormattedMessage id={`app.News.FullSize`} defaultMessage='Watch full size' />}
                                     </Link>
                                 </div>
                             </div>

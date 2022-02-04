@@ -4,7 +4,7 @@ export const NavbarButtons = [
     {link:'/Wrestlers/All',Message:'Wrestlers Profile',langId:'ProfileTitle',id:'2'},
     {link:'/Previous',Message:'Previous shows',langId:'PreviousTitle',id:'3'},
     {link:'/Event',Message:'Event',langId:'EventTitle',id:'4'},
-    {link:'/Roll',Message:'Roll',langId:'RollTitle',id:'5'}
+    {link:'/RROL/main',Message:'RROL',langId:'RROLTitle',id:'5'}
 ]
 
 export const SocialButtons = [

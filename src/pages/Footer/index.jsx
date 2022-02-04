@@ -20,7 +20,7 @@ function Footer(props) {
         <footer className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
             <div className="footer-bg">
                 <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-                    <p className="text-gray-500 text-sm text-center sm:text-left">© 2020 HolofightZ —
+                    <p className="text-gray-500 text-sm text-center sm:text-left">© 2021 HolofightZ —
                         <a target="_blank" rel="noreferrer noopener" href="https://twitter.com/HoloFightZ" className="text-gray-600 ml-1 py-2 px-4 inline-block no-underline">@holofightz</a>
                     </p>
                     <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start flex-wrap text-gray-500">

@@ -57,7 +57,6 @@ function Profiles(props) {
         if (prev_link === '') {
             navigate(`/${lang}/Wrestlers/All`)
         } else {
-            const current_link = window.location.pathname
             if (prev_link.indexOf('All') === -1) {
                 navigate(`/${lang}/Wrestlers/`)
             } else {
@@ -119,6 +118,10 @@ function CharactersDetail(props) {
         setOutfitName(Name)
     }
 
+    useEffect(()=>{
+        setOutfit(data.picture)
+    },[data])
+
     return (
         <div className="container mx-auto flex px-5 pb-12 md:flex-row flex-col items-center">
             <div className="py-5 px-10 mb-10 md:mb-0 lg:flex hidden flex-col h-[600px]">
@@ -127,9 +130,9 @@ function CharactersDetail(props) {
                         ? ''
                         : data.outfits.map((outfit) => {
                             return (
-                                <div key={outfit.id} onClick={(e) => { changOutfit(e, outfit.outfit_name) }} className="relative mb-5 group outfit">
+                                <div key={outfit.id} className="relative mb-5 group outfit">
                                     <div className="border-4 border-gray-500 rounded-full overflow-hidden w-[150px] h-[150px] border-sky-500">
-                                        <img className="w-full" src={outfit.image_link} alt={outfit.name_short} />
+                                        <img onClick={(e) => { changOutfit(e, outfit.outfit_name) }} className={`w-full ${outfit.outfitName}`} src={outfit.image_link} alt={outfit.name_short} />
                                     </div>
                                     <span className="absolute bottom-0 right-0 text-black text-xl">
                                         <i className="fas fa-search"></i>
@@ -141,7 +144,7 @@ function CharactersDetail(props) {
                 }
             </div>
             <div className='mb-10 md:mb-0'>
-                <img className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={outfit} />
+                <img id="outfit" className="object-cover object-center rounded mx-auto md:mx-0 md:ml-auto h-[400px] md:h-[600px]" alt="hero" src={outfit} />
                 <h3 className='text-lg title-font tracking-widest text-center'>{data.name_short} - {outfitName}</h3>
             </div>
             <div
@@ -158,26 +161,26 @@ function CharactersDetail(props) {
                 </h2>
 
 
-                <h1 className="flex text-3xl title-font font-medium mb-1 font-bold mt-1">
+                <h1 className="text-3xl title-font font-medium mb-1 font-bold mt-1">
 
                     {data.isHolochampion
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fas fa-crown text-yellow-500" title="HOLO CHAMPION"></i>
-                            <FormattedMessage id={`app.${pageName}.CHAMPION`} defaultMessage='CURRENT HOLO CHAMPION' />
+                            <FormattedMessage id={`app.${pageName}.CHAMPION`} defaultMessage='HOLO CHAMPION' />
                         </div> : ''
                     }
 
                     {data.isTagTeamChampion
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fas fa-tags text-yellow-500" title="TAG TEAM CHAMPION"></i>
-                            <FormattedMessage id={`app.${pageName}.TAGCHAMPION`} defaultMessage='CURRENT TAG TEAM CHAMPION' />
+                            <FormattedMessage id={`app.${pageName}.TAGCHAMPION`} defaultMessage='TAG TEAM CHAMPION' />
                         </div> : ''
                     }
 
                     {data.isQoj
                         ? <div className="holo_champion text-2xl md:text-3xl">
                             <i className="fab fa-accessible-icon text-yellow-500" title="QUEEN OF JOBBER"></i>
-                            <FormattedMessage id={`app.${pageName}.Qoj`} defaultMessage='CURRENT QUEEN OF JOBBER' />
+                            <FormattedMessage id={`app.${pageName}.Qoj`} defaultMessage='QUEEN OF JOBBER' />
                         </div> : ''
                     }
 

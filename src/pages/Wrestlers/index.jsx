@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes, useParams, Link, useNavigate, Navigate } from 'react-router-dom'
 
 import Loading from '../../components/Loading'
@@ -19,7 +19,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 // 引入姓名對照表
-import { MembersList, TestList } from '../../staticData'
+import { MembersList } from '../../staticData'
 
 
 function Wrestlers(props) {
@@ -69,7 +69,7 @@ function Wrestlers(props) {
     return (
         <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
 
-            <PagesTitle data={{ title: 'WRESTLERS PROFILE', description: 'All HoloFightZ wrestler personal file, spamming text are in here.', pageName, light }} />
+            <PagesTitle data={{ title: 'WRESTLERS PROFILE', description: 'All HoloFightZ wrestler personal file, spamming text are in here.', pageName:pageName, light:light }} />
 
             <div className="container px-5 mx-auto">
                 <div className="flex flex-col text-center w-full mb-10">
