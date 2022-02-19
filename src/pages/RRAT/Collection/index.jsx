@@ -117,7 +117,10 @@ function Book(props) {
                                 rare.map((card) => {
                                     return (
                                         <SwiperSlide key={card.id}>
-                                            <img alt={card.name} data-src={card.img} className="swiper-lazy" />
+                                            <img alt={card.name} data-src={card.img} className="mx-auto swiper-lazy max-w-none h-[500px]" />
+                                            <h2 id="result_item" className={`text-3xl font-medium title-font mb-1 tracking-widest font-bold`}>
+                                                {card.name}
+                                            </h2>
                                             <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                                         </SwiperSlide>
                                     )

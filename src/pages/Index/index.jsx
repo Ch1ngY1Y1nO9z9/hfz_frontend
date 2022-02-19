@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from 'react'
+import React, { useEffect, Fragment, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 // Banner的波浪圖
 import Wave from './wave.jsx';
@@ -28,9 +28,10 @@ function Index(props) {
         <Fragment>
             <Banner data={props} />
             <About data={props} />
-            <News  data={props} />
-            <Ranking  data={props} />
-            <PREVIOUS  data={props} />
+            <News data={props} />
+            <Ranking data={props} />
+            <PREVIOUS data={props} />
+            <ContactUs data={props} />
         </Fragment >
     )
 }
@@ -108,7 +109,7 @@ function About(props) {
 }
 
 function News(props) {
-    const { pageName, light, lang:{lang} } = props.data
+    const { pageName, light, lang: { lang } } = props.data
     const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
@@ -122,7 +123,7 @@ function News(props) {
                 console.log(error)
             }
         }
-        if(!data.length) getData('Index')//Fetch取得資料
+        if (!data.length) getData('Index')//Fetch取得資料
     }, [data])
 
     const Today = new Date();
@@ -162,7 +163,7 @@ function News(props) {
                                                 Date: {news.date}
                                             </span>
                                             <Link to={`/${lang}/FightZNews/${news.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">
-                                            <FormattedMessage id={`app.${pageName}.ReadMore`} defaultMessage='Read More' />
+                                                <FormattedMessage id={`app.${pageName}.ReadMore`} defaultMessage='Read More' />
                                                 <i className="fas fa-arrow-right ml-2"></i>
                                             </Link>
                                         </div>
@@ -178,7 +179,7 @@ function News(props) {
 }
 
 function Ranking(props) {
-    const { pageName, light, lang:{lang} } = props.data
+    const { pageName, light, lang: { lang } } = props.data
     const [data, setData] = useState([]) //取得頁面資料
 
     useEffect(() => {
@@ -193,7 +194,7 @@ function Ranking(props) {
             }
         }
 
-        if(!data.length) getData('Index')//Fetch取得資料
+        if (!data.length) getData('Index')//Fetch取得資料
     }, [data])
 
     return (
@@ -207,15 +208,15 @@ function Ranking(props) {
                                     <div className="h-full p-8 rounded cards-bg bg-gray-100">
                                         <h1 className="w-full my-2 text-4xl md:text-5xl font-bold leading-tight" >
                                             {profile.toindex === 0
-                                            ? <FormattedMessage id={`app.${pageName}.Rank`} defaultMessage='RANK LEADER' />
-                                            : <FormattedMessage id={`app.${pageName}.Star`} defaultMessage='RISING STAR' />}
+                                                ? <FormattedMessage id={`app.${pageName}.Rank`} defaultMessage='RANK LEADER' />
+                                                : <FormattedMessage id={`app.${pageName}.Star`} defaultMessage='RISING STAR' />}
                                             <div className="h-1 gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
                                         </h1>
                                         <Link to={`/${lang}/Wrestlers/Profile/${profile.name_short}`}>
                                             <img src={profile.avatar} alt={profile.name_short} />
                                             <span className="flex-grow flex flex-col ">
                                                 <h4 className="md:text-3xl text-2xl font-bold leading-tight">
-                                                <FormattedMessage id={`app.Characters.${profile.name_short}`} defaultMessage={`${profile.file_list_name}`} /> @{profile.aka}</h4>
+                                                    <FormattedMessage id={`app.Characters.${profile.name_short}`} defaultMessage={`${profile.file_list_name}`} /> @{profile.aka}</h4>
                                             </span>
                                         </Link>
                                     </div>
@@ -262,7 +263,7 @@ function PREVIOUS(props) {
             }
         }
 
-        if(!data.length) getData('Index')//Fetch取得資料
+        if (!data.length) getData('Index')//Fetch取得資料
     }, [data])
 
 
@@ -272,7 +273,7 @@ function PREVIOUS(props) {
             <div className="container mx-auto px-2 pt-4 pb-12 text-white">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
                     <FormattedMessage id={`app.${pageName}.Previous`} defaultMessage={`PREVIOUS SHOWS`} />
-                    
+
                 </h1>
                 <div className="w-full mb-4">
                     <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -330,5 +331,116 @@ function PREVIOUS(props) {
     )
 }
 
-export default connect(state => ({ light: state.light, lang: state.lang }))(Index)
+function ContactUs(props) {
+    const { lang, light } = props.data
 
+    const nameInput = useRef('')
+
+    const emailInput = useRef('')
+
+    const contentInput = useRef('')
+
+    function ContactSubmit()
+    {
+        const name = nameInput.current.value
+        const email = emailInput.current.value
+        const content = contentInput.current.value
+
+        if (!name) {
+            nameInput.current.focus()
+            return false
+        }
+        else if (!email) {
+            emailInput.current.focus()
+            return false
+        }else if (!content) {
+            contentInput.current.focus()
+            return false
+        }
+
+        // 檢查email是否格式正確
+        if(email.indexOf('@') === -1){
+            alert('please enter correct email address format')
+        }
+
+        const data = {
+            name,
+            email,
+            content
+        }
+
+        fetch('http://127.0.0.1:8000/api/Index/contact', {
+            method: "POST",
+            body: JSON.stringify(data),
+            credentials: 'include',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            mode: 'cors'
+        })
+        .catch(error => {
+            console.log('error:', error)
+        })
+        .then(res => res.json())
+        .then(res => {
+            nameInput.current.value = 'anons'
+            emailInput.current.value = ''
+            contentInput.current.value = ''
+
+            alert(res)
+        })
+
+    }
+
+    function checkInput() {
+        nameInput.current.value = nameInput.current.value.replace(/\s+/g, '')
+        emailInput.current.value = emailInput.current.value.replace(/\s+/g, '')
+    }
+
+    return (
+        <section id="Contact" className="text-center py-6">
+            <div className="container px-5 py-12 md:py-24 mx-auto">
+                <h1 className={`w-full my-2 text-5xl font-bold leading-tight text-center text-white`}>
+                    Contact Us
+                </h1>
+                <div className="w-full mb-4">
+                    <div className="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+                </div>
+                <h3 className={`my-4 text-3xl leading-tight text-white`}>
+                    If you have any match idea or fan art, even promote<br />
+                    We're all welcome you sent the link to us.
+                </h3>
+                <div className="lg:w-1/2 md:w-2/3 mx-auto">
+                    <div id="ContactForm">
+                        <div className="flex flex-wrap -m-2">
+                            <div className="p-2 w-1/2">
+                                <div className="relative">
+                                    <label htmlFor="name" className="leading-7 text-sm text-white">Name</label>
+                                    <input ref={nameInput} onChange={()=> checkInput()} type="text" id="name" name="name" defaultValue={'anons'} className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                                </div>
+                            </div>
+                            <div className="p-2 w-1/2">
+                                <div className="relative">
+                                    <label htmlFor="email" className="leading-7 text-sm text-white">Email</label>
+                                    <input ref={emailInput} onChange={()=> checkInput()} type="email" id="email" name="email" placeholder="if you want us send message back..." className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                                </div>
+                            </div>
+                            <div className="p-2 w-full">
+                                <div className="relative">
+                                    <label htmlFor="message" className="leading-7 text-sm text-white">Message</label>
+                                    <textarea ref={contentInput} id="message" name="content" maxLength="300" placeholder="paste any OC video link, fan arts, match suggest to us" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                                </div>
+                            </div>
+                                <input type="hidden" value="" name="recaptcha_response" id="recaptchaResponse" />
+                            <div className="p-2 w-full">
+                                <button onClick={()=> ContactSubmit()} className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default connect(state => ({ light: state.light, lang: state.lang }))(Index)

@@ -40,6 +40,10 @@ function Roll(props) {
             fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
+                    
+                    if(res.daily){
+                        alert(`you got daily yubis!(${res.daily})`)
+                    }
 
                     // 取得狀態
                     isLogin.cards = JSON.parse(res.cards);
@@ -154,7 +158,7 @@ function Gacha(props) {
                 </div>
                 <PagesTitle data={{ title: 'ROLL TO WIN', description: 'Give me some yubis and you will get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!', pageName, light }} />
 
-                <div className="container px-5 mx-auto flex flex-wrap text-gray-900">
+                <div className="container px-5 mx-auto flex flex-wrap">
                     <div className="w-full mx-auto overflow-auto" style={{ backgroundImage: "url('https://i.imgur.com/VOuh5o0.jpg')", backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
                         <div className="h-96"></div>
                     </div>
@@ -311,13 +315,13 @@ function Result(props) {
 
     return (
         <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
-            <div className="container px-5 mx-auto flex flex-wrap text-gray-900">
+            <div className="container px-5 mx-auto flex flex-wrap">
                 <div onClick={() => { navigate(`/${lang}/RROL/main`) }} className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full my-10 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out cursor-pointer">
                     <i className="fas fa-arrow-left"></i>
                     <FormattedMessage id={`app.${pageName}.Back`} defaultMessage='Back to Main menu' />
                 </div>
             </div>
-            <div className="container px-5 mx-auto flex flex-wrap text-gray-900">
+            <div className="container px-5 mx-auto flex flex-wrap">
                 <div id="res_all" className="flex flex-col text-center w-full text-gray-600">
                     <h1 className="text-5xl font-medium title-font mb-4 tracking-widest font-bold">
                         <FormattedMessage id={`app.${props.pageName}.Reward`} defaultMessage='You got...' />

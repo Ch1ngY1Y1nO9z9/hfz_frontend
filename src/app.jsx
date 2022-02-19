@@ -29,6 +29,7 @@ const Event = lazy(() => import('./pages/Event'))
 const RROL = lazy(() => import('./pages/RRAT'))
 const Roll = lazy(() => import('./pages/RRAT/Roll'))
 const Collection = lazy(() => import('./pages/RRAT/Collection'))
+const Betting = lazy(() => import('./pages/RRAT/Betting'))
 const FAQ = lazy(() => import('./pages/FAQ'))
 
 
@@ -197,6 +198,7 @@ function App(props) {
                             <Route path="/:lang/RROL/:page" element={<RROL pageName='RROL' />} />
                             <Route path="/:lang/RROL/main/roll" element={<Roll pageName='Roll' />} />
                             <Route path="/:lang/RROL/main/collectionBook" element={<Collection pageName='Collection' />} />
+                            <Route path="/:lang/RROL/main/betting" element={<Betting pageName='Betting' />} />
                             <Route path="/:lang/FAQ" element={<FAQ pageName='FAQ' />} />
                             <Route path="/*" element={<Navigate to={`/${defaultLang}/index`} />} />
                         </Routes>
