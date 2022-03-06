@@ -16,7 +16,7 @@ export default function Pagination(props) {
             </a> */}
 
             {pageNumbers.map(number => (
-                <Link onClick={()=> props.paginate(number)} to={`/${props.lang}/News/${props.pagetype}/${number}`} key={number} className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white">
+                <Link onClick={()=> props.paginate(number)} to={`/${props.lang}/Arts/${props.pagetype}/${number}`} key={number} className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white">
                     {number}
                 </Link>
             ))}

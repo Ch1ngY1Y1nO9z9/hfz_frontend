@@ -1,10 +1,10 @@
 // 各頁面按鈕
 export const NavbarButtons = [
-    { link: '/News/All', Message: 'FightZ News', langId: 'NewsTitle', id: '1' },
+    { link: '/Arts/All', Message: 'Fan Arts', langId: 'ArtsTitle', id: '1' },
     { link: '/Wrestlers/All', Message: 'Wrestlers Profile', langId: 'ProfileTitle', id: '2' },
     { link: '/Previous', Message: 'Previous shows', langId: 'PreviousTitle', id: '3' },
-    { link: '/Event', Message: 'Event', langId: 'EventTitle', id: '4' },
-    { link: '/RROL/main', Message: 'RROL', langId: 'RROLTitle', id: '5' }
+    { link: '/Poll', Message: 'Poll', langId: 'PollTitle', id: '4' },
+    // { link: '/RROL/main', Message: 'RROL', langId: 'RROLTitle', id: '5' }
 ]
 
 export const SocialButtons = [
@@ -30,10 +30,10 @@ export const Generations = [
 ]
 
 export const NewsType = [
-    { link: '/News/All/1', name: 'All', langId: 'News.All', id: '1' },
-    // {link:'/News/news/1',name:'News',langId:'News.News',id:'2'},
-    { link: '/News/fan_arts/1', name: 'Fan Arts', langId: 'News.FanArts', id: '3' },
-    { link: '/News/Promote/1', name: 'Promote', langId: 'News.Promote', id: '4' }
+    { link: '/Arts/All/1', name: 'All', langId: 'Arts.All', id: '1' },
+    // {link:'/News/news/1',name:'News',langId:'Arts.News',id:'2'},
+    { link: '/Arts/fan_arts/1', name: 'Fan Arts', langId: 'Arts.FanArts', id: '3' },
+    { link: '/Arts/Promote/1', name: 'Promote', langId: 'Arts.Promote', id: '4' }
 ]
 
 export const MembersList = ['ホロライブ', 'ときのそら', 'ロボ子', 'さくらみこ', '星街すいせい', '赤井はあと', 'はあちゃま', '夜空メル', '夏色まつり', 'アキロゼ', '白上フブキ', '大空スバル', '湊あくあ', '百鬼あやめ ', '癒月ちょこ', '紫咲シオン', '大神ミオ', '戌神ころね', '猫又おかゆ', '宝鐘マリン', '兎田ぺこら', '潤羽るしあ ', '不知火フレア', '白銀ノエル', '桐生ココ', '天音かなた', '常闇トワ', '角巻わため', '姫森ルーナ', '獅白ぼたん', '雪花ラミィ', '尾丸ポルカ', '桃鈴ねね', '魔乃アロエ', 'Iofi', 'Moona', 'Risu', 'Anya', 'Ollie', 'Reine', 'Watson', 'Gura', 'Kiara', 'Calli', 'Ina', 'AZKi', 'IRyS', 'Baelz', 'Mumei', 'Kronii', 'Sana', '', 'ラプラス', '鷹嶺ルイ']

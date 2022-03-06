@@ -118,9 +118,9 @@ function CharactersDetail(props) {
         setOutfitName(Name)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setOutfit(data.picture)
-    },[data])
+    }, [data])
 
     return (
         <div className="container mx-auto flex px-5 pb-12 md:flex-row flex-col items-center">
@@ -359,7 +359,7 @@ function Fanbase(props) {
 }
 
 function MatchRecords(props) {
-    const { name, pageName, updateHandler, lang } = props.data
+    const { name, pageName, updateHandler, lang, light } = props.data
 
     const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState({}) //取得人物基本資料
@@ -384,18 +384,18 @@ function MatchRecords(props) {
     return (
         <div id="Fanbase" className="container px-5 pb-12 mx-auto">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                <h1 className={`text-5xl font-medium title-font font-bold ${light ? 'text-gray-600' : 'text-gray-400'}`}>
                     <FormattedMessage id={`app.${pageName}.MatchRecords`} defaultMessage='Match Records' />
 
                 </h1>
             </div>
-            <div className="-my-8 divide-y-2 bg-gray-200 divide-gray-100 max-h-[635px] overflow-x-auto">
+            <div className={`-my-8 divide-y-2 divide-gray-100 max-h-[635px] overflow-x-auto ${light ? 'bg-gray-200' : 'bg-gray-700'}`}>
                 {
                     isLoading
                         ? <Loading />
                         : data.map((matches) => {
                             return (
-                                <div key={matches.id} className="p-4 block md:flex flex-wrap md:flex-nowrap text-black">
+                                <div key={matches.id} className={`p-4 block md:flex flex-wrap md:flex-nowrap ${light ? 'text-black' : 'text-white'}`}>
                                     <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0  block md:flex flex-col">
                                         <span className="font-semibold title-font">
                                             <Link to={`/${lang}/Previous/${matches.stream_id}`} className='hover:text-blue-500 hover:underline'>
@@ -405,7 +405,7 @@ function MatchRecords(props) {
                                         </span>
                                     </div>
                                     <div className="md:flex-grow">
-                                        <h2 className="text-2xl font-medium title-font mb-2 text-gray-700">
+                                        <h2 className={`text-2xl font-medium title-font mb-2 ${light ? 'text-gray-700' : 'text-gray-300'}`}>
                                             <FormattedMessage id={`app.${pageName}.${matches.type}`} defaultMessage={matches.type} /> - {matches.rule}
                                         </h2>
                                         <p className="leading-relaxed">
@@ -454,7 +454,7 @@ function MatchRecords(props) {
 }
 
 function WinLoseRate(props) {
-    const { name, pageName } = props.data
+    const { name, pageName, light } = props.data
 
     const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState({}) //取得人物基本資料
@@ -479,7 +479,7 @@ function WinLoseRate(props) {
     return (
         <div className="container px-5 py-24 mx-auto">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                <h1 className={`text-5xl font-medium title-font font-bold ${light ? 'text-gray-600' : 'text-gray-400'}`}>
                     <FormattedMessage id={`app.${pageName}.WinLoseRatio`} defaultMessage='Win Lose Ratio' />
                 </h1>
             </div>
@@ -575,13 +575,13 @@ function WinLoseRate(props) {
 
 function MatchClips(props) {
 
-    const { clips, pageName } = props.data
+    const { clips, pageName, light } = props.data
 
 
     return (
         <div className="container px-5 pb-24 mx-auto hidden sm:block">
             <div className="flex flex-col text-center w-full mb-10 lg:mb-20">
-                <h1 className="text-5xl font-medium title-font font-bold text-gray-600">
+                <h1 className={`text-5xl font-medium title-font font-bold ${light ? 'text-gray-600' : 'text-gray-400'}`}>
                     <FormattedMessage id={`app.${pageName}.Clips`} defaultMessage='Clips' />
                 </h1>
             </div>
@@ -590,7 +590,7 @@ function MatchClips(props) {
                 {
                     clips.map((clip) => {
                         return <div key={clip.id} className="p-4 lg:w-1/2 w-full">
-                            <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+                            <div className={`flex rounded-lg h-full p-8 flex-col ${light ? 'bg-gray-100' : 'bg-gray-900'}`}>
                                 <div className="flex items-center mb-3">
                                     <div
                                         className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
@@ -602,7 +602,7 @@ function MatchClips(props) {
                                                     : <i className="fas fa-fist-raised"></i>
                                         }
                                     </div>
-                                    <h2 className="text-lg title-font font-bold text-gray-600">{clip.clip_title}</h2>
+                                    <h2 className={`text-lg title-font font-bold ${light ? 'text-gray-600' : 'text-gray-400'}`}>{clip.clip_title}</h2>
                                 </div>
                                 <div className="flex-grow">
                                     <iframe width="100%" height="375" src={`https://www.youtube-nocookie.com/embed/${clip.embed_code}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>

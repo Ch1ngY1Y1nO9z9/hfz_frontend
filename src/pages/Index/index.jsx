@@ -115,7 +115,7 @@ function News(props) {
     useEffect(() => {
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexNews`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexArts`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -141,28 +141,26 @@ function News(props) {
 
                 <div className="w-full flex flex-wrap justify-center">
                     {
-                        data.map((news) => {
+                        data.map((Arts) => {
                             return (
-                                <div key={news.id} className="p-4 lg:w-1/3 w-full">
+                                <div key={Arts.id} className="p-4 lg:w-1/3 w-full">
                                     <div className="h-full bg-gray-200 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                                         <h2 className="tracking-widest text-xl title-font font-medium mb-1 text-blue-400">
                                         </h2>
                                         <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">
-                                            {news.title}
+                                            {Arts.title}
                                         </h1>
-                                        <p className="leading-relaxed mb-3 text-gray-800">
-                                            {news.description}
-                                        </p>
+                                        <img className="mx-auto" height='150px' src={Arts.thumbnail} alt="" />
                                         <div className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4">
                                             {
-                                                date === news.date ? <span className="text-white bg-red-600 px-2 inline-flex items-center leading-none text-sm">
+                                                date === Arts.date ? <span className="text-white bg-red-600 px-2 inline-flex items-center leading-none text-sm">
                                                     New!
                                                 </span> : ''
                                             }
                                             <span className="mr-3 inline-flex items-center leading-none text-sm pr-3 py-1 border-r-2 border-gray-200 text-black">
-                                                Date: {news.date}
+                                                Date: {Arts.date}
                                             </span>
-                                            <Link to={`/${lang}/FightZNews/${news.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">
+                                            <Link to={`/${lang}/Arts/${Arts.id}`} className="hover:text-orange-600 text-indigo-500 inline-flex items-center">
                                                 <FormattedMessage id={`app.${pageName}.ReadMore`} defaultMessage='Read More' />
                                                 <i className="fas fa-arrow-right ml-2"></i>
                                             </Link>

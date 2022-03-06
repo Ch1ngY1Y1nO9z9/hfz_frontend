@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 
-function News(props) {
+function Arts(props) {
     const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState([]) //取得頁面資料
     const [type] = useState('All')
@@ -24,7 +24,7 @@ function News(props) {
     useEffect(() => {
         const getData = async (page) => {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/News/get${page}/${type}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/Arts/get${page}/All`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -34,14 +34,14 @@ function News(props) {
             }
         }
 
-        if (!data.length) getData('News')//Fetch取得資料
+        if (!data.length) getData('Arts')//Fetch取得資料
     }, [data])
 
     const { lang:{lang}, light, pageName } = props
 
     return (
         <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
-            <PagesTitle data={{ title: 'FIGHTZ NEWS', description: 'All the HolofightZ news, fan arts or some original content will be here.', pageName, light }} />
+            <PagesTitle data={{ title: 'FIGHTZ ARTS', description: 'All the HolofightZ fan arts or some original content will be here.', pageName, light }} />
 
             <div className="container p-5 mx-auto flex md:items-center lg:items-start md:flex-row flex-wrap flex-col">
                 <nav className="flex-grow flex flex-wrap md:pr-20 text-center order-first">
@@ -66,7 +66,7 @@ function News(props) {
                     : <Routes>
                         <Route path="/:type" element={<NewsCards data={{data,...props}} />} />
                         <Route path="/:type/:page" element={<NewsCards data={{data,...props}} />} />
-                        <Route path="/*" element={<Navigate to={`/${lang}/News/All/1`} />} />
+                        <Route path="/*" element={<Navigate to={`/${lang}/Arts/All/1`} />} />
                     </Routes>
             }
 
@@ -116,7 +116,7 @@ function NewsCards(props) {
 
     if(paramas.type !== 'All' && paramas.type !== 'fan_arts' && paramas.type !== 'Promote')
     {
-        navigate(`/${lang}/News/All/1`)
+        navigate(`/${lang}/Arts/All/1`)
     }
 
     return (
@@ -160,4 +160,4 @@ function NewsCards(props) {
 }
 
 
-export default connect(state => ({ light: state.light, lang: state.lang }))(News)
+export default connect(state => ({ light: state.light, lang: state.lang }))(Arts)
