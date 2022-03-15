@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes, useParams, Link } from 'react-router-dom'
+// import { Route, Routes, useParams, Link } from 'react-router-dom'
 
 import PagesTitle from '../../components/PagesTitle'
 
@@ -7,7 +7,7 @@ import PagesTitle from '../../components/PagesTitle'
 import { connect } from 'react-redux'
 
 // 引入React Intl切換語系
-import { FormattedMessage } from 'react-intl'
+// import { FormattedMessage } from 'react-intl'
 
 function Poll(props) {
 
@@ -21,7 +21,7 @@ function Poll(props) {
 
     async function getData(page) {
         try {
-            const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getPollResult`, { method: "post" })
+            const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getPollResult`, { method: "post" })
             const result = await getData.json()
 
             setData(result)

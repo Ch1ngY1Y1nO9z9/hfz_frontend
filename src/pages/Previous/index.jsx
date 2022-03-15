@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes, useParams, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import PagesTitle from '../../components/PagesTitle'
 
@@ -21,7 +21,7 @@ function Previous(props) {
 
     async function getData(page) {
         try {
-            const getData = await fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
+            const getData = await fetch(`https://hfzapi.com.tw/api/${page}/get${page}`, { method: "post" })
             const result = await getData.json()
 
             setData(result.reverse())

@@ -37,7 +37,7 @@ function Roll(props) {
 
         if (isLogin) {
             // 刷新卡片和手指數
-            fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
+            fetch(`https://hfzapi.com.tw/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     
@@ -122,7 +122,7 @@ function Gacha(props) {
             user.yubis -= yubis
             setUserAccount(user)
             animationGif.classList.remove('hidden')
-            fetch(`http://127.0.0.1:8000/api/roll/${user.user_name}/${yubis}`, { method: "post" })
+            fetch(`https://hfzapi.com.tw/api/roll/${user.user_name}/${yubis}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     setTimeout(() => {
@@ -287,7 +287,7 @@ function Result(props) {
             user.yubis -= yubis
             setUserAccount(user)
             animationGif.classList.remove('hidden')
-            fetch(`http://127.0.0.1:8000/api/roll/${user.user_name}/${yubis}`, { method: "post" })
+            fetch(`https://hfzapi.com.tw/api/roll/${user.user_name}/${yubis}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     setTimeout(() => {

@@ -35,7 +35,7 @@ function Login(props) {
         if (isLogin) {
             setUserAccount(isLogin)
             // 刷新卡片和手指數
-            fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
+            fetch(`https://hfzapi.com.tw/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     console.log(res);
@@ -203,7 +203,7 @@ function LoginForm(props) {
             password,
         }
 
-        fetch('http://127.0.0.1:8000/api/auth/login', {
+        fetch('https://hfzapi.com.tw/api/auth/login', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',
@@ -323,7 +323,7 @@ function RegisterForm(props) {
             password_confirmation,
         }
 
-        fetch('http://127.0.0.1:8000/api/auth/register', {
+        fetch('https://hfzapi.com.tw/api/auth/register', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',

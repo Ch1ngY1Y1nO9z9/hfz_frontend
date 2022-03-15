@@ -19,12 +19,12 @@ import { FormattedMessage } from 'react-intl'
 function Arts(props) {
     const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState([]) //取得頁面資料
-    const [type] = useState('All')
+    // const [type] = useState('All')
 
     useEffect(() => {
         const getData = async (page) => {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/Arts/get${page}/All`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.com.tw/api/Arts/get${page}/All`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)

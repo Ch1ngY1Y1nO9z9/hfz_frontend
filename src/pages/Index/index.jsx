@@ -115,7 +115,7 @@ function News(props) {
     useEffect(() => {
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexArts`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getIndexArts`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -183,7 +183,7 @@ function Ranking(props) {
     useEffect(() => {
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexRank`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getIndexRank`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -252,7 +252,7 @@ function PREVIOUS(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexPrev`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getIndexPrev`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -367,7 +367,7 @@ function ContactUs(props) {
             content
         }
 
-        fetch('http://127.0.0.1:8000/api/Index/contact', {
+        fetch('https://hfzapi.com.tw/api/Index/contact', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',
