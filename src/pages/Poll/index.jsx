@@ -21,7 +21,7 @@ function Poll(props) {
 
     async function getData(page) {
         try {
-            const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getPollResult`, { method: "post" })
+            const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getPollResult`, { method: "post" })
             const result = await getData.json()
 
             setData(result)

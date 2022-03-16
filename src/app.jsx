@@ -71,7 +71,7 @@ function App(props) {
     async function getData(page) {
         try {
             // 取得API資料
-            const getData = await fetch(`https://hfzapi.com.tw/api/App/getBackground`, { method: "post" } )
+            const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" } )
             const result = await getData.json()
             // 取得是否直播中
 

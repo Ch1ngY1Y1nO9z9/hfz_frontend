@@ -24,7 +24,7 @@ function Profiles(props) {
     useEffect(() => {
 
         function getData(page) {
-            fetch(`https://hfzapi.com.tw/api/${page}/get${page}/${params.name}`, { method: "post" })
+            fetch(`https://hfzapi.surai.xyz/api/${page}/get${page}/${params.name}`, { method: "post" })
                 .then((result) => result.json())
                 .then((result) => {
                     setData(result)
@@ -306,7 +306,7 @@ function Fanbase(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getFanbase/${name}`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getFanbase/${name}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result.data)
@@ -368,7 +368,7 @@ function MatchRecords(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getMatches/${name}`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getMatches/${name}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -463,7 +463,7 @@ function WinLoseRate(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.com.tw/api/${page}/getWinLoseRate/${name}`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getWinLoseRate/${name}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)

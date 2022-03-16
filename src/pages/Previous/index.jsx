@@ -21,7 +21,7 @@ function Previous(props) {
 
     async function getData(page) {
         try {
-            const getData = await fetch(`https://hfzapi.com.tw/api/${page}/get${page}`, { method: "post" })
+            const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/get${page}`, { method: "post" })
             const result = await getData.json()
 
             setData(result.reverse())

@@ -22,7 +22,7 @@ function Content(props) {
     useEffect(() => {
         const getData = async (page) => {
             try {
-                const getData = await fetch(`https://hfzapi.com.tw/api/NewsContent/get${page}/${paramas.id}`, { method: "post" })
+                const getData = await fetch(`https://hfzapi.surai.xyz/api/NewsContent/get${page}/${paramas.id}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
