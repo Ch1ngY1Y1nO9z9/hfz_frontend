@@ -282,13 +282,13 @@
     "app.Characters.birthday.Luna.october10th": "10月 10日",
 
     "app.Characters.Lamy": "雪花菈米",
-    "app.Characters.Lamy.sig": "Drunkard's Spin",
+    "app.Characters.Lamy.sig": "醉酒迴旋摔",
     "app.Characters.Lamy.fin": "酒精下顎粉碎技",
     "app.Characters.birthday.Lamy.november15th": "11月 15日",
 
     "app.Characters.Nene": "桃鈴音音",
     "app.Characters.Nene.sig": "超級音音拳",
-    "app.Characters.Nene.fin": "超究極無限(以下略)音音拳",
+    "app.Characters.Nene.fin": "超究極無限(下略)音音拳",
     "app.Characters.birthday.Nene.march2nd": "3月 2日",
 
     "app.Characters.Botan": "獅白牡丹",
@@ -299,7 +299,7 @@
     "app.Characters.Aloe": "魔乃阿蘿耶",
     "app.Characters.Aloe.sig": "Takeshi Buster",
     "app.Characters.Aloe.fin": "Sex Bomb",
-    "app.Characters.birthday.Aloe.october10th": "10月 10日",
+    "app.Characters.birthday.Aloe.october10th": "10月 28日",
 
     "app.Characters.Polka": "尾丸波爾卡",
     "app.Characters.Polka.sig": "雜戲登場",
@@ -647,5 +647,15 @@
     "app.Previous.Archive.29": "HFZ第29場直播事件:",
     "app.Previous.Archive.Context1.29": "新人出場: 鷹領和Sana",
     "app.Previous.Archive.Context2.29": "天音彼方出戰單打冠軍賽對決波爾卡",
-    "app.Previous.Archive.Context3.29": "混沌6人鐵籠賽再開, 勝出者將對決放水女王"
+    "app.Previous.Archive.Context3.29": "混沌6人鐵籠賽再開, 勝出者將對決放水女王",
+    
+	"app.Previous.Archive.30": "HFZ第29場直播事件:",
+    "app.Previous.Archive.Context1.30": "HFZ一週年紀念! 影片宣傳大隊獻上共同合製影片",
+    "app.Previous.Archive.Context2.30": "最粗的兔子",
+    "app.Previous.Archive.Context3.30": "老人對決新血! 老人能夠捍衛顏面嗎?",
+
+	"app.Previous.Archive.31": "HFZ第30場直播事件:",
+    "app.Previous.Archive.Context1.31": "(臭)",
+    "app.Previous.Archive.Context2.31": "人氣投票前30名依序進場的皇家大賽!",
+    "app.Previous.Archive.Context3.31": "哈洽馬再度叩關單打冠軍! 猩猩能保住腰帶嗎?"
 }

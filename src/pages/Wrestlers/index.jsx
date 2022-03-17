@@ -164,7 +164,7 @@ function Members(props) {
                                     </h2>
                                     <h3 className={`mb-3 ${!member.liveDetail ? 'text-gray-500' : 'text-white'}`}>@ {member.aka}</h3>
                                     <p className="mb-4 break-all">
-                                        {!member.liveDetail ? `${member.spamming}` : `${member.liveDetail.title}`}
+                                        {!member.liveDetail ? `${!member.spamming ? '-' : member.spamming}` : `${member.liveDetail.title}`}
                                     </p>
                                 </Link>
                                 <span className="inline-flex">

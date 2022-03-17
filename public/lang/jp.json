@@ -21,15 +21,15 @@
     "app.Index.Uploading" : "アップロード中",
     
 
-    "app.Arts.Title": "ファンアート",
-    "app.Arts.Description": "ファンアート、オリジナルコンテンツなどがここに置いた",
-    "app.Arts.All": "全て",
-    "app.Arts.News": "ニューズ",
-    "app.Arts.FanArts": "ファンアート",
-    "app.Arts.Promote": "プロモーション",
-    "app.Arts.FullSize": "フルスクリーンで見る",
-    "app.Arts.ReadMore": "もっと見る",
-    "app.Arts.Content.Back": "ファンアートに戻る",
+    "app.News.Title": "ファイツニューズ",
+    "app.News.Description": "ニューズ、ファンアート、オリジナルコンテンツなどがここに置いた",
+    "app.News.All": "全て",
+    "app.News.News": "ニューズ",
+    "app.News.FanArts": "ファンアート",
+    "app.News.Promote": "プロモーション",
+    "app.News.FullSize": "フルスクリーンで見る",
+    "app.News.ReadMore": "もっと見る",
+    "app.News.Content.Back": "ファイツニューズに戻る",
 
     "app.Previous.Title": "前の配信",
     "app.Previous.Description": "配信アーカイブがここから見れる",
@@ -301,7 +301,7 @@
     "app.Characters.Aloe": "魔乃アロエ",
     "app.Characters.Aloe.sig": "たけしバスター",
     "app.Characters.Aloe.fin": "セックスボム",
-    "app.Characters.birthday.Aloe.october10th": "10月 10日",
+    "app.Characters.birthday.Aloe.october10th": "10月 28日",
 
     "app.Characters.Polka": "尾丸ポルカ",
     "app.Characters.Polka.sig": "アクロバット",
@@ -324,14 +324,14 @@
     "app.Characters.birthday.Koyori": "6月 3日",
 
     "app.Characters.Chloe": "沙花叉クロヱ",
-    "app.Characters.Chloe.sig": "-",
-    "app.Characters.Chloe.fin": "-",
-    "app.Characters.birthday.Chloe": "-",
+    "app.Characters.Chloe.sig": "逆又",
+    "app.Characters.Chloe.fin": "ジャニースタンナー",
+    "app.Characters.birthday.Chloe": "11月 29日",
 
     "app.Characters.Iroha": "風真いろは",
-    "app.Characters.Iroha.sig": "-",
-    "app.Characters.Iroha.fin": "-",
-    "app.Characters.birthday.Iroha":"-",
+    "app.Characters.Iroha.sig": "???",
+    "app.Characters.Iroha.fin": "???",
+    "app.Characters.birthday.Iroha":"11月 30日",
 
     "app.Characters.Risu": "アユンダ・リス",
     "app.Characters.Risu.sig": "ナットクラッカー",
@@ -424,7 +424,7 @@
     "app.Characters.birthday.Azki.july1st": "7月 1日",
 
     "app.Characters.Yagoo": "YAGOO",
-    "app.Characters.Yagoo.sig": "卒業パワーボム",
+    "app.Characters.Yagoo.sig": "トリプルパワーボム",
     "app.Characters.Yagoo.fin": "ザ・スラップ",
     "app.Characters.birthday.Yagoo.december10th": "12月 10日",
 
@@ -654,5 +654,10 @@
 	"app.Previous.Archive.30": "ホロファイツ第３０話を見る:",
     "app.Previous.Archive.Context1.30": "ホロファイツの１周年！特別なプロモーションMVが表示する!",
     "app.Previous.Archive.Context2.30": "ビッグ・ウサギ・フォー・ユー",
-    "app.Previous.Archive.Context3.30": "古物 VS 若者！ハッグ達は勝つか？"
+    "app.Previous.Archive.Context3.30": "古物 VS 若者！ハッグ達は勝つか？",
+
+	"app.Previous.Archive.31": "ホロファイツ第３１話を見る:",
+    "app.Previous.Archive.Context1.31": "何かくせぇな！",
+    "app.Previous.Archive.Context2.31": "投票結果に基づくトップ３０のロイヤルランブル！",
+    "app.Previous.Archive.Context3.31": "はあちゃまは、かなたからチャンピオンシップを取り戻したい！"
 }
