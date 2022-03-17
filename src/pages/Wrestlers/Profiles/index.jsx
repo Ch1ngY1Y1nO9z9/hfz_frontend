@@ -454,7 +454,8 @@ function MatchRecords(props) {
 }
 
 function WinLoseRate(props) {
-    const { name, pageName, light } = props.data
+    const { light } = props
+    const { name, pageName } = props.data
 
     const [isLoading, setisLoading] = useState(1)
     const [data, setData] = useState({}) //取得人物基本資料
@@ -574,8 +575,8 @@ function WinLoseRate(props) {
 }
 
 function MatchClips(props) {
-
-    const { clips, pageName, light } = props.data
+    const { light}  = props
+    const { clips, pageName } = props.data
 
 
     return (
