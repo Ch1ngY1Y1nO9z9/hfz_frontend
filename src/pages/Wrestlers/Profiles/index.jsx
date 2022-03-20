@@ -94,7 +94,7 @@ function Profiles(props) {
                                 !data.isVisible
                                     ? ''
                                     : <div>
-                                        <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} />
+                                        {/* <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} /> */}
                                         <WinLoseRate data={{ name: params.name, pageName }} />
                                         <MatchClips data={{ name: params.name, clips: data.clips, pageName }} />
                                     </div>

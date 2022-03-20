@@ -104,7 +104,7 @@ function App(props) {
             setChannelData(result)
             checkData(result)
         } catch (error) {
-            console.log(error)
+
         }
     }
 
