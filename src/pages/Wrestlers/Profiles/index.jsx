@@ -371,9 +371,9 @@ function MatchRecords(props) {
                 const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getMatches/${name}`, { method: "post" })
                 
                 const result = await getData.json()
-                console.log(result);
+
                 setData(result)
-                // setisLoading(0)
+                setisLoading(0)
             } catch (error) {
                 console.log(error)
             }
