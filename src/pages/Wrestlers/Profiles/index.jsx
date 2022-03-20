@@ -369,7 +369,7 @@ function MatchRecords(props) {
         async function getData(page) {
             try {
                 const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getMatches/${name}`, { method: "post" })
-                console.log(getData);
+                console.log(getData.json());
                 const result = await getData.json()
 
                 setData(result)
