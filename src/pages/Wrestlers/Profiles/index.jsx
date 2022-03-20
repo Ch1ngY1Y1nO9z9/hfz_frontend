@@ -94,7 +94,7 @@ function Profiles(props) {
                                 !data.isVisible
                                     ? ''
                                     : <div>
-                                        {/* <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} /> */}
+                                        <MatchRecords data={{ name: params.name, pageName, updateHandler, lang }} />
                                         <WinLoseRate data={{ name: params.name, pageName }} />
                                         <MatchClips data={{ name: params.name, clips: data.clips, pageName }} />
                                     </div>
@@ -369,6 +369,7 @@ function MatchRecords(props) {
         async function getData(page) {
             try {
                 const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getMatches/${name}`, { method: "post" })
+                console.log(getData);
                 const result = await getData.json()
 
                 setData(result)
@@ -377,8 +378,10 @@ function MatchRecords(props) {
                 console.log(error)
             }
         }
+
         setisLoading(1)
         getData('Detail')
+        
     }, [name])
 
     return (
