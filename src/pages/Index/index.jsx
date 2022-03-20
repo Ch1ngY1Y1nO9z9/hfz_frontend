@@ -133,7 +133,7 @@ function News(props) {
         <section className={`py-8 ${light ? 'bg-gray-100' : 'bg-gray-900'}`}>
             <div className="container mx-auto flex flex-wrap pt-4 pb-12">
                 <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-[#49c8f0]">
-                    <FormattedMessage id={`app.${pageName}.News`} defaultMessage='FightZ News' />
+                    <FormattedMessage id={`app.${pageName}.Arts`} defaultMessage='Fan arts' />
                 </h1>
                 <div className="w-full mb-4">
                     <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
