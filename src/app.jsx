@@ -72,12 +72,12 @@ function App(props) {
         try {
             // 取得API資料
             const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" } )
-            const result = await getData.json()
+            let result = await getData.json()
             // 取得是否直播中
 
 
             // 設定圖片從後端來
-            result.img = 'https://holofightz.surai.xyz' + result.img
+            result += 'https://holofightz.surai.xyz' + result
             setData(result)
         } catch (error) {
             console.log(error)
