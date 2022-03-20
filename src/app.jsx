@@ -73,11 +73,8 @@ function App(props) {
             // 取得API資料
             const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" } )
             let result = await getData.json()
-            // 取得是否直播中
 
-
-            // 設定圖片從後端來
-            result += 'https://holofightz.surai.xyz' + result
+            result.img += 'https://holofightz.surai.xyz' + result.img
             setData(result)
         } catch (error) {
             console.log(error)
