@@ -76,8 +76,7 @@ function Arts(props) {
 
 // 內容組件化
 function NewsCards(props) {
-    const { lang , light } = props
-    const { data } = props.data
+    const { data, lang, light } = props.data
 
     const paramas = useParams(); //取得當前要看的分類
     const navigate = useNavigate();
@@ -117,6 +116,7 @@ function NewsCards(props) {
 
     if(paramas.type !== 'All' && paramas.type !== 'fan_arts' && paramas.type !== 'Promote')
     {
+        console.log(lang)
         navigate(`/${lang}/Arts/All/1`)
     }
 
