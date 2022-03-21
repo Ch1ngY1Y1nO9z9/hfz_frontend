@@ -4,6 +4,7 @@
     "app.PreviousTitle" : "直播紀錄",
     "app.EventTitle" : "特殊活動",
     "app.RollTitle" : "抽卡機",
+    "app.PollTitle" : "投票",
 
     "app.Index.Welcome" : "歡迎來到HFZ官網",
     "app.Index.Subtitle" : "專業虛擬youtuber摔角",
@@ -135,6 +136,10 @@
     "app.Roll.CodeDescription": "輸入促銷碼能夠再獲得一次抽獎機會!",
     "app.Roll.PromoCodeInput": "輸入促銷碼",
     "app.Roll.Send": "送出促銷碼",
+
+    "app.Poll.Title": "投票",
+    "app.Poll.votes": "總得票數",
+    "app.Poll.points": "總得分",
 
     "app.Characters.Sora": "時乃空",
     "app.Characters.Sora.sig": "偶像步連擊",

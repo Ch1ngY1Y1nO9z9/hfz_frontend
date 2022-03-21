@@ -4,6 +4,7 @@
     "app.PreviousTitle" : "Previous shows" ,
     "app.EventTitle" : "Event" ,
     "app.RollTitle" : "RROL" ,
+    "app.PollTitle" : "Roll",
 
     "app.Index.Welcome" : "welcome to HFZ",
     "app.Index.Subtitle" : "Professional Virtual YouTuber Wrestling",
@@ -135,6 +136,9 @@
     "app.Roll.CodeDescription": "Have a promo code? Use the promo code to get 1 free roll!",
     "app.Roll.PromoCodeInput": "Promo code",
     "app.Roll.Send": "Send",
+
+    "app.Poll.votes": "Total Votes",
+    "app.Poll.points": "Total Point",
 
 
 
