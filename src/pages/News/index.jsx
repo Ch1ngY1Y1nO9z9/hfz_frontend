@@ -76,7 +76,7 @@ function Arts(props) {
 
 // 內容組件化
 function NewsCards(props) {
-    const { lang:{lang} , light } = props
+    const { lang , light } = props
     const { data } = props.data
 
     const paramas = useParams(); //取得當前要看的分類
