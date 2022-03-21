@@ -260,6 +260,7 @@ function SongList(props) {
             const result = await response.json()
 
             linkInput.current.value = ''
+            alert(result);
 
         } catch (error) {
             console.log(error)
@@ -350,7 +351,7 @@ function SongList(props) {
                         </div>
                         <div className="w-full flex flex-wrap -m-2 text-center">
                             {
-                                isLoading ? <Loading /> : data.length === 0 ? <h3 className='sm:text-5xl text-4xl font-medium title-font mb-4'><FormattedMessage id={`app.Previous.Result.SongList.None`} defaultMessage={`No result! Maybe we'll add it later :)`} /></h3> : data.map((song) => {
+                                isLoading ? <Loading /> : data.length === 0 ? <h3 className='sm:text-5xl text-4xl font-medium title-font mb-4 w-full'><FormattedMessage id={`app.Previous.Result.SongList.None`} defaultMessage={`No result! Maybe we'll add it later :)`} /></h3> : data.map((song) => {
 
                                     return (
                                         <div key={song.id} className="p-2 lg:w-1/3 md:w-1/2 w-full">
