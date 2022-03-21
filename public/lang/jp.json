@@ -4,7 +4,7 @@
     "app.PreviousTitle" : "前の配信" ,
     "app.EventTitle" : "イベント" ,
     "app.RollTitle" : "ガチャ" ,
-    "app.PollTitle" : "Vote",
+    "app.PollTitle" : "投票",
 
     "app.Index.Welcome" : "ホロファイツにようこそ",
     "app.Index.Subtitle" : "ブイチューバーのプロレス",
@@ -137,9 +137,8 @@
     "app.Roll.PromoCodeInput": "プロモーションコード",
     "app.Roll.Send": "送信",
 
-    "app.Poll.votes": "Total Votes",
-    "app.Poll.points": "Total Point",
-
+    "app.Poll.votes": "投票数",
+    "app.Poll.points": "合計ポイント",
 
     "app.Characters.Sora": "ときのそら",
     "app.Characters.Sora.sig": "アイドルステップ",
