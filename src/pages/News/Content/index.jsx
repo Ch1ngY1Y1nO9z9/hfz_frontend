@@ -22,7 +22,7 @@ function Content(props) {
     useEffect(() => {
         const getData = async (page) => {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/NewsContent/get${page}/${paramas.id}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/Arts/get${page}/${paramas.id}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -32,12 +32,12 @@ function Content(props) {
             }
         }
 
-        getData('NewsContent')//Fetch取得資料
+        getData('ArtsContent')//Fetch取得資料
     }, [])
 
     return (
         <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
-            <PagesTitle data={{ title: 'FIGHTZ NEWS', description: 'All the HolofightZ news, fan arts or some original content will be here.', pageName, light }} />
+            <PagesTitle data={{ title: 'FIGHTZ ARTS', description: 'All the fan arts or some original content will be here.', pageName, light }} />
 
             {
                 isLoading
@@ -50,15 +50,9 @@ function Content(props) {
                                     ? <div>
                                         <img width="100%" src={data.img} alt="fan_arts" />
                                     </div>
-                                    : data.video_from === 'youtube'
-                                        ? <div style={{ width: '100%', height: '0px', position: 'relative', paddingBottom: '56.250%' }}>
-                                            <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${data.content}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboarWrite; encryptedMedia; gyroscope; pictureInPicture" allowfullscreen style={{ position: "absolute" }}></iframe>
-                                        </div>
-                                        : data.video_from === 'streamable'
-                                            ? <div style={{ width: '100%', height: '0px', position: 'relative', paddingBottom: '56.250%' }}>
-                                                <iframe title="Streamable player" src={`https://streamable.com/e/${data.content}`} frameborder="0" width="100%" height="100%" allowfullscreen style={{ width: "100%", height: "100%", position: "absolute" }}></iframe>
-                                            </div>
-                                            : ''
+                                    : <div style={{ width: '100%', height: '0px', position: 'relative', paddingBottom: '56.250%' }}>
+                                        <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${data.content}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; gyroscope" allowFullScreen style={{ position: "absolute" }}></iframe>
+                                    </div>
                             }
                             <br />
                             <p className="py-6">

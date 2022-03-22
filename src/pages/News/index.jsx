@@ -76,7 +76,7 @@ function Arts(props) {
 
 // 內容組件化
 function NewsCards(props) {
-    const { data, lang, light } = props.data
+    const { data, lang:{lang}, light } = props.data
 
     const paramas = useParams(); //取得當前要看的分類
     const navigate = useNavigate();
@@ -143,7 +143,7 @@ function NewsCards(props) {
                                 </div>
 
                                 <div className="flex items-end justify-end my-4 px-6">
-                                    <Link to={`/${lang}/FightZNews/${news.id}`}
+                                    <Link to={`/${lang}/ArtsContents/${news.id}`}
                                         className="mx-auto lg:mx-0 hover:underline bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                                         <i className="fas fa-arrow-right mr-2"></i>
 
