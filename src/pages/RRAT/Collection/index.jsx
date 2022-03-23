@@ -74,8 +74,6 @@ function Book(props) {
 
     const { rare, SR, SSR, LEGEND } = data
 
-    console.log(data)
-
     const navigate = useNavigate()
 
     return (

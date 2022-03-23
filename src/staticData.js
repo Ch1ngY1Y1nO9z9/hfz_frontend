@@ -67,7 +67,7 @@ export const testData =
         },
         {
             name: 'DRAW',
-            img: '/images/bigref4website.jpg',
+            img: '/images/bigref4website.webp',
             bet_user: [6, 7]
         },
         {

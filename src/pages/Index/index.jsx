@@ -100,7 +100,7 @@ function About(props) {
                     </div>
 
                     <div className="w-full sm:w-1/2 px-6 py-0 md:p-6">
-                        <div className="h-64" style={{ backgroundImage: "url('/images/ring.jpg')", backgroundPosition: "center", backroundSize: "cover" }}></div>
+                        <div className="h-64" style={{ backgroundImage: "url('/images/ring.webp')", backgroundPosition: "center", backroundSize: "cover" }}></div>
                     </div>
                 </div>
             </div>

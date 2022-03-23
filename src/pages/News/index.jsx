@@ -104,10 +104,10 @@ function NewsCards(props) {
 
     // 顯示在畫面上的資料
     if (paramas.page === '1') {
-        currentPosts = newType.reverse().slice(0, 6)
+        currentPosts = newType.slice(0, 6)
 
     } else {
-        currentPosts = newType.reverse().slice(indexOfFirstPost, indexOfLastPost)
+        currentPosts = newType.slice(indexOfFirstPost, indexOfLastPost)
     }
 
 
@@ -116,14 +116,12 @@ function NewsCards(props) {
 
     if(paramas.type !== 'All' && paramas.type !== 'fan_arts' && paramas.type !== 'Promote')
     {
-        console.log(lang)
         navigate(`/${lang}/Arts/All/1`)
     }
 
     return (
         <div className="container mx-auto flex flex-wrap pb-12 portfolio">
             {   
-                
                 currentPosts.map((news) => {
                     return (
                         <div key={news.id} className="w-full p-6">
@@ -131,8 +129,8 @@ function NewsCards(props) {
                                 {
                                     news.img !== null ? <div className="md:flex-auto w-25 px-6 bg-cover bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: `url(${news.thumbnail})` }}></div>
                                         : news.type === 'news' ?
-                                            <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url(/images/news_default.png)' }}></div>
-                                            : <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url("/images/OCvideo_default.png")' }}></div>
+                                            <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url(/images/news_default.webp)' }}></div>
+                                            : <div className="md:flex-auto w-25 px-6 bg-contain bg-no-repeat bg-center h-[300px]" style={{ backgroundImage: 'url("/images/OCvideo_default.webp")' }}></div>
                                 }
                                 <div className="md:flex-1 font-bold text-xl px-6 py-6">
                                     {news.date} <br />
