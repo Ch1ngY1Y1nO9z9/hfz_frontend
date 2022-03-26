@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
-import { Link, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, Route, Routes, Navigate } from 'react-router-dom'
 import Footer from './pages/Footer'
 import { NavLinks } from './components/NavLinks'
-import Loading from './components/Loading'
 
 // 頁面按鈕資料
 import { NavbarButtons, SocialButtons } from './staticData'
@@ -16,22 +15,21 @@ import { connect } from 'react-redux'
 // 引入React Intl切換語系
 import { FormattedMessage, IntlProvider } from 'react-intl'
 
-
-// 內容頁(lazy load)
 const Index = lazy(() => import('./pages/Index'))
 const News = lazy(() => import('./pages/News'))
 const Content = lazy(() => import('./pages/News/Content'))
 const Wrestlers = lazy(() => import('./pages/Wrestlers'))
 const Profiles = lazy(() => import('./pages/Wrestlers/Profiles'))
 const Previous = lazy(() => import('./pages/Previous'))
-const Matches = lazy(()=> import('./pages/Previous/Content'))
-// const Event = lazy(() => import('./pages/Event'))
+const Matches = lazy(() => import('./pages/Previous/Content'))
 const Poll = lazy(() => import('./pages/Poll'))
 const RROL = lazy(() => import('./pages/RRAT'))
 const Roll = lazy(() => import('./pages/RRAT/Roll'))
 const Collection = lazy(() => import('./pages/RRAT/Collection'))
 const Betting = lazy(() => import('./pages/RRAT/Betting'))
 const FAQ = lazy(() => import('./pages/FAQ'))
+// const Event = lazy(() => import('./pages/Event'))
+
 
 
 
@@ -48,7 +46,7 @@ function App(props) {
     const [data, setData] = useState([])
     const [defaultLang, setDefaultLang] = useState('en')
 
-    useEffect(() => { 
+    useEffect(() => {
         getData('Index');//Fetch取得資料
         getTwitchApi();
         changeLangSetting(checkLanguagePack())
@@ -71,7 +69,7 @@ function App(props) {
     async function getData(page) {
         try {
             // 取得API資料
-            const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" } )
+            const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" })
             let result = await getData.json()
 
             result.img = 'https://holofightz.surai.xyz' + result.img
@@ -95,7 +93,7 @@ function App(props) {
     // TwitchAPI串接
     async function getTwitchApi() {
         try {
-            const getChannelData = await fetch( 'https://api.twitch.tv/helix/streams?user_login=holofightz',{ headers: { 'client-id': 'knyyan9rux0iv4zr5pzu52lrtrk8fh', 'Authorization': 'Bearer cj1m4zpetgekvr73obiw2jdahvinfe'}})
+            const getChannelData = await fetch('https://api.twitch.tv/helix/streams?user_login=holofightz', { headers: { 'client-id': 'knyyan9rux0iv4zr5pzu52lrtrk8fh', 'Authorization': 'Bearer cj1m4zpetgekvr73obiw2jdahvinfe' } })
             const result = await getChannelData.json()
 
             setChannelData(result)
@@ -113,19 +111,19 @@ function App(props) {
     const location = useLocation();
     const navigate = useNavigate()
 
-    function checkLanguagePack(){
-        let langPack = location.pathname.split('/',2)[1];
-        if(langPack !== 'en' && langPack !== 'zh' && langPack !== 'jp'){
+    function checkLanguagePack() {
+        let langPack = location.pathname.split('/', 2)[1];
+        if (langPack !== 'en' && langPack !== 'zh' && langPack !== 'jp') {
             langPack = 'en'
             navigate(`/${langPack}/index`)
         }
-        
+
         setDefaultLang(langPack)
         return langPack
     }
 
     return (
-        <IntlProvider locale={defaultLang} messages={lang.locale} onError={()=>{}}>
+        <IntlProvider locale={defaultLang} messages={lang.locale} onError={() => { }}>
             <div className={`leading-normal tracking-normal body-font ease-in-out duration-1000 ${light ? 'text-black bg-white' : 'text-white bg-black'}`} >
                 <nav id="header" className={`w-full z-30 top-0 fixed ${light ? 'bg-white/90' : 'bg-black/50'}`}>
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
@@ -148,7 +146,7 @@ function App(props) {
                             <ul className="list-reset lg:flex justify-end flex-1 items-center">
                                 {NavbarButtons.map((button) => {
                                     return (
-                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={`${defaultLang+button.link}`}>
+                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={`${defaultLang + button.link}`}>
                                             <FormattedMessage id={`app.${button.langId}`} defaultMessage={button.Message} />
                                         </NavLinks>
                                     )
@@ -182,7 +180,7 @@ function App(props) {
                     </div>
                     <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
                 </nav>
-                <div className="bg-fixed bg-center bg-cover" style={live ? {backgroundImage: 'url("/images/onstream.webp")'} :{ backgroundImage: `url(${data.img})` }}>
+                <div className="bg-fixed bg-center bg-cover" style={live ? { backgroundImage: 'url("/images/onstream.webp")' } : { backgroundImage: `url(${data.img})` }}>
                     <Suspense fallback={<Loading />}>
                         <Routes>
                             <Route path="/:lang/index" element={<Index pageName='Index' live={live} />} />
