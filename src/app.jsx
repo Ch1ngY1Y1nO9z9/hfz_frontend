@@ -74,7 +74,7 @@ function App(props) {
             const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" })
             let result = await getData.json()
 
-            result.img = 'https://holofightz.surai.xyz' + result.img
+            result.img = 'https://i.imgur.com/' + result.img
             setData(result)
         } catch (error) {
             console.log(error)
