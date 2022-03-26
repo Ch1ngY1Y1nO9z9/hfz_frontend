@@ -15,6 +15,8 @@ import { connect } from 'react-redux'
 // 引入React Intl切換語系
 import { FormattedMessage, IntlProvider } from 'react-intl'
 
+import Loading from './components/Loading'
+
 const Index = lazy(() => import('./pages/Index'))
 const News = lazy(() => import('./pages/News'))
 const Content = lazy(() => import('./pages/News/Content'))

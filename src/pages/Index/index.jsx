@@ -18,10 +18,6 @@ import SwiperCore, {
     Autoplay, Navigation
 } from 'swiper';
 
-
-
-
-
 function Index(props) {
 
     return (
@@ -337,6 +333,14 @@ function ContactUs(props) {
     const emailInput = useRef('')
 
     const contentInput = useRef('')
+
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag(){window.dataLayer.push(arguments);}
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-2X8NTS7JM2');
 
     function ContactSubmit()
     {
