@@ -279,7 +279,7 @@ function PREVIOUS(props) {
                                 data.map((prev) => {
                                     return (
                                         <div key={prev.id} className="swiper-slide bg-cover bg-center shadow-lg"
-                                            style={{ backgroundImage: `url(https://holofightz.surai.xyz${prev.background_image})` }}>
+                                            style={{ backgroundImage: `url(https://hfzapi.surai.xyz/${prev.background_image})` }}>
                                             <div className="container mx-auto px-6 md:px-20 py-6">
                                                 <div className="w-full md:w-1/2 bg-opacity-50 bg-black p-2 md:p-0">
                                                     <div className="md:border border-gray-100 md:p-10">
