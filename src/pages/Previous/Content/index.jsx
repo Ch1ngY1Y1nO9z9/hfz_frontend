@@ -138,12 +138,16 @@ function Matches(props) {
                                                     {
                                                         match.result.split(",").map((wrestler, index) => {
                                                             return index === 0
-                                                                ? <Link key={index} to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
-                                                                    <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
-                                                                </Link>
-                                                                : <Link key={index} to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
-                                                                    ,&nbsp;<FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
-                                                                </Link>
+                                                                ? wrestler === 'Draw'
+                                                                    ? <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
+                                                                    : <Link key={index} to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
+                                                                        <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
+                                                                    </Link>
+                                                                : wrestler === 'Draw'
+                                                                    ? <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
+                                                                    : <Link key={index} to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
+                                                                        ,&nbsp;<FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
+                                                                    </Link>
                                                         })
                                                     }
                                                 </td>
@@ -173,7 +177,9 @@ function Matches(props) {
                                                 <td className={`border-t-2 border-gray-200 px-4 py-3 ${match.result === 'Draw' ? 'text-yellow-500' : 'text-red-500'}`}>
                                                     {
                                                         match.result.split(",").map((wrestler, index) => {
-                                                            return <span key={index}> {index !== 0 ? ' , ' : ''}
+                                                            return  wrestler === 'Draw'
+                                                            ? <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
+                                                            : <span key={index}> {index !== 0 ? ' , ' : ''}
                                                                 <Link to={`/${lang}/Wrestlers/Profile/${wrestler}`} className="font-bold hover:underline hover:text-blue-500">
                                                                     <FormattedMessage id={`app.Characters.${wrestler}`} defaultMessage={wrestler} />
                                                                 </Link>
@@ -262,6 +268,8 @@ function SongList(props) {
             linkInput.current.value = ''
             alert(result);
 
+            alert(result.msg)
+
         } catch (error) {
             console.log(error)
         }
@@ -288,7 +296,7 @@ function SongList(props) {
                             <div onClick={(e) => { openForm(e) }} className="text-blue-500 cursor-pointer">add</div>
                         </div>
 
-                        <div className={`w-full text-center py-10 ${formOpen ? 'block' : 'hidden'}`}>
+                        <div className={`w-full text-center py-10 bg-gray-100 ${formOpen ? 'block' : 'hidden'}`}>
                             <div className="flex flex-col text-center w-full my-10">
                                 <h2 className="sm:text-5xl text-4xl font-medium title-font mb-4">
                                     <FormattedMessage id={`app.Previous.Result.Edit.Title`} defaultMessage={`Add song to the list`} />
@@ -308,12 +316,12 @@ function SongList(props) {
                                     </div>
                                 </div>
                                 <div className="inline-block relative w-64 my-10">
-                                    <select ref={gameInput} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                                        <option selected hidden>Game</option>
+                                    <select defaultvaluse="Game" ref={gameInput} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                        <option hidden>Game</option>
                                         {
-                                            matches.map((match) => {
+                                            matches.map((match, key) => {
                                                 return (
-                                                    <option value={match.game}>{match.game}</option>
+                                                    <option key={key} value={match.game}>{match.game}</option>
                                                 )
                                             })
                                         }
