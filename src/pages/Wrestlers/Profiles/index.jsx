@@ -132,7 +132,7 @@ function CharactersDetail(props) {
                             return (
                                 <div key={outfit.id} className="relative mb-5 group outfit">
                                     <div className="border-4 border-gray-500 rounded-full overflow-hidden w-[150px] h-[150px] border-sky-500">
-                                        <img onClick={(e) => { changOutfit(e, outfit.outfit_name) }} className={`w-full ${outfit.outfitName}`} src={outfit.image_link} alt={outfit.name_short} />
+                                        <img onClick={(e) => { changOutfit(e, outfit.outfit_name) }} className={`w-full ${outfitName}`} src={outfit.image_link} alt={outfit.name_short} />
                                     </div>
                                     <span className="absolute bottom-0 right-0 text-black text-xl">
                                         <i className="fas fa-search"></i>

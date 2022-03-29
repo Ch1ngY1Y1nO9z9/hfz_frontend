@@ -5,8 +5,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HoloFightZ</title>
+  <title>HolofightZ Official Website</title>
+  <meta name="description"
+    content="HolofightZ Official Website, you can check every wrestler data, WLR, matches records in here, if you have any fan arts or video wanna share on stream, also can send to us." />
+  <meta name="keywords"
+    content="HolofightZ, HFZ , HOLOFIGHTZ, holofightz, holofightz official, RRAT SHADOW LENGENDS, rrat shadhow lengends, RRAT:SHADOW LEGENDS, ホロプロレス" />
 
+  <meta name="application-name" content="HoloFightZ">
+
+  
   <link rel="apple-touch-icon" sizes="57x57" href="./images/icon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="./images/icon/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="./images/icon/apple-icon-72x72.png">
@@ -21,34 +28,49 @@
   <link rel="icon" type="image/png" sizes="96x96" href="./images/icon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./images/icon/favicon-16x16.png">
   <link rel="manifest" href="./images/icon/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileColor" content="#49c8f0">
   <meta name="msapplication-TileImage" content="./images/icon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#49c8f0">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2X8NTS7JM2"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2X8NTS7JM2"></script>
 
-    <style>
-      .active{
-          background: rgb(59 130 246 / var(--tw-bg-opacity))
-      }
+  <style>
+    .active {
+      background: rgb(59 130 246 / var(--tw-bg-opacity))
+    }
 
-      .active h2{
-          color: white;
-      }
-    </style>
+    .active h2 {
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
   <div id="root"></div>
 </body>
 
-<script src="">
-   Cookies.set('name', 'value', {
+<script>
+  Cookies.set('name', 'value', {
     sameSite: 'none',
     secure: true
   })
+
+  async function getData(page) {
+    try {
+      const getData = await fetch(`https://hfzapi.surai.xyz/api/getSeo`, { method: "post" })
+      const result = await getData.json()
+
+      document.querySelector('meta[name="description"]').setAttribute('content', $result.description)
+      document.querySelector('meta[name="keyword"]').setAttribute('content', $result.keyword)
+      document.querySelector('title').innerText = $result.title
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 </script>
+
 </html>
