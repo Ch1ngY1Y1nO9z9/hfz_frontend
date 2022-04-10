@@ -123,9 +123,9 @@
     "app.Detail.all": "all",
     "app.Detail.Clips": "Clips",
 
-    "app.Roll.Title": "ROLL TO WIN",
-    "app.Roll.Description": "Roll to get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!",
-    "app.Roll.RRAT": "RRAT",
+    "app.Roll.Title": "GACHA",
+    "app.Roll.Description": "get some good item or amazing wrestlers",
+    "app.Roll.RATE": "RATE",
     "app.Roll.Rare": "Rare",
     "app.Roll.SR": "SR",
     "app.Roll.SSR": "SSR",

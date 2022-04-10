@@ -24,7 +24,7 @@ function Arts(props) {
     useEffect(() => {
         const getData = async (page) => {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/Arts/get${page}/All`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/Arts/get${page}/All`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)

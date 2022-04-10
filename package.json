@@ -13,6 +13,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "laravel-echo": "^1.11.3",
+    "node-sass": "^7.0.1",
     "postcss": "^8.4.5",
     "pusher-js": "^7.0.3",
     "react": "^17.0.2",

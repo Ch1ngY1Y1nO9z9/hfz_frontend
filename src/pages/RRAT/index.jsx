@@ -35,7 +35,7 @@ function Login(props) {
         if (isLogin) {
             setUserAccount(isLogin)
             // 刷新卡片和手指數
-            fetch(`https://hfzapi.surai.xyz/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     console.log(res);
@@ -101,7 +101,7 @@ function Main(props) {
 
     return (
         <section className={`min-h-screen pt-12 ${light ? 'bg-white' : 'bg-black'}`}>
-            <PagesTitle data={{ title: 'YUBI MARKET', description: 'you can betting during hfz stream, and win yubis for collect the characters.', pageName, light }} />
+            <PagesTitle data={{ title: 'YUBI MARKET', description: 'you can betting during hfz stream, and win yubis for collect the characters. (just for fun)', pageName, light }} />
             <div className="container p-5 mx-auto">
                 <div className="flex flex-col text-center w-full">
                     <p className="lg:w-2/3 mx-auto leading-relaxed text-xl">
@@ -113,7 +113,7 @@ function Main(props) {
                 <div
                     className="flex items-center lg:w-3/5 mx-auto border-b p-5 mb-10 border-gray-200 sm:flex-row flex-col">
                     <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0 overflow-hidden">
-                        <img className="" src="/images/ref.png" alt="" />
+                        <img className="" src="/images/ref.webp" alt="" />
                     </div>
                     <div className="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                         <h2 className="text-lg title-font font-medium mb-2">BETTING</h2>
@@ -203,7 +203,7 @@ function LoginForm(props) {
             password,
         }
 
-        fetch('https://hfzapi.surai.xyz/api/auth/login', {
+        fetch('http://127.0.0.1:8000/api/auth/login', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',
@@ -217,7 +217,10 @@ function LoginForm(props) {
                 console.log('error:', error)
             })
             .then(response => {
-                if (response.status !== 200) {
+                if(response === undefined){
+                    alert('server currently shut down, please try it later')
+                }
+                else if (response.status !== 200) {
                     setLoading(false)
                     alert('please check your username or password')
                 } else {
@@ -226,22 +229,25 @@ function LoginForm(props) {
                 }
             })
             .then(userData => {
-                const { user } = userData
+                console.log(userData);
+                if(userData){
+                    const { user } = userData
 
-                const accountData = {
-                    status: 'login',
-                    login: true,
-                    user_name: user.name,
-                    yubis: user.yubis,
-                    cards: user.cards,
-                    collect_bet: user.collect_bet,
-                    bet_match: user.bet_match,
-                    access_token: userData.access_token
+                    const accountData = {
+                        status: 'login',
+                        login: true,
+                        user_name: user.name,
+                        yubis: user.yubis,
+                        cards: user.cards,
+                        collect_bet: user.collect_bet,
+                        bet_match: user.bet_match,
+                        access_token: userData.access_token
+                    }
+                    // 儲存進瀏覽器伺服器中, 只能夠儲存字串所以先轉Json格式
+                    sessionStorage.setItem('account', JSON.stringify(accountData))
+                    setUserAccount(accountData)
+                    navigate(`/${lang}/RROL/main`)
                 }
-                // 儲存進瀏覽器伺服器中, 只能夠儲存字串所以先轉Json格式
-                sessionStorage.setItem('account', JSON.stringify(accountData))
-                setUserAccount(accountData)
-                navigate(`/${lang}/RROL/main`)
             })
     }
 
@@ -323,7 +329,7 @@ function RegisterForm(props) {
             password_confirmation,
         }
 
-        fetch('https://hfzapi.surai.xyz/api/auth/register', {
+        fetch('http://127.0.0.1:8000/api/auth/register', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',

@@ -38,7 +38,7 @@ function Login(props) {
 
         if (isLogin) {
             // 刷新卡片和手指數
-            fetch(`https://hfzapi.surai.xyz/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
 
@@ -108,7 +108,7 @@ function Betting(props) {
             setBetData(testData)
         }
 
-        fetch(`https://hfzapi.surai.xyz/api/getBettingRecord/${user.user_name}`, { method: "post" })
+        fetch(`http://127.0.0.1:8000/api/getBettingRecord/${user.user_name}`, { method: "post" })
             .then((res) => res.json())
             .then((res) => {
                 setMatchData(res);
@@ -119,7 +119,7 @@ function Betting(props) {
     }, [])
 
     // useEffect(()=>{
-    //     fetch(`https://hfzapi.surai.xyz/api/getCurrentBetting`, { method: "post" })
+    //     fetch(`http://127.0.0.1:8000/api/getCurrentBetting`, { method: "post" })
     //     .then((res) => res.json())
     //     .then((res) => {
     //      
@@ -266,7 +266,7 @@ function BetForm(props) {
             data.push(stake)
         })
 
-        fetch(`https://hfzapi.surai.xyz/api/Betting/${user.user_name}`, {
+        fetch(`http://127.0.0.1:8000/api/Betting/${user.user_name}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: new Headers({
@@ -329,7 +329,7 @@ function Records(props) {
     }, [user])
 
     function collectYubi(id) {
-        fetch(`https://hfzapi.surai.xyz/api/collectYubis/${user.user_name}/${id}`, {
+        fetch(`http://127.0.0.1:8000/api/collectYubis/${user.user_name}/${id}`, {
             method: "post"
         })
             .then((res) => res.json())

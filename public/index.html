@@ -60,7 +60,7 @@
 
   async function getData(page) {
     try {
-      const getData = await fetch(`https://hfzapi.surai.xyz/api/getSeo`, { method: "post" })
+      const getData = await fetch(`http://127.0.0.1:8000/api/getSeo`, { method: "post" })
       const result = await getData.json()
 
       document.querySelector('meta[name="description"]').setAttribute('content', $result.description)

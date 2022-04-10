@@ -6,8 +6,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 // Swiper的套件
 import { Swiper, SwiperSlide } from "swiper/react";
 // swiper core styles
-import 'swiper/css'
-import 'swiper/css/navigation';
+import '/node_modules/swiper/swiper.min.css'
+import '/node_modules/swiper/swiper-bundle.min.css';
 
 import { Lazy } from "swiper";
 
@@ -40,7 +40,7 @@ function Collection(props) {
 
         if (isLogin) {
             // 刷新卡片和手指數
-            fetch(`https://hfzapi.surai.xyz/api/ColllectionBook/${isLogin.user_name}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/ColllectionBook/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
 

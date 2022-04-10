@@ -23,7 +23,7 @@ function Content(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getMatchResult/${params.id}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getMatchResult/${params.id}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -219,7 +219,7 @@ function SongList(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getSongList/${params.id}/${params.game}`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getSongList/${params.id}/${params.game}`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -262,7 +262,7 @@ function SongList(props) {
         }
 
         try {
-            const response = await fetch(`https://hfzapi.surai.xyz/api/addSong/${stream_id}/${game_id}/${link}`, { method: 'post' })
+            const response = await fetch(`http://127.0.0.1:8000/api/addSong/${stream_id}/${game_id}/${link}`, { method: 'post' })
             const result = await response.json()
 
             linkInput.current.value = ''

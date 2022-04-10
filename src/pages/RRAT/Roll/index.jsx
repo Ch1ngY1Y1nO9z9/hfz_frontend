@@ -37,7 +37,7 @@ function Roll(props) {
 
         if (isLogin) {
             // 刷新卡片和手指數
-            fetch(`https://hfzapi.surai.xyz/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     
@@ -122,7 +122,7 @@ function Gacha(props) {
             user.yubis -= yubis
             setUserAccount(user)
             animationGif.classList.remove('hidden')
-            fetch(`https://hfzapi.surai.xyz/api/roll/${user.user_name}/${yubis}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/roll/${user.user_name}/${yubis}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     setTimeout(() => {
@@ -156,7 +156,7 @@ function Gacha(props) {
                         <FormattedMessage id={`app.${pageName}.Back`} defaultMessage='Back to Main menu' />
                     </div>
                 </div>
-                <PagesTitle data={{ title: 'ROLL TO WIN', description: 'Give me some yubis and you will get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!', pageName, light }} />
+                <PagesTitle data={{ title: 'GACHA', description: 'Give me some yubis and you will get some good item or amazing wrestlers in RRAT:OGEY LEGEND!!', pageName, light }} />
 
                 <div className="container px-5 mx-auto flex flex-wrap">
                     <div className="w-full mx-auto overflow-auto" style={{ backgroundImage: "url('https://i.imgur.com/VOuh5o0.jpg')", backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
@@ -164,7 +164,7 @@ function Gacha(props) {
                     </div>
                     <div className="flex flex-col text-center w-full text-gray-600 py-5">
                         <h1 className="text-3xl font-medium title-font mb-4 tracking-widest font-bold text-[#49c8f0]">
-                            <FormattedMessage id={`app.${props.pageName}.RRAT`} defaultMessage='RRAT' />
+                            <FormattedMessage id={`app.${props.pageName}.RATE`} defaultMessage='RATE' />
                             :
                         </h1>
                         <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-xl">
@@ -287,7 +287,7 @@ function Result(props) {
             user.yubis -= yubis
             setUserAccount(user)
             animationGif.classList.remove('hidden')
-            fetch(`https://hfzapi.surai.xyz/api/roll/${user.user_name}/${yubis}`, { method: "post" })
+            fetch(`http://127.0.0.1:8000/api/roll/${user.user_name}/${yubis}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
                     setTimeout(() => {

@@ -36,7 +36,7 @@ function Wrestlers(props) {
     }, [isLive])
 
     function getData(page) {
-        fetch(`https://hfzapi.surai.xyz/api/${page}/get${page}`, { method: "post" })
+        fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
             .then((response) => response.json())
             .then((result) => {
                 fetch(`https://schedule.hololive.tv/api/list/7`, { method: "get" })

@@ -5,8 +5,8 @@ import Wave from './wave.jsx';
 // Previous show的套件
 import Swiper from 'swiper'
 // swiper core styles
-import 'swiper/css'
-import 'swiper/css/navigation';
+import '/node_modules/swiper/swiper.min.css'
+import '/node_modules/swiper/swiper-bundle.min.css';
 
 // 引入redux接收狀態
 import { connect } from 'react-redux'
@@ -111,7 +111,7 @@ function News(props) {
     useEffect(() => {
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getIndexArts`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexArts`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -179,7 +179,7 @@ function Ranking(props) {
     useEffect(() => {
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getIndexRank`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexRank`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -248,7 +248,7 @@ function PREVIOUS(props) {
 
         async function getData(page) {
             try {
-                const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/getIndexPrev`, { method: "post" })
+                const getData = await fetch(`http://127.0.0.1:8000/api/${page}/getIndexPrev`, { method: "post" })
                 const result = await getData.json()
 
                 setData(result)
@@ -279,7 +279,7 @@ function PREVIOUS(props) {
                                 data.map((prev) => {
                                     return (
                                         <div key={prev.id} className="swiper-slide bg-cover bg-center shadow-lg"
-                                            style={{ backgroundImage: `url(https://hfzapi.surai.xyz/${prev.background_image})` }}>
+                                            style={{ backgroundImage: `url(http://127.0.0.1:8000${prev.background_image})` }}>
                                             <div className="container mx-auto px-6 md:px-20 py-6">
                                                 <div className="w-full md:w-1/2 bg-opacity-50 bg-black p-2 md:p-0">
                                                     <div className="md:border border-gray-100 md:p-10">
@@ -371,7 +371,7 @@ function ContactUs(props) {
             content
         }
 
-        fetch('https://hfzapi.surai.xyz/api/Index/contact', {
+        fetch('http://127.0.0.1:8000/api/Index/contact', {
             method: "POST",
             body: JSON.stringify(data),
             credentials: 'include',

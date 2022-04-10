@@ -21,7 +21,7 @@ function Previous(props) {
 
     async function getData(page) {
         try {
-            const getData = await fetch(`https://hfzapi.surai.xyz/api/${page}/get${page}`, { method: "post" })
+            const getData = await fetch(`http://127.0.0.1:8000/api/${page}/get${page}`, { method: "post" })
             const result = await getData.json()
 
             setData(result.reverse())
@@ -41,7 +41,7 @@ function Previous(props) {
                         data.map(prev => {
                             return (
                                 <div key={prev.id} className="w-full sm:w-1/2 bg-cover bg-center"
-                                    style={{ backgroundImage: `url(${prev.background_image.slice(0,1) === 'h' ? prev.background_image : 'https://hfzapi.surai.xyz/'+prev.background_image })` }}>
+                                    style={{ backgroundImage: `url(${prev.background_image.slice(0,1) === 'h' ? prev.background_image : 'http://127.0.0.1:8000/'+prev.background_image })` }}>
                                     <div className="rounded-lg h-[350px] overflow-hidden px-5 bg-black/50">
                                         <h2 className="title-font text-4xl font-medium mt-6 mb-1">Ep {prev.stream_number}</h2>
                                         <h3 className="title-font text-1xl font-medium mb-3">{prev.date}</h3>

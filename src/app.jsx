@@ -71,7 +71,7 @@ function App(props) {
     async function getData(page) {
         try {
             // 取得API資料
-            const getData = await fetch(`https://hfzapi.surai.xyz/api/App/getBackground`, { method: "post" })
+            const getData = await fetch(`http://127.0.0.1:8000/api/App/getBackground`, { method: "post" })
             let result = await getData.json()
 
             result.img = 'https://i.imgur.com/' + result.img
@@ -90,7 +90,6 @@ function App(props) {
 
     // 直播判斷
     const [live, setLiveStatus] = useState(false) //判斷是否直播中 預設否
-    const [channelData, setChannelData] = useState([]) //儲存頻道資訊
 
     // TwitchAPI串接
     async function getTwitchApi() {
@@ -98,7 +97,6 @@ function App(props) {
             const getChannelData = await fetch('https://api.twitch.tv/helix/streams?user_login=holofightz', { headers: { 'client-id': 'knyyan9rux0iv4zr5pzu52lrtrk8fh', 'Authorization': 'Bearer cj1m4zpetgekvr73obiw2jdahvinfe' } })
             const result = await getChannelData.json()
 
-            setChannelData(result)
             checkData(result)
         } catch (error) {
 
