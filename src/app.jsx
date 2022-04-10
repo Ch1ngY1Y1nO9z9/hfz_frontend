@@ -61,10 +61,16 @@ function App(props) {
     }
 
     // 取得新語系資料
-    async function changeLangSetting(lang) {
-        const profile = await fetch(`/lang/${lang}.json`)
+    async function changeLangSetting(new_lang) {
+        console.log(new_lang)
+        const profile = await fetch(`/lang/${new_lang}.json`)
         const locale = await profile.json()
-        props.setLang({ lang, locale })
+        props.setLang({ new_lang, locale })
+        changeWebistUrl(new_lang)
+    }
+
+    function changeWebistUrl(chang_lang) {
+        navigate(location.pathname.replace(lang.new_lang,chang_lang), { replace: true })
     }
 
     // 取得背景圖片
@@ -201,7 +207,7 @@ function App(props) {
                     </Suspense>
                 </div>
                 <Footer />
-            </div >
+            </div>
         </IntlProvider>
     )
 }
