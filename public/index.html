@@ -6,12 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HolofightZ Official Website</title>
-  <meta name="description"
-    content="HolofightZ Official Website, you can check every wrestler data, WLR, matches records in here, if you have any fan arts or video wanna share on stream, also can send to us." />
-  <meta name="keywords"
-    content="HolofightZ, HFZ , HOLOFIGHTZ, holofightz, holofightz official, RRAT SHADOW LENGENDS, rrat shadhow lengends, RRAT:SHADOW LEGENDS, ホロプロレス" />
+  <meta data-tag="title" property="og:title" content="">
+  <meta data-tag="title" property="og:site_name" content="">
+  <meta data-tag="title" name="twitter:title" content="">
+  <meta data-tag="title" name="application-name" content="">
 
-  <meta name="application-name" content="HoloFightZ">
+  <meta property="og:type" content="website">
+
+  <meta data-tag="description" name="description" content="" />
+  <meta data-tag="description" property="og:description" content="">
+  <meta data-tag="description" name="twitter:description" content="">
+
+  <meta data-tag="keywords" name="keywords" content="" />
+
+  <meta data-tag="url" name="twitter:url" content="">
+  <meta data-tag="url" property="og:url" content="">
+
+  <meta property="og:image" content="./images/icon/android-icon-192x192.png">
+  <meta name="twitter:image" content="./images/icon/android-icon-192x192.png">
+
+
+
+
+
+  <meta name="twitter:card" content="summary">
+
+
+
+
+  <meta property="og:locale" content="en_US">
 
   
   <link rel="apple-touch-icon" sizes="57x57" href="./images/icon/apple-icon-57x57.png">
@@ -52,20 +75,39 @@
   <div id="root"></div>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script>
   Cookies.set('name', 'value', {
-    sameSite: 'none',
-    secure: true
+    sameSite: 'None; Secure'
   })
 
-  async function getData(page) {
+  getData()
+
+  async function getData() {
     try {
       const getData = await fetch(`http://127.0.0.1:8000/api/getSeo`, { method: "post" })
       const result = await getData.json()
 
-      document.querySelector('meta[name="description"]').setAttribute('content', $result.description)
-      document.querySelector('meta[name="keyword"]').setAttribute('content', $result.keyword)
-      document.querySelector('title').innerText = $result.title
+      const desc = document.querySelectorAll('meta[data-tag="description"]')
+      const title = document.querySelectorAll('meta[data-tag="title"]')
+      const url = document.querySelectorAll('meta[data-tag="url"]')
+      const keywords = document.querySelectorAll('meta[data-tag="keywords"]')
+
+      desc.forEach((metatag)=>{
+        metatag.content = result.description
+      })
+
+      title.forEach((metatag)=>{
+        metatag.content = result.title
+      })
+
+      keywords.forEach((metatag)=>{
+        metatag.content = result.keyword
+      })
+
+      url.forEach((metatag)=>{
+        metatag.content = window.location.href
+      })
 
     } catch (error) {
       console.log(error)

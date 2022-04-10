@@ -38,7 +38,6 @@ function Login(props) {
             fetch(`http://127.0.0.1:8000/api/checkUserYubis/${isLogin.user_name}`, { method: "post" })
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log(res);
                     if(res.daily){
                         alert(`you got daily yubis! (${res.daily})`)
                     }
