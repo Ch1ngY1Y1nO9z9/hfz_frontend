@@ -203,7 +203,7 @@ function App(props) {
                     </Suspense>
                 </div>
                 <Footer />
-            </div >
+            </div>
         </IntlProvider>
     )
 }

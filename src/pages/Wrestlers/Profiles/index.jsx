@@ -32,7 +32,7 @@ function Profiles(props) {
                     backToTop()
                 })
                 .catch((error) => {
-                    alert("WATAMAGE: :)")
+                    alert(":)")
                     navigate(`/${lang}/Wrestlers/All`)
                 })
         }
