@@ -1,27 +1,12 @@
 import React from 'react'
-// import { Route, Routes, useParams, Link, useNavigate, Navigate } from 'react-router-dom'
-
-// import Loading from '../../components/Loading'
 
 // 引入頁面標題架構
 import PagesTitle from '../../components/PagesTitle'
 
-// 引入按鈕樣式
-// import ButtonsLink from '../../components/ContentLinks'
-
-// 引入固定資料
-// import { Generations } from '../../staticData'
-
 // 引入redux接收狀態
 import { connect } from 'react-redux'
 
-// 引入React Intl切換語系
-// import { FormattedMessage } from 'react-intl'
-
-// 引入姓名對照表
-// import { MembersList, TestList } from '../../staticData'
-
-function FAQ(props) {
+function Index(props) {
     const { pageName, light } = props
 
     return (
@@ -48,7 +33,7 @@ function FAQ(props) {
                     <p className="mb-8 leading-relaxed">form a T-word Country that no one can said it</p>
                     <div className="flex justify-center">
                         <a href="https://twitter.com/SuienSurai" className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Twitter</a>
-                        <a  href="https://www.youtube.com/channel/UCGys8vcvG5Dv9Fk5SFrxH8A" className="ml-4 inline-flex text-white bg-red-400 border-0 py-2 px-6 focus:outline-none hover:bg-red-500 rounded text-lg">Youtube</a>
+                        <a href="https://www.youtube.com/channel/UCGys8vcvG5Dv9Fk5SFrxH8A" className="ml-4 inline-flex text-white bg-red-400 border-0 py-2 px-6 focus:outline-none hover:bg-red-500 rounded text-lg">Youtube</a>
                     </div>
                 </div>
             </div>
@@ -56,4 +41,4 @@ function FAQ(props) {
     )
 }
 
-export default connect(state => ({ light: state.light, lang: state.lang }))(FAQ)
+export default connect(state => ({ light: state.light, lang: state.lang.lang }))(Index)

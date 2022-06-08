@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, Route, Routes, Navigate } from 'react-router-dom'
-import Footer from './pages/Footer'
+import Footer from './components/Footer'
 import { NavLinks } from './components/NavLinks'
 
 // 頁面按鈕資料
@@ -32,12 +32,9 @@ const Betting = lazy(() => import('./pages/RRAT/Betting'))
 const FAQ = lazy(() => import('./pages/FAQ'))
 // const Event = lazy(() => import('./pages/Event'))
 
-
-
-
 // 傳入App的樣板, 並呼叫action做初始化
 export default connect(
-    state => ({ light: state.light, lang: state.lang }),
+    state => ({ light: state.light, lang: state.lang.lang }),
     { setTheme: ChangeColor, setLang: ChangeLang }
 )(App)
 
@@ -61,16 +58,15 @@ function App(props) {
     }
 
     // 取得新語系資料
-    async function changeLangSetting(new_lang) {
-        console.log(new_lang)
-        const profile = await fetch(`/lang/${new_lang}.json`)
+    async function changeLangSetting(lang) {
+        const profile = await fetch(`/lang/${lang}.json`)
         const locale = await profile.json()
-        props.setLang({ new_lang, locale })
-        changeWebistUrl(new_lang)
+        props.setLang({ lang, locale })
+        changeWebistUrl(lang)
     }
 
     function changeWebistUrl(chang_lang) {
-        navigate(location.pathname.replace(lang.new_lang,chang_lang), { replace: true })
+        navigate(location.pathname.replace(lang,chang_lang), { replace: true })
     }
 
     // 取得背景圖片
@@ -134,7 +130,7 @@ function App(props) {
                 <nav id="header" className={`w-full z-30 top-0 fixed ${light ? 'bg-white/90' : 'bg-black/50'}`}>
                     <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                         <div className="pl-4 flex items-center">
-                            <Link to={`/${lang.lang}/index`}>
+                            <Link to={`/${lang}/index`}>
                                 <img width="250" src="/images/LOGO.png" alt="LOGO" />
                             </Link>
                         </div>
@@ -152,7 +148,7 @@ function App(props) {
                             <ul className="list-reset lg:flex justify-end flex-1 items-center">
                                 {NavbarButtons.map((button) => {
                                     return (
-                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={`${defaultLang + button.link}`}>
+                                        <NavLinks onClick={() => { setMenu('hidden') }} key={button.id} to={`${lang + button.link}`}>
                                             <FormattedMessage id={`app.${button.langId}`} defaultMessage={button.Message} />
                                         </NavLinks>
                                     )

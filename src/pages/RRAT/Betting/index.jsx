@@ -412,5 +412,5 @@ function Records(props) {
     )
 }
 
-export default connect(state => ({ light: state.light, lang: state.lang, user: state.user }),
+export default connect(state => ({ light: state.light, lang: state.lang.lang, user: state.user }),
     { setUserAccount: ChangeStatus })(Login)

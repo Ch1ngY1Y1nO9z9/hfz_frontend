@@ -70,4 +70,4 @@ function Poll(props) {
 
     )
 }
-export default connect(state => ({ light: state.light, lang: state.lang }))(Poll)
+export default connect(state => ({ light: state.light, lang: state.lang.lang }))(Poll)

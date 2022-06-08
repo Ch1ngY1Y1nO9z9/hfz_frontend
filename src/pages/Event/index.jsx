@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl'
 // 引入頁面標題架構
 import PagesTitle from '../../components/PagesTitle'
 
-function Event(props) {
+function Index(props) {
     const { lang: { lang }, pageName, light } = props
 
     return (
@@ -927,4 +927,4 @@ function Event(props) {
     )
 }
 
-export default connect(state => ({ light: state.light, lang: state.lang }))(Event)
+export default connect(state => ({ light: state.light, lang: state.lang.lang }))(Index)

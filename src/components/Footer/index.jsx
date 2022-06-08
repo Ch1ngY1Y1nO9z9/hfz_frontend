@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 // 引入按鈕樣板
-import { FooterLinks } from '../../components/NavLinks'
+import { FooterLinks } from '../NavLinks'
 
 // 引入頁面資訊
 import { NavbarButtons, SocialButtons } from '../../staticData'
@@ -13,8 +13,10 @@ import { FormattedMessage } from 'react-intl'
 // 接收狀態
 import { connect } from 'react-redux'
 
+export default connect(state => ({ light: state.light, lang: state.lang.lang }))(Footer)
+
 function Footer(props) {
-    const {lang} = props.lang
+    const { lang } = props
 
     return (
         <footer className={`py-8 ${props.light ? 'bg-white' : 'bg-black'}`}>
@@ -48,6 +50,3 @@ function Footer(props) {
         </footer>
     )
 }
-
-
-export default connect(state => ({ light: state.light, lang: state.lang }))(Footer)
